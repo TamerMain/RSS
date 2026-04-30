@@ -13,6 +13,11 @@ class App extends Component {
     cardList: null,
   };
 
+  async componentDidMount(): Promise<void> {
+    const cardList = await searchRequest(this.state.searchValue.trim());
+    this.setState({ cardList: cardList });
+  }
+
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ searchValue: e.currentTarget.value });
   };
@@ -25,7 +30,6 @@ class App extends Component {
 
     const cardList = await searchRequest(currentInput);
     this.setState({ cardList: cardList });
-    console.log(cardList);
   };
 
   render() {
