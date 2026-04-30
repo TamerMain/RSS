@@ -2,12 +2,14 @@ import { Component } from 'react';
 
 type InputValue = { value: string };
 
-class SearchBar extends Component<{}, InputValue> {
-  state: InputValue = { value: '' };
+class SearchBar extends Component<Record<string, never>, InputValue> {
+  state: InputValue = { value: localStorage.getItem('RecentSearch') || '' };
 
   handleSearchSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(this.state.value);
+    const currentInput = this.state.value.trim();
+    currentInput !== localStorage.getItem('RecentSearch') &&
+      localStorage.setItem('RecentSearch', currentInput);
   };
 
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
