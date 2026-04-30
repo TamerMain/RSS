@@ -1,16 +1,20 @@
 import { Component } from 'react';
-import cardImage from '../temp/cardImage.jpg';
 
-type Props = {
-  index: number;
-};
-
-class CardItem extends Component<Props> {
+class CardItem extends Component<{
+  cardName: string;
+  cardImageSrc: string | undefined;
+}> {
   render() {
     return (
-      <div key={this.props.index} className="flex flex-col items-center w-full">
-        <p>Burgeoning</p>
-        <img className="w-full" src={cardImage} width="480" height="680"></img>
+      <div className="flex flex-col items-center w-full">
+        <p>{this.props.cardName}</p>
+        <img
+          alt={`Image of ${this.props.cardName} Card`}
+          className="w-full"
+          src={this.props.cardImageSrc}
+          width="480"
+          height="680"
+        ></img>
       </div>
     );
   }
