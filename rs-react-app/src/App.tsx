@@ -29,8 +29,9 @@ class App extends Component<Record<string, never>, State> {
       const cardList = await searchRequest(currentInput);
       setTimeout(() => {
         this.setState({ resultList: cardList, isLoading: false });
-      }, 2000);
+      }, 500);
     } catch (err) {
+      console.clear();
       if (err instanceof Error && err.message === '404') {
         this.setState({ resultList: null, isError: '404', isLoading: false });
       } else {
@@ -57,6 +58,8 @@ class App extends Component<Record<string, never>, State> {
     const currentInput = this.state.searchValue.trim();
     if (currentInput !== localStorage.getItem('RecentSearch')) {
       localStorage.setItem('RecentSearch', currentInput);
+    } else {
+      return;
     }
     this.updateResultList(currentInput);
   };
@@ -76,7 +79,7 @@ class App extends Component<Record<string, never>, State> {
               isLoading={this.state.isLoading}
               isError={this.state.isError}
             />
-            <div className="grid grid-cols-4 justify-items-center gap-4 p-2">
+            <div className="grid grid-cols-5 justify-items-center gap-4 p-2">
               {this.state.resultList &&
                 this.state.resultList.data?.map((card) => (
                   <CardItem
