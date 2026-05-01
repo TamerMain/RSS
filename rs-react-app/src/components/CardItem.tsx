@@ -10,7 +10,7 @@ class CardItem extends Component<{
         {this.props.cardImageSrc && (
           <img
             alt={`Image of ${this.props.cardName} Card`}
-            className="w-full"
+            className="w-full hover:border-4 hover:border-mist-800"
             src={this.props.cardImageSrc}
             width="480"
             height="680"

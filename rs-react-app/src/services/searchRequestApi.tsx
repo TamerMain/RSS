@@ -12,7 +12,6 @@ export type SearchResponse = {
 
 export async function searchRequest(searchTerm: string) {
   const path: string = `${BASE_URL}?q=${searchTerm}+%28game%3Apaper%29`;
-
   try {
     const response = await fetch(path, {
       method: 'GET',

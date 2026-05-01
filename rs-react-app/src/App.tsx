@@ -10,6 +10,7 @@ type State = {
   searchValue: string;
   resultList: SearchResponse | null;
   isError: ErrorType;
+  isLoading: boolean;
 };
 
 class App extends Component {
@@ -17,18 +18,27 @@ class App extends Component {
     searchValue: localStorage.getItem('RecentSearch') || '',
     resultList: null,
     isError: false,
+    isLoading: false,
   };
 
   async updateResultList(currentInput: string) {
+    this.setState({ isError: false, isLoading: true });
+
     try {
       const cardList = await searchRequest(currentInput);
-      this.setState({ isError: false, resultList: cardList });
+      setTimeout(() => {
+        this.setState({ resultList: cardList, isLoading: false });
+      }, 2000);
     } catch (err) {
       console.log(err);
       if (err instanceof Error && err.message === '404') {
-        this.setState({ resultList: null, isError: '404' });
+        this.setState({ resultList: null, isError: '404', isLoading: false });
       } else {
-        this.setState({ resultList: null, isError: 'UnknownError' });
+        this.setState({
+          resultList: null,
+          isError: 'UnknownError',
+          isLoading: false,
+        });
       }
     }
   }
@@ -56,17 +66,25 @@ class App extends Component {
       <div className="flex flex-col justify-center gap-3 w-2/4 mx-auto my-5 p-3">
         <SearchBar
           searchValue={this.state.searchValue}
+          isLoading={this.state.isLoading}
           handleInputChange={this.handleInputChange}
           handleSearchSubmit={this.handleSearchSubmit}
         />
         <div className="flex flex-col gap-3  border-t-1 border-b-1 border-mist-800">
           <div className="flex justify-center p-2 ">
-            {' '}
-            {this.state.isError === '404'
-              ? `No Cards Found With That Name`
-              : this.state.isError === 'UnknownError'
-                ? 'Something Went Wrong'
-                : 'Card List'}
+            {this.state.isLoading ? (
+              <>
+                <span className="animate-spin w-5 h-5 text-center">⟡ </span>
+                Loading
+                <span className="animate-spin w-5 h-5 text-center"> ⟡</span>
+              </>
+            ) : this.state.isError === '404' ? (
+              `No Cards Found With That Name`
+            ) : this.state.isError === 'UnknownError' ? (
+              'Something Went Wrong'
+            ) : (
+              'Card List'
+            )}
           </div>
           <div className="grid grid-cols-4 justify-items-center gap-4 p-2">
             {this.state.resultList &&
@@ -82,7 +100,6 @@ class App extends Component {
               ))}
           </div>
         </div>
-        <button className="self-end p-2 bg-mist-800">Error Button</button>
       </div>
     );
   }
