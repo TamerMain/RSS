@@ -4,6 +4,7 @@ import type { SearchResponse } from './services/searchRequestApi.tsx';
 
 import CardItem from './components/CardItem.tsx';
 import SearchBar from './components/SearchBar.tsx';
+import SearchStatusBar from './components/SearchStatusBar.tsx';
 
 type ErrorType = '404' | 'UnknownError' | false;
 type State = {
@@ -71,21 +72,10 @@ class App extends Component {
           handleSearchSubmit={this.handleSearchSubmit}
         />
         <div className="flex flex-col gap-3  border-t-1 border-b-1 border-mist-800">
-          <div className="flex justify-center p-2 ">
-            {this.state.isLoading ? (
-              <>
-                <span className="animate-spin w-5 h-5 text-center">⟡ </span>
-                Loading
-                <span className="animate-spin w-5 h-5 text-center"> ⟡</span>
-              </>
-            ) : this.state.isError === '404' ? (
-              `No Cards Found With That Name`
-            ) : this.state.isError === 'UnknownError' ? (
-              'Something Went Wrong'
-            ) : (
-              'Card List'
-            )}
-          </div>
+          <SearchStatusBar
+            isLoading={this.state.isLoading}
+            isError={this.state.isError}
+          />
           <div className="grid grid-cols-4 justify-items-center gap-4 p-2">
             {this.state.resultList &&
               this.state.resultList.data?.map((card) => (
@@ -96,7 +86,7 @@ class App extends Component {
                     card?.card_faces?.[0]?.image_uris?.normal
                   }
                   cardName={card.name}
-                ></CardItem>
+                />
               ))}
           </div>
         </div>
