@@ -12,21 +12,18 @@ export type SearchResponse = {
 
 export async function searchRequest(searchTerm: string) {
   const path: string = `${BASE_URL}?q=${searchTerm}+%28game%3Apaper%29`;
-  try {
-    const response = await fetch(path, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        Accept: 'application/json;q=0.9,*/*;q=0.8',
-      },
-    });
 
-    if (!response.ok) {
-      throw new Error(`${response.status}`);
-    }
-    const cardList: SearchResponse = await response.json();
-    return cardList;
-  } catch (err) {
-    throw err;
+  const response = await fetch(path, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      Accept: 'application/json;q=0.9,*/*;q=0.8',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`${response.status}`);
   }
+  const cardList: SearchResponse = await response.json();
+  return cardList;
 }

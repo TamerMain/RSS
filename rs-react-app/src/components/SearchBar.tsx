@@ -14,15 +14,16 @@ class SearchBar extends Component<{
           onSubmit={this.props.handleSearchSubmit}
         >
           <input
+            name="search term"
             className="w-full p-2 bg-mist-800 outline-none"
             type="search"
-            placeholder="Example: Lotus"
+            placeholder="Example: Black Lotus or Lotus"
             value={this.props.searchValue}
             onChange={this.props.handleInputChange}
             disabled={this.props.isLoading}
           ></input>
           <button
-            className="p-2 bg-mist-800"
+            className="p-2 bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-400"
             type="submit"
             disabled={this.props.isLoading}
           >

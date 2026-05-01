@@ -5,16 +5,16 @@ import type { SearchResponse } from './services/searchRequestApi.tsx';
 import CardItem from './components/CardItem.tsx';
 import SearchBar from './components/SearchBar.tsx';
 import SearchStatusBar from './components/SearchStatusBar.tsx';
+import ErrorBoundary from './components/ErrorBoundary.tsx';
 
-type ErrorType = '404' | 'UnknownError' | false;
 type State = {
   searchValue: string;
   resultList: SearchResponse | null;
-  isError: ErrorType;
+  isError: '404' | 'UnknownError' | false;
   isLoading: boolean;
 };
 
-class App extends Component {
+class App extends Component<Record<string, never>, State> {
   state: State = {
     searchValue: localStorage.getItem('RecentSearch') || '',
     resultList: null,
@@ -31,7 +31,6 @@ class App extends Component {
         this.setState({ resultList: cardList, isLoading: false });
       }, 2000);
     } catch (err) {
-      console.log(err);
       if (err instanceof Error && err.message === '404') {
         this.setState({ resultList: null, isError: '404', isLoading: false });
       } else {
@@ -56,41 +55,43 @@ class App extends Component {
   handleSearchSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const currentInput = this.state.searchValue.trim();
-    currentInput !== localStorage.getItem('RecentSearch') &&
+    if (currentInput !== localStorage.getItem('RecentSearch')) {
       localStorage.setItem('RecentSearch', currentInput);
-
+    }
     this.updateResultList(currentInput);
   };
 
   render() {
     return (
-      <div className="flex flex-col justify-center gap-3 w-2/4 mx-auto my-5 p-3">
-        <SearchBar
-          searchValue={this.state.searchValue}
-          isLoading={this.state.isLoading}
-          handleInputChange={this.handleInputChange}
-          handleSearchSubmit={this.handleSearchSubmit}
-        />
-        <div className="flex flex-col gap-3  border-t-1 border-b-1 border-mist-800">
-          <SearchStatusBar
+      <ErrorBoundary>
+        <div className="relative flex flex-col justify-center gap-3 w-2/4 mx-auto my-5 p-3">
+          <SearchBar
+            searchValue={this.state.searchValue}
             isLoading={this.state.isLoading}
-            isError={this.state.isError}
+            handleInputChange={this.handleInputChange}
+            handleSearchSubmit={this.handleSearchSubmit}
           />
-          <div className="grid grid-cols-4 justify-items-center gap-4 p-2">
-            {this.state.resultList &&
-              this.state.resultList.data?.map((card) => (
-                <CardItem
-                  key={card.id}
-                  cardImageSrc={
-                    card?.image_uris?.normal ||
-                    card?.card_faces?.[0]?.image_uris?.normal
-                  }
-                  cardName={card.name}
-                />
-              ))}
+          <div className="flex flex-col gap-3  border-t-1 border-b-1 border-mist-800">
+            <SearchStatusBar
+              isLoading={this.state.isLoading}
+              isError={this.state.isError}
+            />
+            <div className="grid grid-cols-4 justify-items-center gap-4 p-2">
+              {this.state.resultList &&
+                this.state.resultList.data?.map((card) => (
+                  <CardItem
+                    key={card.id}
+                    cardImageSrc={
+                      card?.image_uris?.normal ||
+                      card?.card_faces?.[0]?.image_uris?.normal
+                    }
+                    cardName={card.name}
+                  />
+                ))}
+            </div>
           </div>
         </div>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

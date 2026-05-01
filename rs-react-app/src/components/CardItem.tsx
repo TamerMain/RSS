@@ -6,11 +6,11 @@ class CardItem extends Component<{
 }> {
   render() {
     return (
-      <div className="flex flex-col items-center w-full">
+      <div className="flex flex-col items-center w-full text-gray-400 hover:text-gray-50">
         {this.props.cardImageSrc && (
           <img
             alt={`Image of ${this.props.cardName} Card`}
-            className="w-full hover:border-4 hover:border-mist-800"
+            className="w-full hover:border-2 hover:border-mist-800"
             src={this.props.cardImageSrc}
             width="480"
             height="680"
