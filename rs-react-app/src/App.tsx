@@ -31,7 +31,6 @@ class App extends Component<Record<string, never>, State> {
         this.setState({ resultList: cardList, isLoading: false });
       }, 500);
     } catch (err) {
-      console.clear();
       if (err instanceof Error && err.message === '404') {
         this.setState({ resultList: null, isError: '404', isLoading: false });
       } else {
