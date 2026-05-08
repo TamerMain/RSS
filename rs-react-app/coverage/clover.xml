@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1778273575898" clover="3.2.0">
+  <project timestamp="1778273575898" name="All files">
+    <metrics statements="7" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="3" elements="13" coveredelements="11" complexity="0" loc="7" ncloc="7" packages="1" files="1" classes="1"/>
+    <file name="ErrorBoundary.tsx" path="D:\RSS\rs-react-app\src\components\ErrorBoundary.tsx">
+      <metrics statements="7" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="3"/>
+      <line num="7" count="2" type="stmt"/>
+      <line num="10" count="2" type="stmt"/>
+      <line num="14" count="1" type="stmt"/>
+      <line num="18" count="4" type="cond" truecount="2" falsecount="0"/>
+      <line num="19" count="2" type="stmt"/>
+      <line num="26" count="0" type="stmt"/>
+      <line num="33" count="2" type="stmt"/>
+    </file>
+  </project>
+</coverage>
