@@ -1,32 +1,37 @@
 import { render, screen } from '@testing-library/react';
+import { Component } from 'react';
 import userEvent from '@testing-library/user-event';
 import ErrorBoundary from '../components/ErrorBoundary';
 
-const MockErrorChild = () => {
-  throw new Error('Test error');
-};
+class MockErrorChild extends Component {
+  render() {
+    throw new Error('Test error');
+  }
+}
 
-test('should show fallback UI on child error', () => {
-  render(
-    <ErrorBoundary>
-      <MockErrorChild />
-    </ErrorBoundary>
-  );
-  const fallbackUI = screen.getByRole('heading', {
-    level: 1,
-    name: /Unexpected Error/i,
+describe('when initial load on child error', () => {
+  test('should show fallback UI on child error', () => {
+    render(
+      <ErrorBoundary>
+        <MockErrorChild />
+      </ErrorBoundary>
+    );
+    const fallbackUI = screen.getByRole('heading', {
+      level: 1,
+      name: /Unexpected Error/i,
+    });
+    expect(fallbackUI).toBeInTheDocument();
   });
-  expect(fallbackUI).toBeInTheDocument();
-});
 
-test('should console.log error on child error', () => {
-  const logSpy = vi.spyOn(console, 'log');
-  render(
-    <ErrorBoundary>
-      <MockErrorChild />
-    </ErrorBoundary>
-  );
-  expect(logSpy).toHaveBeenCalledTimes(1);
+  test('should console.log error on child error', () => {
+    const logSpy = vi.spyOn(console, 'log');
+    render(
+      <ErrorBoundary>
+        <MockErrorChild />
+      </ErrorBoundary>
+    );
+    expect(logSpy).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe('when click refresh button on child error', () => {
