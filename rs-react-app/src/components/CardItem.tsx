@@ -1,7 +1,7 @@
 import { Component } from 'react';
 
 class CardItem extends Component<{
-  cardName: string;
+  cardName: string | undefined;
   cardImageSrc: string | undefined;
 }> {
   render() {
