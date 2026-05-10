@@ -7,30 +7,34 @@ import mockAPIResponse from '../test-utils/mockAPIResponse.json';
 import mockAPIDefaultResponse from '../test-utils/mockAPIDefaultResponse.json';
 
 export const restHandlers = [
-  http.get(
-    'https://api.scryfall.com/cards/search?q=+%28game%3Apaper%29',
-    () => {
-      return HttpResponse.json(mockAPIDefaultResponse);
-    }
-  ),
-  http.get(
-    'https://api.scryfall.com/cards/search?q=Lotus+%28game%3Apaper%29',
-    () => {
+  http.get('https://api.scryfall.com/cards/search', ({ request }) => {
+    const url = request.url;
+
+    if (
+      url === 'https://api.scryfall.com/cards/search?q=Lotus+%28game%3Apaper%29'
+    ) {
       return HttpResponse.json(mockAPIResponse);
     }
-  ),
-  http.get('https://api.scryfall.com/cards/search?q=*', () => {
+
+    if (url === 'https://api.scryfall.com/cards/search?q=+%28game%3Apaper%29') {
+      return HttpResponse.json(mockAPIDefaultResponse);
+    }
+
     return new HttpResponse(null, { status: 404 });
   }),
 ];
 
-const server = setupServer(...restHandlers);
+export const server = setupServer(...restHandlers);
 
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+beforeAll(() => {
+  server.listen({ onUnhandledRequest: 'error' });
+});
 
 afterAll(() => server.close());
 
 afterEach(() => {
+  localStorage.clear();
   server.resetHandlers();
+  vi.restoreAllMocks();
   cleanup();
 });

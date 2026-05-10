@@ -41,34 +41,6 @@
                 }
             ],
             "name": "Gather the White Lotus"
-        },
-        {
-            "id": "992af90e-5ab9-46e1-af1d-c741be2605c3",
-            "image.uris": {
-                "normal": "https://cards.scryfall.io/normal/front/9/9/992af90e-5ab9-46e1-af1d-c741be2605c3.jpg?1675457283"
-            },
-            "card_faces": [
-                {
-                    "image_uris": {
-                        "normal": "https://cards.scryfall.io/normal/front/9/9/992af90e-5ab9-46e1-af1d-c741be2605c3.jpg?1675457283"
-                    }
-                }
-            ],
-            "name": "Geek Lotus Warrior"
-        },
-        {
-            "id": "aa5e88f1-0ddf-45d7-bbd0-baa88d121867",
-            "image.uris": {
-                "normal": "https://cards.scryfall.io/normal/front/a/a/aa5e88f1-0ddf-45d7-bbd0-baa88d121867.jpg?1730572766"
-            },
-            "card_faces": [
-                {
-                    "image_uris": {
-                        "normal": "https://cards.scryfall.io/normal/front/a/a/aa5e88f1-0ddf-45d7-bbd0-baa88d121867.jpg?1730572766"
-                    }
-                }
-            ],
-            "name": "Gilded Lotus"
         }
     ]
 }

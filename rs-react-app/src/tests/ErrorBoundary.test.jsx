@@ -9,8 +9,8 @@ class MockErrorChild extends Component {
   }
 }
 
-describe('when initial load on child error', () => {
-  test('should show fallback UI on child error', () => {
+describe('when child error', () => {
+  test('should show fallback UI', () => {
     render(
       <ErrorBoundary>
         <MockErrorChild />
@@ -23,7 +23,7 @@ describe('when initial load on child error', () => {
     expect(fallbackUI).toBeInTheDocument();
   });
 
-  test('should console.log error on child error', () => {
+  test('should console.log error', () => {
     const logSpy = vi.spyOn(console, 'log');
     render(
       <ErrorBoundary>
@@ -34,7 +34,7 @@ describe('when initial load on child error', () => {
   });
 });
 
-describe('when click refresh button on child error', () => {
+describe('when click fallback refresh button', () => {
   const originalLocation = window.location;
 
   beforeEach(() => {
@@ -48,7 +48,7 @@ describe('when click refresh button on child error', () => {
     vi.unstubAllGlobals();
   });
 
-  test('should refresh page when click refresh button', async () => {
+  test('should refresh page', async () => {
     const user = userEvent.setup();
     render(
       <ErrorBoundary>
