@@ -63,6 +63,19 @@ describe('when initial load', () => {
 });
 
 describe('when user search', () => {
+  test('should not make extra requests if search term remains the same', async () => {
+    const user = userEvent.setup();
+    const fetchSpy = vi.spyOn(window, 'fetch');
+    render(<App />);
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const searchButton = screen.getByRole('button', {
+      name: 'Find Cards',
+    });
+    await user.click(searchButton);
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+    });
+  });
   test('should write trimmed search term into storage', async () => {
     const user = userEvent.setup();
     const storageSetSpy = vi.spyOn(Storage.prototype, 'setItem');
