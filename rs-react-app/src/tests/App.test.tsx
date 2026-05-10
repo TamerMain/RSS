@@ -12,6 +12,12 @@ describe('when initial load', () => {
     render(<App />);
     expect(storageGetSpy).toHaveBeenCalledWith('RecentSearch');
   });
+  test('should contain local storage search term as input value', async () => {
+    vi.spyOn(Storage.prototype, 'getItem').mockReturnValue('Lotus');
+    render(<App />);
+    const searchBar = await screen.findByRole('searchbox');
+    expect(searchBar).toHaveValue('Lotusd');
+  });
 
   test.each([
     { name: 'default term', term: '', status: 'Card List', expectedItems: 5 },
