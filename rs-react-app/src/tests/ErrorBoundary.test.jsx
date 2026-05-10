@@ -30,7 +30,11 @@ describe('when child error', () => {
         <MockErrorChild />
       </ErrorBoundary>
     );
-    expect(logSpy).toHaveBeenCalledTimes(1);
+    expect(logSpy).toHaveBeenCalledWith(
+      'Uncaught error',
+      expect.objectContaining({ message: 'Test error' }),
+      expect.anything()
+    );
   });
 });
 

@@ -1,46 +1,46 @@
 {
-    "data": [
+  "data": [
+    {
+      "id": "4c85d097-e87b-41ee-93c6-0e54ec41b174",
+      "image.uris": {
+        "normal": "https://cards.scryfall.io/normal/front/4/c/4c85d097-e87b-41ee-93c6-0e54ec41b174.jpg?1562799094"
+      },
+      "card_faces": [
         {
-            "id": "4c85d097-e87b-41ee-93c6-0e54ec41b174",
-            "image.uris": {
-                "normal": "https://cards.scryfall.io/normal/front/4/c/4c85d097-e87b-41ee-93c6-0e54ec41b174.jpg?1562799094"
-            },
-            "card_faces": [
-                {
-                    "image_uris": {
-                        "normal": "https://cards.scryfall.io/normal/front/4/c/4c85d097-e87b-41ee-93c6-0e54ec41b174.jpg?1562799094"
-                    }
-                }
-            ],
-            "name": "Blacker Lotus"
-        },
-        {
-            "id": "4a2e428c-dd25-484c-bbc8-2d6ce10ef42c",
-            "image.uris": {
-                "normal": "https://cards.scryfall.io/normal/front/4/a/4a2e428c-dd25-484c-bbc8-2d6ce10ef42c.jpg?1559591808"
-            },
-            "card_faces": [
-                {
-                    "image_uris": {
-                        "normal": "https://cards.scryfall.io/normal/front/4/a/4a2e428c-dd25-484c-bbc8-2d6ce10ef42c.jpg?1559591808"
-                    }
-                }
-            ],
-            "name": "Black Lotus"
-        },
-        {
-            "id": "96e2b3d0-f060-4f3c-9d12-a0444b202008",
-            "image.uris": {
-                "normal": "https://cards.scryfall.io/normal/front/9/6/96e2b3d0-f060-4f3c-9d12-a0444b202008.jpg?1764120007"
-            },
-            "card_faces": [
-                {
-                    "image_uris": {
-                        "normal": "https://cards.scryfall.io/normal/front/9/6/96e2b3d0-f060-4f3c-9d12-a0444b202008.jpg?1764120007"
-                    }
-                }
-            ],
-            "name": "Gather the White Lotus"
+          "image_uris": {
+            "normal": "https://cards.scryfall.io/normal/front/4/c/4c85d097-e87b-41ee-93c6-0e54ec41b174.jpg?1562799094"
+          }
         }
-    ]
+      ],
+      "name": "Blacker Lotus"
+    },
+    {
+      "id": "4a2e428c-dd25-484c-bbc8-2d6ce10ef42c",
+      "image.uris": {
+        "normal": "https://cards.scryfall.io/normal/front/4/a/4a2e428c-dd25-484c-bbc8-2d6ce10ef42c.jpg?1559591808"
+      },
+      "card_faces": [
+        {
+          "image_uris": {
+            "normal": "https://cards.scryfall.io/normal/front/4/a/4a2e428c-dd25-484c-bbc8-2d6ce10ef42c.jpg?1559591808"
+          }
+        }
+      ],
+      "name": "Black Lotus"
+    },
+    {
+      "id": "96e2b3d0-f060-4f3c-9d12-a0444b202008",
+      "image.uris": {
+        "normal": "https://cards.scryfall.io/normal/front/9/6/96e2b3d0-f060-4f3c-9d12-a0444b202008.jpg?1764120007"
+      },
+      "card_faces": [
+        {
+          "image_uris": {
+            "normal": "https://cards.scryfall.io/normal/front/9/6/96e2b3d0-f060-4f3c-9d12-a0444b202008.jpg?1764120007"
+          }
+        }
+      ],
+      "name": "Gather the White Lotus"
+    }
+  ]
 }

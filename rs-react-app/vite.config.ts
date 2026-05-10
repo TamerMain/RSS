@@ -8,15 +8,15 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   test: {
     globals: true,
-    environment: "jsdom",
-    setupFiles: "./src/tests/setup.ts",
+    environment: 'jsdom',
+    setupFiles: './src/tests/setup.ts',
     coverage: {
       enabled: true,
       thresholds: {
         statements: 80,
         branches: 50,
         functions: 50,
-        lines: 50
+        lines: 50,
       },
       include: ['src/**/*.{js,jsx,ts,tsx}'],
       exclude: [
@@ -24,9 +24,8 @@ export default defineConfig({
         'src/**/*.spec.{js,jsx,ts,tsx}',
         'src/index.{js,jsx,ts,tsx}',
         'src/setupTests.{js,ts}',
-        'src/**/*.d.ts'
-  ]
-      
-    }
-  }
+        'src/**/*.d.ts',
+      ],
+    },
+  },
 });
