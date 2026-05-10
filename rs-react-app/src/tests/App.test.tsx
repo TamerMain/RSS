@@ -16,7 +16,7 @@ describe('when initial load', () => {
     vi.spyOn(Storage.prototype, 'getItem').mockReturnValue('Lotus');
     render(<App />);
     const searchBar = await screen.findByRole('searchbox');
-    expect(searchBar).toHaveValue('Lotusd');
+    expect(searchBar).toHaveValue('Lotus');
   });
 
   test.each([
