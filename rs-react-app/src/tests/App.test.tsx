@@ -180,7 +180,7 @@ describe('when loading', () => {
     expect(loading).toHaveLength(2);
     await waitFor(() => {
       const loadingAfter = screen.queryAllByText(/⟡/);
-      expect(loadingAfter).toHaveLength(2);
+      expect(loadingAfter).toHaveLength(0);
     });
   });
 });
