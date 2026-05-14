@@ -1,22 +1,46 @@
+import { useState, useEffect } from 'react';
+
 function SearchBar(props: {
-  handleSearchSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  searchValue: string;
   isLoading: boolean;
+  updateResultList: (currentInput: string) => void;
 }) {
+  const [searchTerm, setSearchTerm] = useState<string>(
+    localStorage.getItem('RecentSearch') || ''
+  );
+
+  useEffect(() => {
+    if (localStorage.getItem('RecentSearch') === null) {
+      localStorage.setItem('RecentSearch', '');
+    }
+    const currentTerm = searchTerm.trim();
+    props.updateResultList(currentTerm);
+  }, []);
+
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setSearchTerm(e.currentTarget.value);
+  }
+
+  function handleSearchSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const currentTerm = searchTerm.trim();
+    if (currentTerm !== localStorage.getItem('RecentSearch')) {
+      localStorage.setItem('RecentSearch', currentTerm);
+    } else {
+      return;
+    }
+    props.updateResultList(currentTerm);
+  }
+
   return (
     <>
-      <form
-        className="flex justify-center gap-1"
-        onSubmit={props.handleSearchSubmit}
-      >
+      <form className="flex justify-center gap-1" onSubmit={handleSearchSubmit}>
         <input
           name="search term"
           className="w-full p-2 bg-mist-800 outline-none"
           type="search"
           placeholder="Example: Black Lotus or Lotus"
-          value={props.searchValue}
-          onChange={props.handleInputChange}
+          value={searchTerm}
+          onChange={handleInputChange}
           disabled={props.isLoading}
         ></input>
         <button
