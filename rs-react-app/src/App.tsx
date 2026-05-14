@@ -17,20 +17,16 @@ function App() {
 
     try {
       const cardList = await searchRequest(currentTerm);
-      setTimeout(() => {
-        setResultList(cardList);
-        setIsLoading(false);
-      }, 500);
+      setResultList(cardList);
     } catch (err) {
+      setResultList(null);
       if (err instanceof Error && err.message === '404') {
-        setResultList(null);
         setIsError('404');
-        setIsLoading(false);
       } else {
-        setResultList(null);
         setIsError('UnknownError');
-        setIsLoading(false);
       }
+    } finally {
+      setIsLoading(false);
     }
   }
 

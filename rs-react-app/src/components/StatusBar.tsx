@@ -1,6 +1,6 @@
 import ErrorButton from './ErrorButton';
 
-function SearchStatusBar(props: {
+function StatusBar(props: {
   isLoading: boolean;
   isError: '404' | 'UnknownError' | false;
 }) {
@@ -26,4 +26,4 @@ function SearchStatusBar(props: {
   );
 }
 
-export default SearchStatusBar;
+export default StatusBar;
