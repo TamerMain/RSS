@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 function SearchBar(props: {
   isLoading: boolean;
-  updateResultList: (currentInput: string) => void;
+  updateResultList: (currentTerm: string) => void;
 }) {
   const [searchTerm, setSearchTerm] = useState<string>(
     localStorage.getItem('RecentSearch') || ''
