@@ -3,11 +3,10 @@ import { Component } from 'react';
 import userEvent from '@testing-library/user-event';
 import ErrorBoundary from '../components/ErrorBoundary';
 
-class MockErrorChild extends Component {
-  render() {
-    throw new Error('Test error');
-  }
-}
+function MockErrorChild () {
+  throw new Error('Test error')
+  return {}
+};
 
 describe('when child error', () => {
   test('should show fallback UI', () => {
