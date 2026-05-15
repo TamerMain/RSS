@@ -11,12 +11,15 @@ function App() {
   const [isError, setIsError] = useState<'404' | 'UnknownError' | false>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  async function updateResultList(currentTerm: string) {
+  async function updateResultList(
+    currentTerm: string,
+    currentPage: number = 1
+  ) {
     setIsError(false);
     setIsLoading(true);
 
     try {
-      const cardList = await searchRequest(currentTerm);
+      const cardList = await searchRequest(currentTerm, currentPage);
       setResultList(cardList);
     } catch (err) {
       setResultList(null);
@@ -36,8 +39,9 @@ function App() {
         <SearchBar isLoading={isLoading} updateResultList={updateResultList} />
         <SearchResults
           isLoading={isLoading}
-          resultList={resultList}
           isError={isError}
+          resultList={resultList}
+          updateResultList={updateResultList}
         />
       </div>
     </ErrorBoundary>
