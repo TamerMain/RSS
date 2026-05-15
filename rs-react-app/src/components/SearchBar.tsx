@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
+import useStorage from '../hooks/useStorage';
 
 function SearchBar(props: {
   isLoading: boolean;
-  updateResultList: (currentTerm: string) => void;
+  updateResultList: (currentInput: string) => void;
 }) {
-  const [searchTerm, setSearchTerm] = useState<string>(
-    localStorage.getItem('RecentSearch') || ''
-  );
+  const { getItem: getRecentSearch, setItem: setRecentSearch } =
+    useStorage('RecentSearch');
+  const [searchTerm, setSearchTerm] = useState<string>(getRecentSearch);
 
   useEffect(() => {
-    if (localStorage.getItem('RecentSearch') === null) {
-      localStorage.setItem('RecentSearch', '');
-    }
+    getRecentSearch();
     const currentTerm = searchTerm.trim();
     props.updateResultList(currentTerm);
   }, []);
@@ -23,9 +22,7 @@ function SearchBar(props: {
   function handleSearchSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const currentTerm = searchTerm.trim();
-    if (currentTerm !== localStorage.getItem('RecentSearch')) {
-      localStorage.setItem('RecentSearch', currentTerm);
-    } else {
+    if (!setRecentSearch(currentTerm)) {
       return;
     }
     props.updateResultList(currentTerm);
