@@ -1,5 +1,3 @@
-import ErrorButton from './ErrorButton';
-
 function StatusBar(props: {
   isLoading: boolean;
   isError: '404' | 'UnknownError' | false;
@@ -21,7 +19,6 @@ function StatusBar(props: {
           'Card List'
         )}
       </h1>
-      <ErrorButton />
     </>
   );
 }

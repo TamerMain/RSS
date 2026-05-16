@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router';
 import {
   detailsRequest,
   type DetailsResponse,
@@ -6,11 +7,12 @@ import {
 
 function CardMasterDetail(props: {
   activeCard: string;
-  onClick: (cardName: string | undefined) => void;
+  setActiveCard: (cardName: string | undefined) => void;
 }) {
   const [resultCard, setResultCard] = useState<DetailsResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<'404' | 'UnknownError' | false>(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     updateResultList(props.activeCard);
@@ -25,6 +27,9 @@ function CardMasterDetail(props: {
       window.setTimeout(() => {
         setResultCard(cardList);
 
+        setSearchParams((prev) => {
+          return `${prev}&details=${cardList?.name}`;
+        });
         setIsLoading(false);
       }, 500);
     } catch (err) {
@@ -39,33 +44,36 @@ function CardMasterDetail(props: {
     }
   }
 
+  function handleCloseMasterDetail() {
+    setSearchParams((prev) => {
+      prev.delete('details');
+      return prev;
+    });
+    props.setActiveCard(undefined);
+  }
+
   return (
-    <div className="relative flex justify-center w-2/5">
-      <div className="fixed flex flex-col items-center h-150 w-110 p-2 bg-mist-800 text-center">
-        <h2 className="text-lg">{resultCard?.name}</h2>
-        <div>{resultCard?.set_name} Set</div>
-        <img
-          alt={`Full Art of ${resultCard?.name} Card`}
-          className="w-full max-w-95"
-          src={
-            resultCard?.image_uris?.normal ||
-            resultCard?.card_faces?.[0]?.image_uris?.normal
-          }
-          width="480"
-          height="680"
-          loading="lazy"
-        ></img>
-        <div className="flex flex-row gap-10">
-        </div>
-        <button
-          className="absolute right-2 left p-3 cursor-pointer"
-          onClick={() => {
-            props.onClick(undefined);
-          }}
-        >
-          X
-        </button>
-      </div>
+    <div className="fixed flex flex-col items-center h-150 w-110 p-2 bg-mist-800 text-center">
+      <h2 className="text-lg">{resultCard?.name}</h2>
+      <div>{resultCard?.set_name} Set</div>
+      <img
+        alt={`Full Art of ${resultCard?.name} Card`}
+        className="w-full max-w-95"
+        src={
+          resultCard?.image_uris?.normal ||
+          resultCard?.card_faces?.[0]?.image_uris?.normal
+        }
+        width="480"
+        height="680"
+        loading="lazy"
+      ></img>
+      <div className="flex flex-row gap-10"></div>
+      <button
+        className="absolute  right-2 left p-3 cursor-pointer"
+        onClick={handleCloseMasterDetail}
+      >
+        X
+      </button>
     </div>
   );
 }

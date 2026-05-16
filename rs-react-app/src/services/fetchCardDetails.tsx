@@ -5,7 +5,7 @@ export type DetailsResponse = {
   image_uris?: { normal?: string };
   card_faces?: { image_uris?: { normal?: string } }[];
   id: string;
-  set_name: 'Judgment';
+  set_name: string;
 };
 
 export async function detailsRequest(id: string) {

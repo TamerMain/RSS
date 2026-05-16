@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { useSearchParams, Routes, Route, NavLink } from 'react-router';
 import { searchRequest } from './services/fetchCardList.tsx';
 import type { SearchResponse } from './services/fetchCardList.tsx';
 
 import SearchBar from './components/SearchBar.tsx';
 import SearchResults from './components/SearchResults.tsx';
+import About from './components/About.tsx';
 import ErrorBoundary from './components/ErrorBoundary.tsx';
+import ErrorButton from './components/ErrorButton.tsx';
 
 function App() {
   const [resultList, setResultList] = useState<SearchResponse | null>(null);
@@ -24,9 +26,12 @@ function App() {
       const cardList = await searchRequest(currentTerm, currentPage);
       window.setTimeout(() => {
         setResultList(cardList);
-        setSearchParams(
-          `?page=${currentPage}${currentTerm ? '&q=' + currentTerm : ''}`
-        );
+        setSearchParams(() => {
+          const newParams = new URLSearchParams();
+          if (currentTerm) newParams.set('q', currentTerm);
+          newParams.set('page', `${currentPage}`);
+          return newParams;
+        });
 
         setIsLoading(false);
       }, 500);
@@ -44,14 +49,44 @@ function App() {
 
   return (
     <ErrorBoundary>
+      <nav className="absolute my-2.5 flex flex-col gap-1 text-center">
+        <NavLink
+          to="*"
+          className="p-2 bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer max-w-30"
+        >
+          Search
+        </NavLink>
+        <NavLink
+          to="/about"
+          className="p-2 bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer max-w-30"
+        >
+          About
+        </NavLink>
+        <ErrorButton />
+      </nav>
       <div className="relative flex flex-col justify-center gap-3 w-3/4 mx-auto my-5 p-3">
-        <SearchBar isLoading={isLoading} updateResultList={updateResultList} />
-        <SearchResults
-          isLoading={isLoading}
-          isError={isError}
-          resultList={resultList}
-          updateResultList={updateResultList}
-        />
+        <Routes>
+          <Route
+            index
+            path="*"
+            element={
+              <>
+                <SearchBar
+                  isLoading={isLoading}
+                  updateResultList={updateResultList}
+                />
+                <SearchResults
+                  isLoading={isLoading}
+                  isError={isError}
+                  resultList={resultList}
+                  updateResultList={updateResultList}
+                />
+              </>
+            }
+          ></Route>
+          <Route path="About" element={<About />}></Route>
+          <Route path="404"></Route>
+        </Routes>
       </div>
     </ErrorBoundary>
   );

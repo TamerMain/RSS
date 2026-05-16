@@ -1,4 +1,3 @@
-import { Routes, Route } from 'react-router';
 import StatusBar from './StatusBar.tsx';
 import CardNavigation from './CardNavigation.tsx';
 import CardList from './CardList.tsx';
@@ -13,28 +12,14 @@ function SearchResults(props: {
   return (
     <div className="flex flex-col gap-3  border-t-1 border-mist-800">
       <StatusBar isLoading={props.isLoading} isError={props.isError} />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              {props.resultList && (
-                <CardNavigation
-                  isLoading={props.isLoading}
-                  resultList={props.resultList}
-                  updateResultList={props.updateResultList}
-                />
-              )}
-              {
-                <CardList
-                  isLoading={props.isLoading}
-                  resultList={props.resultList}
-                />
-              }
-            </>
-          }
-        ></Route>
-      </Routes>
+      {props.resultList && (
+        <CardNavigation
+          isLoading={props.isLoading}
+          resultList={props.resultList}
+          updateResultList={props.updateResultList}
+        />
+      )}
+      <CardList isLoading={props.isLoading} resultList={props.resultList} />
     </div>
   );
 }
