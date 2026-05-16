@@ -1,9 +1,16 @@
 function CardItem(props: {
+  id: string;
   cardName: string | undefined;
   cardImageSrc: string | undefined;
+  onClick: (cardName: string | undefined) => void;
 }) {
   return (
-    <div className="flex flex-col items-center w-full text-gray-400 hover:text-gray-50">
+    <div
+      onClick={() => {
+        props.onClick(props.id);
+      }}
+      className="flex flex-col items-center w-full text-gray-400 hover:text-gray-50"
+    >
       {props.cardImageSrc && (
         <img
           alt={`Image of ${props.cardName} Card`}

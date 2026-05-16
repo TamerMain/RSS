@@ -14,7 +14,7 @@ export type SearchAPIResponse = {
   }[];
 };
 
-export type SearchExtra = { total_pages: number };
+export type SearchExtra = { total_pages: number; current_page: number };
 export type SearchResponse = SearchAPIResponse & SearchExtra;
 
 export async function searchRequest(searchTerm: string, searchPage: number) {
@@ -35,9 +35,9 @@ export async function searchRequest(searchTerm: string, searchPage: number) {
   const totalPages = Math.ceil(responseObj.total_cards / CARD_PER_PAGE);
   const cardList: SearchResponse = {
     ...responseObj,
+    current_page: searchPage,
     total_pages: totalPages,
   };
-  console.log(cardList, path);
 
   return cardList;
 }

@@ -1,7 +1,8 @@
+import { Routes, Route } from 'react-router';
 import StatusBar from './StatusBar.tsx';
-import CardItem from './CardItem.tsx';
 import CardNavigation from './CardNavigation.tsx';
-import { type SearchResponse } from '../services/searchRequestApi.tsx';
+import CardList from './CardList.tsx';
+import { type SearchResponse } from '../services/fetchCardList.tsx';
 
 function SearchResults(props: {
   isLoading: boolean;
@@ -10,28 +11,30 @@ function SearchResults(props: {
   updateResultList: (currentInput: string, currentPage: number) => void;
 }) {
   return (
-    <div className="flex flex-col gap-3  border-t-1 border-b-1 border-mist-800">
+    <div className="flex flex-col gap-3  border-t-1 border-mist-800">
       <StatusBar isLoading={props.isLoading} isError={props.isError} />
-      {props.resultList && (
-        <CardNavigation
-          updateResultList={props.updateResultList}
-          resultList={props.resultList}
-          isLoading={props.isLoading}
-        />
-      )}
-      <div className="grid grid-cols-5 justify-items-center gap-4 p-2">
-        {props.resultList &&
-          props.resultList.data?.map((card) => (
-            <CardItem
-              key={card.id}
-              cardImageSrc={
-                card?.image_uris?.normal ||
-                card?.card_faces?.[0]?.image_uris?.normal
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              {props.resultList && (
+                <CardNavigation
+                  isLoading={props.isLoading}
+                  resultList={props.resultList}
+                  updateResultList={props.updateResultList}
+                />
+              )}
+              {
+                <CardList
+                  isLoading={props.isLoading}
+                  resultList={props.resultList}
+                />
               }
-              cardName={card.name}
-            />
-          ))}
-      </div>
+            </>
+          }
+        ></Route>
+      </Routes>
     </div>
   );
 }
