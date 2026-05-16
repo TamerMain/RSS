@@ -53,9 +53,9 @@ function CardMasterDetail(props: {
   }
 
   return (
-    <div className="fixed flex flex-col items-center h-150 w-110 p-2 bg-mist-800 text-center">
+    <div className="fixed flex flex-col items-center w-1/4 p-2bg-mist-800 text-center">
+      <div className=" pr-2 ">{resultCard?.set_name} Set</div>
       <h2 className="text-lg">{resultCard?.name}</h2>
-      <div>{resultCard?.set_name} Set</div>
       <img
         alt={`Full Art of ${resultCard?.name} Card`}
         className="w-full max-w-95"
@@ -69,7 +69,7 @@ function CardMasterDetail(props: {
       ></img>
       <div className="flex flex-row gap-10"></div>
       <button
-        className="absolute  right-2 left p-3 cursor-pointer"
+        className="absolute  right-0 top-0 p-2 cursor-pointer"
         onClick={handleCloseMasterDetail}
       >
         X
