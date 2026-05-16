@@ -11,6 +11,7 @@ function CardItem(props: {
           src={props.cardImageSrc}
           width="480"
           height="680"
+          loading="lazy"
         ></img>
       )}
       {!props.cardImageSrc && (
