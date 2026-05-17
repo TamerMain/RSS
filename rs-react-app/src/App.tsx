@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useNavigate, Routes, Route, NavLink, Outlet } from 'react-router';
-import { searchRequest } from './services/fetchCardList.tsx';
-import type { SearchResponse } from './services/fetchCardList.tsx';
+
+import { Routes, Route, NavLink, Outlet } from 'react-router';
+
+import useFetchList from './hooks/useFetchList.tsx';
 
 import SearchBar from './components/SearchBar.tsx';
 import SearchResults from './pages/search/SearchResults.tsx';
@@ -11,40 +11,8 @@ import ErrorButton from './components/ErrorButton.tsx';
 import Page404 from './pages/404/Page404.tsx';
 
 function App() {
-  const [resultList, setResultList] = useState<SearchResponse | null>(null);
-  const [isError, setIsError] = useState<'404' | 'UnknownError' | false>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  let navigate = useNavigate();
+  const { resultList, updateResultList, isLoading, isError } = useFetchList();
 
-  async function updateResultList(
-    currentTerm: string,
-    currentPage: number = 1
-  ) {
-    setIsError(false);
-    setIsLoading(true);
-
-    try {
-      const cardList = await searchRequest(currentTerm, currentPage);
-      window.setTimeout(() => {
-        navigate(
-          `/search?q=${encodeURIComponent(currentTerm)}&page=${currentPage}`,
-          { replace: true }
-        );
-        setResultList(cardList);
-        setIsLoading(false);
-      }, 500);
-    } catch (err) {
-      navigate('search/404', { replace: true });
-      setResultList(null);
-      if (err instanceof Error && err.message === '404') {
-        setIsError('404');
-      } else {
-        setIsError('UnknownError');
-      }
-
-      setIsLoading(false);
-    }
-  }
 
   const loading = (
     <h1 className="flex justify-center p-2 text-xl">

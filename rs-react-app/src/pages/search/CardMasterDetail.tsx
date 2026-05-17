@@ -1,52 +1,15 @@
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router';
-import {
-  detailsRequest,
-  type DetailsResponse,
-} from '../../services/fetchCardDetails';
+import { useEffect } from 'react';
+import useFetchCard from '../../hooks/useFetchCard';
 
 function CardMasterDetail(props: {
   activeCard: string;
   setActiveCard: (cardName: string | undefined) => void;
 }) {
-  const [resultCard, setResultCard] = useState<DetailsResponse | null>(null);
-  const [, setIsLoading] = useState<boolean>(false);
-  const [, setIsError] = useState<'404' | 'UnknownError' | false>(false);
-  const [, setSearchParams] = useSearchParams();
+  const { resultCard, updateResultCard, setSearchParams } = useFetchCard();
 
   useEffect(() => {
     updateResultCard(props.activeCard);
   }, [props.activeCard]);
-
-  async function updateResultCard(id: string) {
-    setIsError(false);
-    setIsLoading(true);
-    setSearchParams((prev) => {
-      prev.delete('details');
-      return prev;
-    });
-
-    try {
-      const card = await detailsRequest(id);
-      window.setTimeout(() => {
-        setResultCard(card);
-        setSearchParams((prev) => {
-          prev.set('details', encodeURIComponent(card?.name));
-          return prev;
-        });
-        setIsLoading(false);
-      }, 500);
-    } catch (err) {
-      setResultCard(null);
-      if (err instanceof Error && err.message === '404') {
-        setIsError('404');
-      } else {
-        setIsError('UnknownError');
-      }
-
-      setIsLoading(false);
-    }
-  }
 
   function handleCloseMasterDetail() {
     setSearchParams((prev) => {

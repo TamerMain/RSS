@@ -11,12 +11,12 @@ export const restHandlers = [
     const url = request.url;
 
     if (
-      url === 'https://api.scryfall.com/cards/search?q=Lotus+%28game%3Apaper%29'
+      url === 'https://api.scryfall.com/cards/search?page=1&q=Lotus+%28game%3Apaper%29'
     ) {
       return HttpResponse.json(mockAPIResponse);
     }
 
-    if (url === 'https://api.scryfall.com/cards/search?q=+%28game%3Apaper%29') {
+    if (url === 'https://api.scryfall.com/cards/search?page=1&q=+%28game%3Apaper%29') {
       return HttpResponse.json(mockAPIDefaultResponse);
     }
 

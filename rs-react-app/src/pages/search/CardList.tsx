@@ -7,6 +7,10 @@ import { type SearchResponse } from '../../services/fetchCardList.tsx';
 function CardList(props: { resultList: SearchResponse | null }) {
   const [activeCard, setActiveCard] = useState<string | undefined>(undefined);
 
+  function handleActiveCard(id: string) {
+    setActiveCard(id);
+  }
+
   const cardItemList = (
     <>
       <div className={`flex-1 grid grid-cols-8 justify-items-center gap-4 p-2`}>
@@ -14,13 +18,12 @@ function CardList(props: { resultList: SearchResponse | null }) {
           props.resultList.data?.map((card) => (
             <CardItem
               key={card.id}
-              id={card.id}
               cardImageSrc={
                 card?.image_uris?.normal ||
                 card?.card_faces?.[0]?.image_uris?.normal
               }
               cardName={card.name}
-              setActiveCard={setActiveCard}
+              handleActiveCard={() => handleActiveCard(card.id)}
             />
           ))}
       </div>

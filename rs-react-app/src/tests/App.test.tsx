@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { cleanup } from '@testing-library/react';
 import App from '../App';
+import { MemoryRouter } from 'react-router';
 import { server } from './setup';
 import { http, HttpResponse } from 'msw';
 import { mockUserInput } from '../test-utils/mockUserInput';
@@ -9,12 +10,20 @@ import { mockUserInput } from '../test-utils/mockUserInput';
 describe('when initial load', () => {
   test('should check local storage for search term', () => {
     const storageGetSpy = vi.spyOn(Storage.prototype, 'getItem');
-    render(<App />);
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <App />
+      </MemoryRouter>
+    );
     expect(storageGetSpy).toHaveBeenCalledWith('RecentSearch');
   });
   test('should contain local storage search term as input value', async () => {
     vi.spyOn(Storage.prototype, 'getItem').mockReturnValue('Lotus');
-    render(<App />);
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <App />
+      </MemoryRouter>
+    );
     const searchBar = await screen.findByRole('searchbox');
     expect(searchBar).toHaveValue('Lotus');
   });
@@ -43,7 +52,11 @@ describe('when initial load', () => {
     'should render $expectedItems items when $name in local storage and show $status status',
     async ({ term, status, expectedItems }) => {
       vi.spyOn(Storage.prototype, 'getItem').mockReturnValue(term);
-      render(<App />);
+      render(
+        <MemoryRouter initialEntries={['/search']}>
+          <App />
+        </MemoryRouter>
+      );
       await waitFor(() => {
         const cardImage = screen.queryAllByRole('img', {
           name: /Image of/i,
@@ -66,7 +79,11 @@ describe('when user search', () => {
   test('should not make extra requests if search term remains the same', async () => {
     const user = userEvent.setup();
     const fetchSpy = vi.spyOn(window, 'fetch');
-    render(<App />);
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <App />
+      </MemoryRouter>
+    );
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const searchButton = screen.getByRole('button', {
       name: 'Find Cards',
@@ -79,17 +96,25 @@ describe('when user search', () => {
   test('should write trimmed search term into storage', async () => {
     const user = userEvent.setup();
     const storageSetSpy = vi.spyOn(Storage.prototype, 'setItem');
-    render(<App />);
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <App />
+      </MemoryRouter>
+    );
     await mockUserInput(user, '        Lotus');
     expect(storageSetSpy).toHaveBeenCalledWith('RecentSearch', 'Lotus');
   });
   test('should send proper fetch request', async () => {
     const user = userEvent.setup();
     const fetchSpy = vi.spyOn(window, 'fetch');
-    render(<App />);
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <App />
+      </MemoryRouter>
+    );
     await mockUserInput(user, 'Lotus');
     expect(fetchSpy).toHaveBeenCalledWith(
-      'https://api.scryfall.com/cards/search?q=Lotus+%28game%3Apaper%29',
+      'https://api.scryfall.com/cards/search?page=1&q=Lotus+%28game%3Apaper%29',
       expect.objectContaining({
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
@@ -118,7 +143,11 @@ describe('when user search', () => {
     async ({ term, status, expectedItems }) => {
       vi.spyOn(Storage.prototype, 'getItem').mockReturnValue(term);
       const user = userEvent.setup();
-      render(<App />);
+      render(
+        <MemoryRouter initialEntries={['/search']}>
+          <App />
+        </MemoryRouter>
+      );
       await mockUserInput(user, term);
       await waitFor(() => {
         const cardImage = screen.queryAllByRole('img', {
@@ -144,7 +173,11 @@ describe('when user search', () => {
           return HttpResponse.error();
         })
       );
-      render(<App />);
+      render(
+        <MemoryRouter initialEntries={['/search']}>
+          <App />
+        </MemoryRouter>
+      );
       await mockUserInput(user, '');
       const searchButton = screen.getByRole('button', {
         name: 'Find Cards',
@@ -158,7 +191,11 @@ describe('when user search', () => {
 
 describe('when loading', () => {
   test('should disable UI', async () => {
-    render(<App />);
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <App />
+      </MemoryRouter>
+    );
     const searchBar = screen.getByRole('searchbox');
     const searchButton = screen.getByRole('button', {
       name: 'Find Cards',
@@ -175,7 +212,11 @@ describe('when loading', () => {
     });
   });
   test('should show loading spinner ', async () => {
-    render(<App />);
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <App />
+      </MemoryRouter>
+    );
     const loading = screen.getAllByText(/⟡/);
     expect(loading).toHaveLength(2);
     await waitFor(() => {
