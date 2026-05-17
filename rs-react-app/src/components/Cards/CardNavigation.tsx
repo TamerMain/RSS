@@ -38,7 +38,7 @@ function CardNavigation(props: {
           ) : (
             <button
               key={page}
-              className={`h-full p-2 cursor-pointer ${props.resultList.current_page === page ? 'text-gray-50' : 'text-gray-400'}  hover:text-gray-50 disabled:cursor-not-allowed disabled:text-gray-400`}
+              className={`h-full p-2 cursor-pointer ${props.resultList.current_page === page ? 'text-gray-50' : 'text-gray-400'}  hover:text-gray-50 disabled:cursor-not-allowed disabled:text-gray-400 transition-colors duration-200`}
               onClick={handleToPage}
             >
               {page}

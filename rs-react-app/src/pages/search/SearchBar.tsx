@@ -44,7 +44,7 @@ function SearchBar(props: {
           disabled={props.isLoading}
         ></input>
         <button
-          className="p-2 bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-400"
+          className="p-2 bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-400 transition-colors duration-400"
           type="submit"
           disabled={props.isLoading}
         >

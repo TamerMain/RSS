@@ -8,7 +8,6 @@ import About from './pages/about/About.tsx';
 import ErrorBoundary from './components/ErrorBoundary.tsx';
 import Navigation from './components/Navigation.tsx';
 import Page404 from './pages/search/404/Page404.tsx';
-import Loading from './components/Loading.tsx';
 
 function App() {
   const { resultList, updateResultList, isLoading, isError } = useFetchList();
@@ -27,7 +26,6 @@ function App() {
                   isLoading={isLoading}
                   updateResultList={updateResultList}
                 />
-                {isLoading && <Loading />}
                 <Outlet />
               </>
             }
