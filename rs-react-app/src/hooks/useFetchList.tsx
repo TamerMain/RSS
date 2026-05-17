@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import {
   searchRequest,
@@ -11,35 +11,35 @@ export default function useFetchList() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  async function updateResultList(
-    currentTerm: string,
-    currentPage: number = 1
-  ) {
-    setIsError(false);
-    setIsLoading(true);
+  const updateResultList = useCallback(
+    async (currentTerm: string, currentPage: number = 1) => {
+      setIsError(false);
+      setIsLoading(true);
 
-    try {
-      const cardList = await searchRequest(currentTerm, currentPage);
-      window.setTimeout(() => {
+      try {
+        const cardList = await searchRequest(currentTerm, currentPage);
         navigate(
           `/search?q=${encodeURIComponent(currentTerm)}&page=${currentPage}`,
           { replace: true }
         );
-        setResultList(cardList);
-        setIsLoading(false);
-      }, 500);
-    } catch (err) {
-      navigate('search/404', { replace: true });
-      setResultList(null);
-      if (err instanceof Error && err.message === '404') {
-        setIsError('404');
-      } else {
-        setIsError('UnknownError');
-      }
+        window.setTimeout(() => {
+          setResultList(cardList);
+          setIsLoading(false);
+        }, 500);
+      } catch (err) {
+        navigate('search/404', { replace: true });
+        setResultList(null);
+        if (err instanceof Error && err.message === '404') {
+          setIsError('404');
+        } else {
+          setIsError('UnknownError');
+        }
 
-      setIsLoading(false);
-    }
-  }
+        setIsLoading(false);
+      }
+    },
+    [navigate]
+  );
 
   return { resultList, updateResultList, isLoading, isError };
 }

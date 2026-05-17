@@ -8,7 +8,7 @@ export default function Navigation() {
       <NavLink
         to="search"
         className={({ isActive }) => {
-          return `p-2 bg-mist-800 ${isActive ? 'text-gray-50' : 'text-gray-400'} hover:text-gray-50  cursor-pointer max-w-30`;
+          return `p-2 bg-mist-800 ${isActive ? 'text-gray-50  pointer-events-none' : 'text-gray-400'} hover:text-gray-50  cursor-pointer max-w-30`;
         }}
       >
         Search
@@ -16,7 +16,7 @@ export default function Navigation() {
       <NavLink
         to="about"
         className={({ isActive }) => {
-          return `p-2 bg-mist-800 ${isActive ? 'text-gray-50' : 'text-gray-400'} hover:text-gray-50  cursor-pointer max-w-30`;
+          return `p-2 bg-mist-800 ${isActive ? 'text-gray-50  pointer-events-none' : 'text-gray-400'} hover:text-gray-50  cursor-pointer max-w-30`;
         }}
       >
         About

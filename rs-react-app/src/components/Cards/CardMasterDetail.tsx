@@ -5,22 +5,21 @@ function CardMasterDetail(props: {
   activeCard: string;
   setActiveCard: (cardName: string | undefined) => void;
 }) {
-  const { resultCard, updateResultCard, setSearchParams } = useFetchCard();
+  const { resultCard, updateResultCard, navigate } = useFetchCard();
 
   useEffect(() => {
     updateResultCard(props.activeCard);
-  }, [props.activeCard]);
+  }, [props.activeCard, updateResultCard]);
 
   function handleCloseMasterDetail() {
-    setSearchParams((prev) => {
-      prev.delete('details');
-      return prev;
-    });
+    const newParams = new URLSearchParams(window.location.search);
+    newParams.delete('details');
+    navigate({ pathname: '/search', search: newParams.toString() });
     props.setActiveCard(undefined);
   }
 
   return (
-    <div className="fixed flex flex-col items-center w-1/4 p-2bg-mist-800 text-center">
+    <div className="fixed flex flex-col items-center w-1/4 p-2 bg-mist-800 text-center">
       <div className=" pr-2 ">{resultCard?.set_name} Set</div>
       <h2 className="text-lg">{resultCard?.name}</h2>
       <img

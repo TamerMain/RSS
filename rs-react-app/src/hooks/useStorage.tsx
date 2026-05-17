@@ -1,5 +1,7 @@
+import { useCallback } from 'react';
+
 export default function useStorage(key: string) {
-  function getItem() {
+  const getItem = useCallback(() => {
     const item = localStorage.getItem(key);
     if (item === null) {
       localStorage.setItem(key, '');
@@ -7,8 +9,8 @@ export default function useStorage(key: string) {
     } else {
       return item;
     }
-  }
-  function setItem(value: string): boolean {
+  }, [key]);
+    const setItem = useCallback((value: string): boolean => {
     const item = localStorage.getItem(key);
     if (value !== item) {
       localStorage.setItem(key, value);
@@ -16,7 +18,7 @@ export default function useStorage(key: string) {
     } else {
       return false;
     }
-  }
+  }, [key]);
 
   return { getItem, setItem };
 }

@@ -7,13 +7,13 @@ function SearchBar(props: {
 }) {
   const { getItem: getRecentSearch, setItem: setRecentSearch } =
     useStorage('RecentSearch');
-  const [searchTerm, setSearchTerm] = useState<string>(getRecentSearch);
+  const [searchTerm, setSearchTerm] = useState<string>(() => getRecentSearch());
 
   useEffect(() => {
-    getRecentSearch();
-    const currentTerm = searchTerm.trim();
-    props.updateResultList(currentTerm);
-  }, []);
+    const currentTerm = getRecentSearch();
+    const updateResultList = props.updateResultList;
+    updateResultList(currentTerm);
+  }, [getRecentSearch, props.updateResultList]);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(e.currentTarget.value);
