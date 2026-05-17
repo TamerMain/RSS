@@ -4,11 +4,11 @@ import { searchRequest } from './services/fetchCardList.tsx';
 import type { SearchResponse } from './services/fetchCardList.tsx';
 
 import SearchBar from './components/SearchBar.tsx';
-import SearchResults from './components/SearchResults.tsx';
-import About from './components/About.tsx';
+import SearchResults from './pages/search/SearchResults.tsx';
+import About from './pages/about/About.tsx';
 import ErrorBoundary from './components/ErrorBoundary.tsx';
 import ErrorButton from './components/ErrorButton.tsx';
-import Page404 from './components/Page404.tsx';
+import Page404 from './pages/404/Page404.tsx';
 
 function App() {
   const [resultList, setResultList] = useState<SearchResponse | null>(null);
@@ -56,7 +56,7 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <nav className="absolute my-2.5 flex flex-col text-center">
+      <nav className="absolute my-2.5 gap-1 flex flex-col text-center">
         <NavLink
           to="search"
           className={({ isActive }) => {

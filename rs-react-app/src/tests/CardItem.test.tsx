@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import CardItem from '../components/CardItem';
+import CardItem from '../pages/search/CardItem';
 
 test('should render correct item name and image', () => {
   render(<CardItem cardImageSrc="Card.png" cardName="Card" />);

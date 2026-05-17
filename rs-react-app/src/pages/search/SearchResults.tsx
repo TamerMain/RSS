@@ -1,6 +1,6 @@
 import CardNavigation from './CardNavigation.tsx';
 import CardList from './CardList.tsx';
-import { type SearchResponse } from '../services/fetchCardList.tsx';
+import { type SearchResponse } from '../../services/fetchCardList.tsx';
 
 function SearchResults(props: {
   isLoading: boolean;

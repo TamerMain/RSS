@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router';
 import {
   detailsRequest,
   type DetailsResponse,
-} from '../services/fetchCardDetails';
+} from '../../services/fetchCardDetails';
 
 function CardMasterDetail(props: {
   activeCard: string;

@@ -1,22 +1,19 @@
-import paginationArray from '../services/paginationArray.tsx';
-import useStorage from '../hooks/useStorage.tsx';
-import { useState, useEffect } from 'react';
-import type { SearchResponse } from '../services/fetchCardList.tsx';
+import paginationArray from '../../services/paginationArray.tsx';
+import useStorage from '../../hooks/useStorage.tsx';
+import { useState } from 'react';
+import type { SearchResponse } from '../../services/fetchCardList.tsx';
 
 function CardNavigation(props: {
   updateResultList: (currentInput: string, currentPage: number) => void;
   resultList: SearchResponse;
 }) {
   const [pageList, setPageList] = useState({
-    array: paginationArray(props.resultList.total_pages, 1),
+    array: paginationArray(
+      props.resultList.total_pages,
+      props.resultList.current_page
+    ),
   });
   const { getItem: getRecentSearch } = useStorage('RecentSearch');
-
-  useEffect(() => {
-    setPageList({
-      array: paginationArray(props.resultList.total_pages, 1),
-    });
-  }, []);
 
   function handleToPage(e: React.MouseEvent<HTMLButtonElement>) {
     const nextPage = +e.currentTarget.innerText;
@@ -24,6 +21,8 @@ function CardNavigation(props: {
       return;
     }
     const nextArray = paginationArray(props.resultList.total_pages, nextPage);
+    console.log(nextArray);
+    console.log(nextPage);
     setPageList({
       array: nextArray,
     });
