@@ -6,7 +6,6 @@ import type { SearchResponse } from '../services/fetchCardList.tsx';
 function CardNavigation(props: {
   updateResultList: (currentInput: string, currentPage: number) => void;
   resultList: SearchResponse;
-  isLoading: boolean;
 }) {
   const [pageList, setPageList] = useState({
     array: paginationArray(props.resultList.total_pages, 1),
@@ -17,7 +16,7 @@ function CardNavigation(props: {
     setPageList({
       array: paginationArray(props.resultList.total_pages, 1),
     });
-  }, [props.resultList.total_pages]);
+  }, []);
 
   function handleToPage(e: React.MouseEvent<HTMLButtonElement>) {
     const nextPage = +e.currentTarget.innerText;
@@ -34,7 +33,6 @@ function CardNavigation(props: {
   return (
     <div className="flex justify-center gap-2 p-2 align-middle h-9">
       {pageList.array &&
-        !props.isLoading &&
         pageList.array.map((page, index) =>
           page === '...' ? (
             <div key={`...+${index}`} className="p-1">
@@ -45,9 +43,6 @@ function CardNavigation(props: {
               key={page}
               className={`h-full p-2 cursor-pointer ${props.resultList.current_page === page ? 'text-gray-50' : 'text-gray-400'}  hover:text-gray-50 disabled:cursor-not-allowed disabled:text-gray-400`}
               onClick={handleToPage}
-              disabled={
-                props.resultList.current_page === page ? false : props.isLoading
-              }
             >
               {page}
             </button>

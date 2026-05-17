@@ -4,17 +4,13 @@ import CardItem from './CardItem.tsx';
 import CardMasterDetail from './CardMasterDetail.tsx';
 import { type SearchResponse } from '../services/fetchCardList.tsx';
 
-function CardList(props: {
-  isLoading: boolean;
-  resultList: SearchResponse | null;
-}) {
+function CardList(props: { resultList: SearchResponse | null }) {
   const [activeCard, setActiveCard] = useState<string | undefined>(undefined);
 
   const cardItemList = (
     <>
       <div className={`flex-1 grid grid-cols-8 justify-items-center gap-4 p-2`}>
         {props.resultList &&
-          !props.isLoading &&
           props.resultList.data?.map((card) => (
             <CardItem
               key={card.id}
@@ -34,7 +30,7 @@ function CardList(props: {
 
   const cardMasterDetail = (
     <>
-      {activeCard && !props.isLoading && (
+      {activeCard && (
         <div className="w-2/5 flex justify-center">
           <CardMasterDetail
             setActiveCard={setActiveCard}

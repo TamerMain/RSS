@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSearchParams, Routes, Route, NavLink, Outlet } from 'react-router';
+import { useNavigate, Routes, Route, NavLink, Outlet } from 'react-router';
 import { searchRequest } from './services/fetchCardList.tsx';
 import type { SearchResponse } from './services/fetchCardList.tsx';
 
@@ -8,12 +8,13 @@ import SearchResults from './components/SearchResults.tsx';
 import About from './components/About.tsx';
 import ErrorBoundary from './components/ErrorBoundary.tsx';
 import ErrorButton from './components/ErrorButton.tsx';
+import Page404 from './components/Page404.tsx';
 
 function App() {
   const [resultList, setResultList] = useState<SearchResponse | null>(null);
   const [isError, setIsError] = useState<'404' | 'UnknownError' | false>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [, setSearchParams] = useSearchParams();
+  let navigate = useNavigate();
 
   async function updateResultList(
     currentTerm: string,
@@ -25,17 +26,15 @@ function App() {
     try {
       const cardList = await searchRequest(currentTerm, currentPage);
       window.setTimeout(() => {
+        navigate(
+          `/search?q=${encodeURIComponent(currentTerm)}&page=${currentPage}`,
+          { replace: true }
+        );
         setResultList(cardList);
-        setSearchParams(() => {
-          const newParams = new URLSearchParams();
-          if (currentTerm) newParams.set('q', currentTerm);
-          newParams.set('page', `${currentPage}`);
-          return newParams;
-        });
-
         setIsLoading(false);
       }, 500);
     } catch (err) {
+      navigate('search/404', { replace: true });
       setResultList(null);
       if (err instanceof Error && err.message === '404') {
         setIsError('404');
@@ -47,11 +46,19 @@ function App() {
     }
   }
 
+  const loading = (
+    <h1 className="flex justify-center p-2 text-xl">
+      <span className="animate-spin w-6 h-6 text-center">⟡ </span>
+      Loading
+      <span className="animate-spin w-6 h-6 text-center"> ⟡</span>
+    </h1>
+  );
+
   return (
     <ErrorBoundary>
-      <nav className="absolute my-2.5 flex flex-col gap-1 text-center">
+      <nav className="absolute my-2.5 flex flex-col text-center">
         <NavLink
-          to="/search"
+          to="search"
           className={({ isActive }) => {
             return `p-2 bg-mist-800 ${isActive ? 'text-gray-50' : 'text-gray-400'} hover:text-gray-50  cursor-pointer max-w-30`;
           }}
@@ -59,7 +66,7 @@ function App() {
           Search
         </NavLink>
         <NavLink
-          to="/about"
+          to="about"
           className={({ isActive }) => {
             return `p-2 bg-mist-800 ${isActive ? 'text-gray-50' : 'text-gray-400'} hover:text-gray-50  cursor-pointer max-w-30`;
           }}
@@ -71,13 +78,14 @@ function App() {
       <div className="relative flex flex-col justify-center gap-3 w-3/4 mx-auto my-5 p-3">
         <Routes>
           <Route
-            path="/search"
+            path="search"
             element={
               <>
                 <SearchBar
                   isLoading={isLoading}
                   updateResultList={updateResultList}
                 />
+                {isLoading && loading}
                 <Outlet />
               </>
             }
@@ -87,15 +95,14 @@ function App() {
               element={
                 <SearchResults
                   isLoading={isLoading}
-                  isError={isError}
                   resultList={resultList}
                   updateResultList={updateResultList}
                 />
               }
             ></Route>
-            <Route path="404"></Route>
+            <Route path="404" element={<Page404 isError={isError} />}></Route>
           </Route>
-          <Route path="About" element={<About />}></Route>
+          <Route path="about" element={<About />}></Route>
         </Routes>
       </div>
     </ErrorBoundary>

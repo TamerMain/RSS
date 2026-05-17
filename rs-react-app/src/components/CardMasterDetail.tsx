@@ -10,25 +10,29 @@ function CardMasterDetail(props: {
   setActiveCard: (cardName: string | undefined) => void;
 }) {
   const [resultCard, setResultCard] = useState<DetailsResponse | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<'404' | 'UnknownError' | false>(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setIsLoading] = useState<boolean>(false);
+  const [, setIsError] = useState<'404' | 'UnknownError' | false>(false);
+  const [, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    updateResultList(props.activeCard);
+    updateResultCard(props.activeCard);
   }, [props.activeCard]);
 
-  async function updateResultList(id: string) {
+  async function updateResultCard(id: string) {
     setIsError(false);
     setIsLoading(true);
+    setSearchParams((prev) => {
+      prev.delete('details');
+      return prev;
+    });
 
     try {
-      const cardList = await detailsRequest(id);
+      const card = await detailsRequest(id);
       window.setTimeout(() => {
-        setResultCard(cardList);
-
+        setResultCard(card);
         setSearchParams((prev) => {
-          return `${prev}&details=${cardList?.name}`;
+          prev.set('details', encodeURIComponent(card?.name));
+          return prev;
         });
         setIsLoading(false);
       }, 500);

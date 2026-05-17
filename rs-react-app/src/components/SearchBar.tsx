@@ -30,7 +30,10 @@ function SearchBar(props: {
 
   return (
     <>
-      <form className="flex justify-center gap-1" onSubmit={handleSearchSubmit}>
+      <form
+        className="flex justify-center gap-1 pb-3 border-b-1 border-mist-800"
+        onSubmit={handleSearchSubmit}
+      >
         <input
           name="search term"
           className="w-full p-2 bg-mist-800 outline-none"
