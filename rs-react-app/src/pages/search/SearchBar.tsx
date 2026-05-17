@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import useStorage from '../hooks/useStorage';
+import useStorage from '../../hooks/useStorage';
 
 function SearchBar(props: {
   isLoading: boolean;

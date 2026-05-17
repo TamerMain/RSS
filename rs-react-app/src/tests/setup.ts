@@ -3,8 +3,8 @@ import '@testing-library/jest-dom';
 import { afterAll, afterEach, beforeAll } from 'vitest';
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
-import mockAPIResponse from '../test-utils/mockAPIResponse.json';
-import mockAPIDefaultResponse from '../test-utils/mockAPIDefaultResponse.json';
+import mockAPIResponse from './test-utils/mockAPIResponse.json';
+import mockAPIDefaultResponse from './test-utils/mockAPIDefaultResponse.json';
 
 export const restHandlers = [
   http.get('https://api.scryfall.com/cards/search', ({ request }) => {

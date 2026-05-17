@@ -9,7 +9,7 @@ export default function useFetchList() {
   const [resultList, setResultList] = useState<SearchResponse | null>(null);
   const [isError, setIsError] = useState<'404' | 'UnknownError' | false>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   async function updateResultList(
     currentTerm: string,

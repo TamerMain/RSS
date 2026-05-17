@@ -2,12 +2,12 @@ import { Routes, Route, Outlet, Navigate } from 'react-router';
 
 import useFetchList from './hooks/useFetchList.tsx';
 
-import SearchBar from './components/SearchBar.tsx';
+import SearchBar from './pages/search/SearchBar.tsx';
 import SearchResults from './pages/search/SearchResults.tsx';
 import About from './pages/about/About.tsx';
 import ErrorBoundary from './components/ErrorBoundary.tsx';
 import Navigation from './components/Navigation.tsx';
-import Page404 from './pages/404/Page404.tsx';
+import Page404 from './pages/search/404/Page404.tsx';
 import Loading from './components/Loading.tsx';
 
 function App() {

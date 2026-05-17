@@ -3,7 +3,7 @@ function paginationArray(total: number, current: number) {
     return null;
   }
 
-  let range: Array<number | '...'> = [1];
+  const range: Array<number | '...'> = [1];
 
   if (total <= 12) {
     for (let i = 2; i <= total; i++) {

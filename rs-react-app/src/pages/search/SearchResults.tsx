@@ -1,5 +1,5 @@
-import CardNavigation from './CardNavigation.tsx';
-import CardList from './CardList.tsx';
+import CardNavigation from '../../components/Cards/CardNavigation.tsx';
+import CardList from '../../components/Cards/CardList.tsx';
 import { type SearchResponse } from '../../services/fetchCardList.tsx';
 
 function SearchResults(props: {
@@ -18,9 +18,9 @@ function SearchResults(props: {
                 resultList={props.resultList}
                 updateResultList={props.updateResultList}
               />
+              <CardList resultList={props.resultList} />
             </>
           )}
-          <CardList resultList={props.resultList} />
         </div>
       )}
     </>

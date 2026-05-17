@@ -21,8 +21,6 @@ function CardNavigation(props: {
       return;
     }
     const nextArray = paginationArray(props.resultList.total_pages, nextPage);
-    console.log(nextArray);
-    console.log(nextPage);
     setPageList({
       array: nextArray,
     });
