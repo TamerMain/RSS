@@ -3,25 +3,37 @@ import '@testing-library/jest-dom';
 import { afterAll, afterEach, beforeAll } from 'vitest';
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
-import mockAPIResponse from './test-utils/mockAPIResponse.json';
-import mockAPIDefaultResponse from './test-utils/mockAPIDefaultResponse.json';
+import mockListResponse from './test-utils/mockListResponse.json';
+import mockListDefaultResponse from './test-utils/mockListDefaultResponse.json';
+import mockDetailsResponse from './test-utils/mockDetailsResponse.json';
 
 export const restHandlers = [
   http.get('https://api.scryfall.com/cards/search', ({ request }) => {
     const url = request.url;
 
     if (
-      url === 'https://api.scryfall.com/cards/search?page=1&q=Lotus+%28game%3Apaper%29'
+      url ===
+      'https://api.scryfall.com/cards/search?page=1&q=Lotus+%28game%3Apaper%29'
     ) {
-      return HttpResponse.json(mockAPIResponse);
+      return HttpResponse.json(mockListResponse);
     }
 
-    if (url === 'https://api.scryfall.com/cards/search?page=1&q=+%28game%3Apaper%29') {
-      return HttpResponse.json(mockAPIDefaultResponse);
+    if (
+      url ===
+      'https://api.scryfall.com/cards/search?page=1&q=+%28game%3Apaper%29'
+    ) {
+      return HttpResponse.json(mockListDefaultResponse);
     }
 
     return new HttpResponse(null, { status: 404 });
   }),
+
+  http.get(
+    'https://api.scryfall.com/cards/4a2e428c-dd25-484c-bbc8-2d6ce10ef42c',
+    () => {
+      return HttpResponse.json(mockDetailsResponse);
+    }
+  ),
 ];
 
 export const server = setupServer(...restHandlers);

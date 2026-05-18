@@ -16,7 +16,7 @@ function CardNavigation(props: {
   const { getItem: getRecentSearch } = useStorage('RecentSearch');
 
   function handleToPage(e: React.MouseEvent<HTMLButtonElement>) {
-    const nextPage = +e.currentTarget.innerText;
+    const nextPage = +e.currentTarget.textContent.trim();
     if (nextPage === props.resultList.current_page) {
       return;
     }
@@ -24,7 +24,8 @@ function CardNavigation(props: {
     setPageList({
       array: nextArray,
     });
-    props.updateResultList(getRecentSearch(), nextPage);
+    const recentSearch = getRecentSearch();
+    props.updateResultList(recentSearch, nextPage);
   }
 
   return (

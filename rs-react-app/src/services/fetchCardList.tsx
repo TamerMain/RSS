@@ -3,7 +3,6 @@ export const BASE_URL: string = 'https://api.scryfall.com/cards/search';
 export const CARD_PER_PAGE = 175;
 
 export type SearchAPIResponse = {
-  object: string;
   page: number;
   total_cards: number;
   data: {

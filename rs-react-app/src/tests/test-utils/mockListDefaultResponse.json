@@ -1,6 +1,8 @@
 {
   "page": 1,
   "total_cards": 5,
+  "total_pages": 1,
+  "current_page": 1,
   "data": [
     {
       "id": "5aa90ab6-2686-4462-8725-5d4370c05437",
