@@ -4,7 +4,7 @@ import { userEvent } from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 
 import CardNavigation from '@/pages/search/+params/CardNavigation';
-import mockListResponse from '@/tests/test-utils/mockListResponse.json';
+import mockListResponse from '@/test-utils/mockListResponse.json';
 
 test('should update list when click another page', async () => {
   const user = userEvent.setup();

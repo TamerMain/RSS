@@ -5,7 +5,7 @@ import App from '../App';
 import { MemoryRouter } from 'react-router';
 import { server } from './setup';
 import { http, HttpResponse } from 'msw';
-import { mockUserInput } from './test-utils/mockUserInput';
+import { mockUserInput } from '../test-utils/mockUserInput';
 
 describe('when initial load', () => {
   test('should check local storage for search term', () => {

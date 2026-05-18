@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router';
+import { useState, useCallback, useRef, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router';
 import {
   detailsRequest,
   type DetailsResponse,
@@ -10,6 +10,12 @@ export default function useFetchCard() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<'404' | 'UnknownError' | false>(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const locationRef = useRef(location);
+
+  useEffect(() => {
+    locationRef.current = location;
+  }, [location]);
 
   const updateResultCard = useCallback(
     async (id: string) => {
@@ -18,7 +24,7 @@ export default function useFetchCard() {
 
       try {
         const card = await detailsRequest(id);
-        const newParams = new URLSearchParams(window.location.search);
+        const newParams = new URLSearchParams(locationRef.current.search);
         newParams.set('details', encodeURIComponent(card?.name));
         navigate({ pathname: '/search', search: newParams.toString() });
         window.setTimeout(() => {

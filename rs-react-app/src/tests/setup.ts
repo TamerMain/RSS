@@ -3,9 +3,9 @@ import '@testing-library/jest-dom';
 import { afterAll, afterEach, beforeAll } from 'vitest';
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
-import mockListResponse from './test-utils/mockListResponse.json';
-import mockListDefaultResponse from './test-utils/mockListDefaultResponse.json';
-import mockDetailsResponse from './test-utils/mockDetailsResponse.json';
+import mockListResponse from '../test-utils/mockListResponse.json';
+import mockListDefaultResponse from '../test-utils/mockListDefaultResponse.json';
+import mockDetailResponse from '../test-utils/mockDetailResponse.json';
 
 export const restHandlers = [
   http.get('https://api.scryfall.com/cards/search', ({ request }) => {
@@ -31,7 +31,7 @@ export const restHandlers = [
   http.get(
     'https://api.scryfall.com/cards/4a2e428c-dd25-484c-bbc8-2d6ce10ef42c',
     () => {
-      return HttpResponse.json(mockDetailsResponse);
+      return HttpResponse.json(mockDetailResponse);
     }
   ),
 ];

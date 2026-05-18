@@ -1,6 +1,10 @@
 import paginationArray from '@/services/paginationArray';
 
-test.each([
+test.each([{
+    totalPage: 1,
+    currentPage: 1,
+    expectedArray: null,
+  },
   {
     totalPage: 12,
     currentPage: 1,
@@ -37,7 +41,7 @@ test.each([
     expectedArray: [1, '...', 180, 181, 182],
   },
 ])(
-  'should return $expectedArray when {passing $totalPage , $currentPage}',
+  'should return $expectedArray when passing {$totalPage , $currentPage}',
   ({ totalPage, currentPage, expectedArray }) => {
     const result = paginationArray(totalPage, currentPage);
     expect(result).toEqual(expectedArray);

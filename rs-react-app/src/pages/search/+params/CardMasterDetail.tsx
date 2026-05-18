@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router';
 import useFetchCard from '../../../hooks/useFetchCard';
 import Loading from '../../../components/Loading';
 
@@ -8,13 +9,14 @@ function CardMasterDetail(props: {
 }) {
   const { resultCard, updateResultCard, navigate, isLoading, isError } =
     useFetchCard();
+  const location = useLocation();
 
   useEffect(() => {
     updateResultCard(props.activeCard);
   }, [props.activeCard, updateResultCard]);
 
   function handleCloseMasterDetail() {
-    const newParams = new URLSearchParams(window.location.search);
+    const newParams = new URLSearchParams(location.search);
     newParams.delete('details');
     navigate({ pathname: '/search', search: newParams.toString() });
     props.setActiveCard(undefined);
@@ -29,7 +31,9 @@ function CardMasterDetail(props: {
       )}
       {!isLoading && (
         <div className="fixed flex flex-col items-center w-1/4 p-2 bg-mist-800 text-center fade-in">
-          {isError && <h2 className="text-2xl">Details not found for that card.</h2>}
+          {isError && (
+            <h2 className="text-2xl">Details not found for that card.</h2>
+          )}
           {!isError && (
             <>
               <div className=" pr-2 ">{resultCard?.set_name} Set</div>
