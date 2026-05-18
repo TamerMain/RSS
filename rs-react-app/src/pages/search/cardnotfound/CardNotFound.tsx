@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 import useStorage from '../../../hooks/useStorage';
 
-function Page404(props: {
+function CardNotFound(props: {
   isError: '404' | 'UnknownError' | false;
   updateResultList: (
     currentTerm: string,
@@ -33,4 +33,4 @@ function Page404(props: {
   );
 }
 
-export default Page404;
+export default CardNotFound;

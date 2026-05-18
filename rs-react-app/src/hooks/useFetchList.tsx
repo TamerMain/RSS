@@ -27,7 +27,7 @@ export default function useFetchList() {
           setIsLoading(false);
         }, 500);
       } catch (err) {
-        navigate('search/404', { replace: true });
+        navigate('search/cardnotfound', { replace: true });
         setResultList(null);
         if (err instanceof Error && err.message === '404') {
           setIsError('404');

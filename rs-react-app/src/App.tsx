@@ -7,7 +7,8 @@ import SearchResults from './pages/search/SearchResults.tsx';
 import About from './pages/about/About.tsx';
 import ErrorBoundary from './components/ErrorBoundary.tsx';
 import Navigation from './components/Navigation.tsx';
-import Page404 from './pages/search/404/Page404.tsx';
+import CardNotFound from './pages/search/cardnotfound/CardNotFound.tsx';
+import NotFound from './pages/404/NotFound.tsx';
 
 function App() {
   const { resultList, updateResultList, isLoading, isError } = useFetchList();
@@ -40,9 +41,18 @@ function App() {
                 />
               }
             ></Route>
-            <Route path="404" element={<Page404 isError={isError} updateResultList={updateResultList}/>}></Route>
+            <Route
+              path="cardnotfound"
+              element={
+                <CardNotFound
+                  isError={isError}
+                  updateResultList={updateResultList}
+                />
+              }
+            ></Route>
           </Route>
           <Route path="about" element={<About />}></Route>
+          <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </div>
     </ErrorBoundary>
