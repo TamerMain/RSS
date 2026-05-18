@@ -1,5 +1,5 @@
-import CardNavigation from '../../components/Cards/CardNavigation.tsx';
-import CardList from '../../components/Cards/CardList.tsx';
+import CardNavigation from './+params/CardNavigation.tsx';
+import CardList from './+params/CardList.tsx';
 import Loading from '../../components/Loading.tsx';
 import { type SearchResponse } from '../../services/fetchCardList.tsx';
 

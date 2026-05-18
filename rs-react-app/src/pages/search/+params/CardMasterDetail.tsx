@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import useFetchCard from '../../hooks/useFetchCard';
-import Loading from '../Loading';
+import useFetchCard from '../../../hooks/useFetchCard';
+import Loading from '../../../components/Loading';
 
 function CardMasterDetail(props: {
   activeCard: string;
@@ -21,7 +21,11 @@ function CardMasterDetail(props: {
 
   return (
     <>
-      {isLoading && <Loading />}
+      {isLoading && (
+        <div className="fixed">
+          <Loading />
+        </div>
+      )}
       {!isLoading && (
         <div className="fixed flex flex-col items-center w-1/4 p-2 bg-mist-800 text-center fade-in">
           <div className=" pr-2 ">{resultCard?.set_name} Set</div>

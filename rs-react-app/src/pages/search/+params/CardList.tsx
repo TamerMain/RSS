@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Routes, Route, Outlet } from 'react-router';
 import CardItem from './CardItem.tsx';
 import CardMasterDetail from './CardMasterDetail.tsx';
-import { type SearchResponse } from '../../services/fetchCardList.tsx';
+import { type SearchResponse } from '../../../services/fetchCardList.tsx';
 
 function CardList(props: { resultList: SearchResponse }) {
   const [activeCard, setActiveCard] = useState<string | undefined>(undefined);
@@ -45,11 +45,11 @@ function CardList(props: { resultList: SearchResponse }) {
 
   return (
     <div className="flex">
-      <Routes>
-        <Route path="*" element={cardItemList}>
-          <Route path="*" element={cardMasterDetail}></Route>
-        </Route>
-      </Routes>
+        <Routes>
+          <Route path="/*" element={cardItemList}>
+            <Route path="*" element={cardMasterDetail}></Route>
+          </Route>
+        </Routes>
     </div>
   );
 }

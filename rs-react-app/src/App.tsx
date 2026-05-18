@@ -19,7 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/search" replace />} />
           <Route
-            path="search"
+            path="search/*"
             element={
               <>
                 <SearchBar

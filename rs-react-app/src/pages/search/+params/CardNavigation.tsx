@@ -1,7 +1,7 @@
-import paginationArray from '../../services/paginationArray.tsx';
-import useStorage from '../../hooks/useStorage.tsx';
+import paginationArray from '../../../services/paginationArray.tsx';
+import useStorage from '../../../hooks/useStorage.tsx';
 import { useState } from 'react';
-import type { SearchResponse } from '../../services/fetchCardList.tsx';
+import type { SearchResponse } from '../../../services/fetchCardList.tsx';
 
 function CardNavigation(props: {
   updateResultList: (currentInput: string, currentPage: number) => void;
