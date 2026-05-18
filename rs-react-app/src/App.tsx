@@ -40,7 +40,7 @@ function App() {
                 />
               }
             ></Route>
-            <Route path="404" element={<Page404 isError={isError} />}></Route>
+            <Route path="404" element={<Page404 isError={isError} updateResultList={updateResultList}/>}></Route>
           </Route>
           <Route path="about" element={<About />}></Route>
         </Routes>
