@@ -1,14 +1,22 @@
 import { useState } from 'react';
 import { Routes, Route, Outlet } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
 import CardItem from './CardItem.tsx';
 import CardMasterDetail from './CardMasterDetail.tsx';
 import { type SearchResponse } from '../../../services/fetchCardList.tsx';
+import { toggleItem, type RootState } from '@/store/store.ts';
 
 function CardList(props: { resultList: SearchResponse }) {
   const [activeCard, setActiveCard] = useState<string | undefined>(undefined);
+  const dispatch = useDispatch();
+  const cart = useSelector((state: RootState) => state.cart);
 
   function handleActiveCard(id: string) {
     setActiveCard(id);
+  }
+
+  function handleToCart(payload: string) {
+    dispatch(toggleItem(payload));
   }
 
   const cardItemList = (
@@ -22,6 +30,11 @@ function CardList(props: { resultList: SearchResponse }) {
               card?.card_faces?.[0]?.image_uris?.normal
             }
             cardName={card.name}
+            isInCart={cart.some((cartItem) => cartItem === card.name)}
+            handleToCart={(e) => {
+              e.stopPropagation();
+              handleToCart(card.name);
+            }}
             handleActiveCard={() => handleActiveCard(card.id)}
           />
         ))}
@@ -45,11 +58,11 @@ function CardList(props: { resultList: SearchResponse }) {
 
   return (
     <div className="flex">
-        <Routes>
-          <Route path="/*" element={cardItemList}>
-            <Route path="*" element={cardMasterDetail}></Route>
-          </Route>
-        </Routes>
+      <Routes>
+        <Route path="/*" element={cardItemList}>
+          <Route path="*" element={cardMasterDetail}></Route>
+        </Route>
+      </Routes>
     </div>
   );
 }

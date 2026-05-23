@@ -16,7 +16,7 @@ function App() {
   return (
     <ErrorBoundary>
       <Navigation />
-      <div className="relative flex flex-col justify-center gap-3 w-3/4 mx-auto my-5 p-3">
+      <div className="relative flex flex-col justify-center gap-3 w-3/4 mx-auto my-[2vh]">
         <Routes>
           <Route path="/" element={<Navigate to="/search" replace />} />
           <Route
