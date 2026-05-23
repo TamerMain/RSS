@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Routes, Route, Outlet, Navigate } from 'react-router';
 import useFetchList from './hooks/useFetchList.tsx';
 import SearchBar from './pages/search/SearchBar.tsx';
@@ -8,7 +7,7 @@ import ErrorBoundary from './components/ErrorBoundary.tsx';
 import Navigation from './components/Navigation.tsx';
 import CardNotFound from './pages/search/cardnotfound/CardNotFound.tsx';
 import NotFound from './pages/404/NotFound.tsx';
-import { ThemeProvider } from '@/contexts/ThemeContext.tsx';
+import { ThemeProvider } from '@/contexts/ThemeProvider.tsx';
 
 function App() {
   const { resultList, updateResultList, isLoading, isError } = useFetchList();
