@@ -33,13 +33,13 @@ function CardNavigation(props: {
       {pageList.array &&
         pageList.array.map((page, index) =>
           page === '...' ? (
-            <div key={`...+${index}`} className="p-1">
+            <div key={`...+${index}`} className="p-1 light:text-black">
               ...
             </div>
           ) : (
             <button
               key={page}
-              className={`h-full p-2 cursor-pointer ${props.resultList.current_page === page ? 'text-gray-50' : 'text-gray-400'}  hover:text-gray-50 disabled:cursor-not-allowed disabled:text-gray-400 transition-colors duration-200`}
+              className={`h-full p-2 cursor-pointer ${props.resultList.current_page === page ? 'text-gray-50 light:text-black light:font-bold' : 'text-gray-400 light:text-gray-600'}   hover:text-gray-50 light:hover:text-black light:hover:font-bold disabled:cursor-not-allowed disabled:text-gray-400 transition-colors duration-200`}
               onClick={handleToPage}
             >
               {page}

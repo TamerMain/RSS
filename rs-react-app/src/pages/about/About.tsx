@@ -1,7 +1,7 @@
 function About() {
   return (
-    <div className="flex flex-col text-2xl">
-      <h1 className="text-4xl my-3">
+    <div className="flex flex-col p-2 text-2xl bg-mist-800 light:bg-mist-100 light:text-black">
+      <h1 className="text-4xl my-2">
         <a
           href="https://github.com/rolling-scopes-school/tasks/tree/master/react"
           target="_blank"

@@ -19,14 +19,8 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="flex flex-col justify-center gap-3 w-2/4 mx-auto my-5 p-3 text-center">
           <h1 className=" p-2 text-xl bg-mist-800 ">
-            Unexpected Error. Refresh ?
+            Unexpected Error.
           </h1>
-          <button
-            className="self-center p-2 w-max bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer"
-            onClick={() => window.location.reload()}
-          >
-            Refresh Page
-          </button>
         </div>
       );
     }

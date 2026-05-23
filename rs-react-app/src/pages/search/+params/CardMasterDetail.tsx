@@ -30,7 +30,7 @@ function CardMasterDetail(props: {
         </div>
       )}
       {!isLoading && (
-        <div className="fixed flex flex-col items-center w-1/4 p-2 bg-mist-800 text-center fade-in">
+        <div className="fixed flex flex-col items-center w-1/4 max-w-[400px] p-2 bg-mist-800 text-center fade-in">
           {isError && (
             <h2 className="text-2xl">Details not found for that card.</h2>
           )}

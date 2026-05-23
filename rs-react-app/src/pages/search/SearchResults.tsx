@@ -13,7 +13,7 @@ function SearchResults(props: {
       {props.isLoading && <Loading />}
       {!props.isLoading && (
         <div className="flex flex-col fade-in">
-          <h1 className="flex justify-center p-2 text-5xl">Card List</h1>
+          <h1 className="flex justify-center p-2 text-5xl light:text-black">Card List</h1>
           {props.resultList && (
             <>
               <CardNavigation

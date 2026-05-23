@@ -16,9 +16,9 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider>
-        <div className="h-full min-h-[100vh]">
+        <div className="h-full min-h-[100vh] light:bg-mist-100">
           <Navigation />
-          <div className="relative flex flex-col justify-center gap-3 w-3/4 mx-auto py-[2vh]">
+          <div className="relative flex flex-col justify-center gap-3 w-3/4 mx-auto p-[2vh] light:bg-mist-200 transition-height">
             <Routes>
               <Route path="/" element={<Navigate to="/search" replace />} />
               <Route

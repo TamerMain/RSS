@@ -21,7 +21,7 @@ function CardList(props: { resultList: SearchResponse }) {
 
   const cardItemList = (
     <>
-      <div className={`flex-1 grid grid-cols-8 justify-items-center gap-4 p-2`}>
+      <div className={`flex-1 grid grid-cols-6 justify-items-center gap-4 p-2`}>
         {props.resultList.data?.map((card) => (
           <CardItem
             key={card.id}
