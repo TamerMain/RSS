@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { type RootState } from '@/store/store';
 import { clearCart } from '@/store/store.ts';
+import DownloadButton from './DownloadButton';
 
 function Cart() {
   const dispatch = useDispatch();
@@ -10,16 +11,6 @@ function Cart() {
     <>
       {cart.length !== 0 && (
         <div className="flex flex-col gap-1 sticky text-gray-400 fade-in">
-          <div className="flex flex-col gap-1 bg-mist-800">
-            {cart.map((item, index) => (
-              <div
-                key={`${item}+${index}`}
-                className="fade-in pl-4 text-xs text-left"
-              >
-                {item}
-              </div>
-            ))}
-          </div>
           <div className="p-2 text-gray-50 bg-mist-800 ">
             Selected {cart.length}
           </div>
@@ -29,9 +20,7 @@ function Cart() {
           >
             Deselect All
           </button>
-          <button className="p-2  bg-mist-800 hover:text-gray-50 cursor-pointer transition-colors duration-400">
-            Download
-          </button>
+          <DownloadButton cart={cart} />
         </div>
       )}
     </>
