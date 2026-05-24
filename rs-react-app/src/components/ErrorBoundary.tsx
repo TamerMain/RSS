@@ -17,7 +17,7 @@ class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.isError) {
       return (
-        <div className="flex flex-col justify-center gap-3 w-2/4 mx-auto my-5 p-3 text-center">
+        <div className="flex flex-col justify-center gap-3 w-2/4 mx-auto my-5 p-5 text-center light:bg-mist-200">
           <h1 className=" p-2 text-xl bg-mist-800 ">
             Unexpected Error.
           </h1>
