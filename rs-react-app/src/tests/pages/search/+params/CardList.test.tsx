@@ -3,13 +3,17 @@ import { userEvent } from '@testing-library/user-event';
 import { MemoryRouter, useLocation, type Location } from 'react-router';
 import CardList from '@/pages/search/+params/CardList';
 import MockListResponse from '@/test-utils/mockListResponse.json';
+import { store } from '@/store/store.ts';
+import { Provider } from 'react-redux';
 
 describe('when click on card', () => {
   test('should show master detail and list should remain', async () => {
     const user = userEvent.setup();
     render(
       <MemoryRouter initialEntries={['/search?q=Black%20Lotus&page=1']}>
-        <CardList resultList={MockListResponse} />
+        <Provider store={store}>
+          <CardList resultList={MockListResponse} />
+        </Provider>
       </MemoryRouter>
     );
     const card = screen.getByAltText(/Black Lotus/i);
@@ -29,8 +33,10 @@ describe('when click on card', () => {
     const user = userEvent.setup();
     render(
       <MemoryRouter initialEntries={['/search?q=Black%20Lotus&page=1']}>
-        <Location />
-        <CardList resultList={MockListResponse} />
+        <Provider store={store}>
+          <Location />
+          <CardList resultList={MockListResponse} />
+        </Provider>
       </MemoryRouter>
     );
     const card = screen.getByAltText(/Black Lotus/i);

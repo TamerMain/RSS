@@ -5,7 +5,6 @@ import {
 } from '@reduxjs/toolkit';
 
 const initialState: string[] = [];
-
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
@@ -23,8 +22,12 @@ const cartSlice = createSlice({
 });
 export const { toggleItem, clearCart } = cartSlice.actions;
 
+
+
+
 export const store = configureStore({
   reducer: { cart: cartSlice.reducer },
 });
 export type RootState = ReturnType<typeof store.getState>;
 export default store;
+
