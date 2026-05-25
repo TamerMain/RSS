@@ -298,6 +298,25 @@ describe('when add card to cart', async () => {
     });
     const refetchedSelectButton = refetchedCard.nextSibling as Element;
     expect(refetchedSelectButton).not.toBe(cardSelectButton);
-    expect(refetchedSelectButton).toHaveClass("shadow-[inset_0_0_0_2px]");
+    expect(refetchedSelectButton).toHaveClass('shadow-[inset_0_0_0_2px]');
+  });
+});
+
+describe('when changing theme', () => {
+  test('should change theme to light', async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <App />
+      </MemoryRouter>
+    );
+    expect(document.querySelectorAll('[class*="light:"]').length).toBeLessThan(6);
+
+    await user.click(screen.getByLabelText('Change Theme'));
+    await waitFor(() => {
+      const lightThemedElements =
+        document.querySelectorAll('[class*="light:"]');
+      expect(lightThemedElements.length).toBeGreaterThan(6);
+    });
   });
 });

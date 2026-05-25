@@ -6,6 +6,7 @@ function ThemeButton() {
 
   return (
     <button
+      aria-label="Change Theme"
       onClick={() => context.toggle()}
       className={`relative m-auto w-16 h-8 border-2 border-transparent light:border-mist-800 ${context.isDark ? 'bg-mist-800' : 'bg-mist-50'} transition-colors duration-800`}
     >
