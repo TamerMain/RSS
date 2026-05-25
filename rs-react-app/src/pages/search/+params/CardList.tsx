@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import CardItem from './CardItem.tsx';
 import CardMasterDetail from './CardMasterDetail.tsx';
 import { type SearchResponse } from '../../../services/fetchCardList.tsx';
-import { toggleItem, type RootState } from '@/store/store.ts';
+import { toggleItem, type RootState, type CardInfo } from '@/store/store.ts';
 
 function CardList(props: { resultList: SearchResponse }) {
   const [activeCard, setActiveCard] = useState<string | undefined>(undefined);
@@ -15,7 +15,7 @@ function CardList(props: { resultList: SearchResponse }) {
     setActiveCard(id);
   }
 
-  function handleToCart(payload: string) {
+  function handleToCart(payload: CardInfo) {
     dispatch(toggleItem(payload));
   }
 
@@ -30,10 +30,18 @@ function CardList(props: { resultList: SearchResponse }) {
               card?.card_faces?.[0]?.image_uris?.normal
             }
             cardName={card.name}
-            isInCart={cart.some((cartItem) => cartItem === card.name)}
+            isInCart={cart.some((cartItem) => cartItem.name === card.name)}
             handleToCart={(e) => {
               e.stopPropagation();
-              handleToCart(card.name);
+              handleToCart({
+                name: card.name,
+                id: card.id,
+                imageSrc:
+                  card?.image_uris?.normal ||
+                  card?.card_faces?.[0]?.image_uris?.normal,
+                page: props.resultList.current_page,
+                search: props.resultList.search_term
+              });
             }}
             handleActiveCard={() => handleActiveCard(card.id)}
           />

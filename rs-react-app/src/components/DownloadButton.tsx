@@ -1,10 +1,24 @@
-function DownloadButton(props: { cart: string[] }) {
+import { type CardInfo } from '@/store/store';
+
+function detailsURL(search: string, page: number, name: string) {
+  const origin = window.location.origin;
+  const URL = `${origin}/search?q=${encodeURIComponent(search ? search : '')}&page=${page}&details=${encodeURIComponent(encodeURIComponent(name))}`;
+  return URL;
+}
+
+function DownloadButton(props: { cart: CardInfo[] }) {
   function handleDownload() {
     if (props.cart.length === 0) return;
-    const content = props.cart.join('\r\n');
+    const contentHeader =
+      'This file contains your selected card information.\r\nSuch as Name, ID and Description link to original art and details URL which is not impelemented yet for direct access from browser.\r\n\r\n';
+    const contentBody = props.cart
+      .map((item, index) => {
+        return `------- Card ${index+1} -------\r\nName: ${item.name}\r\nScryfall unique ID: ${item.id}\r\nOriginal Art: ${item.imageSrc ? item.imageSrc : 'No art available'}\r\nDetails URL: ${detailsURL(item.search, item.page, item.name)}.\r\n`;
+      })
+      .join('\r\n');
+    const content = `${contentHeader + contentBody}`;
     const blob = new Blob([content], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
-    console.log(blob);
 
     const a = document.createElement('a');
     a.href = url;

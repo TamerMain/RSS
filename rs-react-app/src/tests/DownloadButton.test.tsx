@@ -1,8 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import DownloadButton from '@/components/DownloadButton';
+import { type CardInfo } from '@/store/store';
 
 describe('when click download CSV', () => {
+  const mockCart: CardInfo = {
+    name: '+2 Mace',
+    id: 'e882c9f9-bf30-46b6-bedc-379d2c80e5cb',
+    imageSrc:
+      'https://cards.scryfall.io/normal/front/e/8/e882c9f9-bf30-46b6-bedc-379d2c80e5cb.jpg?1627701221',
+    page: 1,
+    search: '',
+  };
   test('should not download when cart is empty', async () => {
     const createElementSpy = vi.spyOn(document, 'createElement');
     const createObjectURLSpy = vi.spyOn(URL, 'createObjectURL');
@@ -21,11 +30,7 @@ describe('when click download CSV', () => {
     vi.spyOn(URL, 'createObjectURL').mockReturnValue(mockURL);
     const user = userEvent.setup();
 
-    render(
-      <DownloadButton
-        cart={['+2 Mace', 'Aang, Airbending Master', 'Aang, Air Nomad']}
-      />
-    );
+    render(<DownloadButton cart={[mockCart]} />);
     await user.click(screen.getByText('Download CSV'));
 
     expect(revokeURLSpy).toHaveBeenCalledWith(mockURL);
@@ -38,15 +43,13 @@ describe('when click download CSV', () => {
       createdBlob = blob as Blob;
       return 'mock-url';
     });
-    render(
-      <DownloadButton
-        cart={['+2 Mace', 'Aang, Airbending Master', 'Aang, Air Nomad']}
-      />
-    );
+    render(<DownloadButton cart={[mockCart]} />);
     await user.click(screen.getByText('Download CSV'));
 
     expect(createdBlob).toBeInstanceOf(Blob);
     const text = await createdBlob!.text();
-    expect(text).toBe('+2 Mace\r\nAang, Airbending Master\r\nAang, Air Nomad');
+    expect(text).toBe(
+      'This file contains your selected card information.\r\nSuch as Name, ID and Description link to original art and details URL which is not impelemented yet for direct access from browser.\r\n\r\n------- Card 1 -------\r\nName: +2 Mace\r\nScryfall unique ID: e882c9f9-bf30-46b6-bedc-379d2c80e5cb\r\nOriginal Art: https://cards.scryfall.io/normal/front/e/8/e882c9f9-bf30-46b6-bedc-379d2c80e5cb.jpg?1627701221\r\nDetails URL: http://localhost:3000/search?q=&page=1&details=%252B2%2520Mace.\r\n'
+    );
   });
 });
