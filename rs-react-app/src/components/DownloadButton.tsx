@@ -4,6 +4,7 @@ function DownloadButton(props: { cart: string[] }) {
     const content = props.cart.join('\r\n');
     const blob = new Blob([content], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
+    console.log(blob);
 
     const a = document.createElement('a');
     a.href = url;

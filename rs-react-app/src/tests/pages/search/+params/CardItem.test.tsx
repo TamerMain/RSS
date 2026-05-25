@@ -4,9 +4,11 @@ import CardItem from '@/pages/search/+params/CardItem';
 test('should render correct item name and image', () => {
   render(
     <CardItem
-      handleActiveCard={vi.fn()}
-      cardImageSrc="Card.png"
       cardName="Card"
+      cardImageSrc="Card.png"
+      isInCart={false}
+      handleToCart={vi.fn()}
+      handleActiveCard={vi.fn()}
     />
   );
   const image = screen.getByRole('img');
@@ -18,9 +20,11 @@ test('should render correct item name and image', () => {
 test('should render placeholder on invalid API response', () => {
   render(
     <CardItem
-      handleActiveCard={vi.fn()}
-      cardImageSrc={undefined}
       cardName={undefined}
+      cardImageSrc={undefined}
+      isInCart={false}
+      handleToCart={vi.fn()}
+      handleActiveCard={vi.fn()}
     />
   );
   const image = screen.queryByRole('img');
