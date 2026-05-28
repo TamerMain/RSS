@@ -227,7 +227,7 @@ describe('SearchResults -- when loading', () => {
   });
 });
 
-describe('when add card to cart', async () => {
+describe('Navigation/CardItem -- when add card to cart', async () => {
   test('should update cart item counter when not items and add items', async () => {
     const user = userEvent.setup();
     render(
@@ -303,7 +303,7 @@ describe('when add card to cart', async () => {
   });
 });
 
-describe('when changing theme', () => {
+describe('ThemeProvider -- when changing theme', () => {
   test('should change theme to light', async () => {
     const user = userEvent.setup();
     render(
