@@ -1,19 +1,23 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { MemoryRouter, useLocation, type Location } from 'react-router';
-import CardList from '@/pages/search/+params/CardList';
+import CardList from '@/pages/search/cards/CardList';
 import MockListResponse from '@/test-utils/mockListResponse.json';
 import { store } from '@/store/store.ts';
 import { Provider } from 'react-redux';
 
-describe('when click on card', () => {
+describe('CardList -- when user click on card', () => {
   test('should show master detail and list should remain', async () => {
     const user = userEvent.setup();
     render(
       <MemoryRouter initialEntries={['/search?q=Black%20Lotus&page=1']}>
+<<<<<<< HEAD:rs-react-app/src/tests/pages/search/+params/CardList.test.tsx
         <Provider store={store}>
           <CardList resultList={MockListResponse} />
         </Provider>
+=======
+        <CardList cardList={MockListResponse} />
+>>>>>>> f05f595 (refactor: mentor changes):rs-react-app/src/tests/pages/search/cards/CardList.test.tsx
       </MemoryRouter>
     );
     const card = screen.getByAltText(/Black Lotus/i);
@@ -32,11 +36,17 @@ describe('when click on card', () => {
     };
     const user = userEvent.setup();
     render(
+<<<<<<< HEAD:rs-react-app/src/tests/pages/search/+params/CardList.test.tsx
       <MemoryRouter initialEntries={['/search?q=Black%20Lotus&page=1']}>
         <Provider store={store}>
           <Location />
           <CardList resultList={MockListResponse} />
         </Provider>
+=======
+      <MemoryRouter initialEntries={['/cards?page=1&q=Lotus']}>
+        <Location />
+        <CardList cardList={MockListResponse} />
+>>>>>>> f05f595 (refactor: mentor changes):rs-react-app/src/tests/pages/search/cards/CardList.test.tsx
       </MemoryRouter>
     );
     const card = screen.getByAltText(/Black Lotus/i);
@@ -44,7 +54,9 @@ describe('when click on card', () => {
     await user.click(card);
     await waitFor(() => {
       expect(location!.search).toContain('page');
-      expect(location!.search).toContain('details=Black%2520Lotus');
+      expect(location!.search).toContain(
+        '?page=1&q=Lotus&details=4a2e428c-dd25-484c-bbc8-2d6ce10ef42c'
+      );
     });
   });
 });

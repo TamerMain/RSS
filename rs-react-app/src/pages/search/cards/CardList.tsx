@@ -6,12 +6,14 @@ import CardMasterDetail from './CardMasterDetail.tsx';
 import { type SearchResponse } from '../../../services/fetchCardList.tsx';
 import { toggleItem, type RootState, type CardInfo } from '@/store/store.ts';
 
-function CardList(props: { resultList: SearchResponse }) {
+type CardListProps = { cardList: SearchResponse };
+
+function CardList(props: CardListProps) {
   const [activeCard, setActiveCard] = useState<string | undefined>(undefined);
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
 
-  function handleActiveCard(id: string) {
+  function handleActiveCardClick(id: string) {
     setActiveCard(id);
   }
 
@@ -22,7 +24,7 @@ function CardList(props: { resultList: SearchResponse }) {
   const cardItemList = (
     <>
       <div className={`flex-1 grid grid-cols-6 justify-items-center gap-4 p-2`}>
-        {props.resultList.data?.map((card) => (
+        {props.cardList.data?.map((card) => (
           <CardItem
             key={card.id}
             cardImageSrc={
@@ -39,11 +41,11 @@ function CardList(props: { resultList: SearchResponse }) {
                 imageSrc:
                   card?.image_uris?.normal ||
                   card?.card_faces?.[0]?.image_uris?.normal,
-                page: props.resultList.current_page,
-                search: props.resultList.search_term
+                page: props.cardList.current_page,
+                search: props.cardList.search_term
               });
             }}
-            handleActiveCard={() => handleActiveCard(card.id)}
+            onActiveCardClick={() => handleActiveCardClick(card.id)}
           />
         ))}
       </div>

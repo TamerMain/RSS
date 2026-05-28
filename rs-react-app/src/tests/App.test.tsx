@@ -7,7 +7,7 @@ import { server } from './setup';
 import { http, HttpResponse } from 'msw';
 import { mockUserInput } from '../test-utils/mockUserInput';
 
-describe('when initial load', () => {
+describe('SearchBar/SearchResults -- when initial load', () => {
   test('should check local storage for search term', () => {
     const storageGetSpy = vi.spyOn(Storage.prototype, 'getItem');
     render(
@@ -53,7 +53,7 @@ describe('when initial load', () => {
     async ({ term, status, expectedItems }) => {
       vi.spyOn(Storage.prototype, 'getItem').mockReturnValue(term);
       render(
-        <MemoryRouter initialEntries={['/search']}>
+        <MemoryRouter initialEntries={['/search/cards']}>
           <App />
         </MemoryRouter>
       );
@@ -61,26 +61,26 @@ describe('when initial load', () => {
         const cardImage = screen.queryAllByRole('img', {
           name: /Image of/i,
         });
-        const statusBar = screen.getByRole('heading', {
-          level: 1,
-          name: status,
-        });
         expect(cardImage).toHaveLength(expectedItems);
-        expect(statusBar).toBeInTheDocument();
-        localStorage.clear();
-        vi.restoreAllMocks();
-        cleanup();
       });
+      const statusBar = await screen.findByRole('heading', {
+        level: 1,
+        name: status,
+      });
+      expect(statusBar).toBeInTheDocument();
+      localStorage.clear();
+      vi.restoreAllMocks();
+      cleanup();
     }
   );
 });
 
-describe('when user search', () => {
+describe('SearchBar/SearchResults -- when user search', () => {
   test('should not make extra requests if search term remains the same', async () => {
     const user = userEvent.setup();
     const fetchSpy = vi.spyOn(window, 'fetch');
     render(
-      <MemoryRouter initialEntries={['/search']}>
+      <MemoryRouter initialEntries={['/search/cards']}>
         <App />
       </MemoryRouter>
     );
@@ -114,7 +114,7 @@ describe('when user search', () => {
     );
     await mockUserInput(user, 'Lotus');
     expect(fetchSpy).toHaveBeenCalledWith(
-      'https://api.scryfall.com/cards/search?page=1&q=Lotus+%28game%3Apaper%29',
+      'https://api.scryfall.com/cards/search?page=1&q=Lotus+game%3Apaper',
       expect.objectContaining({
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
@@ -153,43 +153,44 @@ describe('when user search', () => {
         const cardImage = screen.queryAllByRole('img', {
           name: /Image of/i,
         });
-        const statusBar = screen.getByRole('heading', {
-          level: 1,
-          name: status,
-        });
         expect(cardImage).toHaveLength(expectedItems);
-        expect(statusBar).toBeInTheDocument();
-        localStorage.clear();
-        vi.restoreAllMocks();
-        cleanup();
       });
+      const statusBar = await screen.findByRole('heading', {
+        level: 1,
+        name: status,
+      });
+      expect(statusBar).toBeInTheDocument();
+      localStorage.clear();
+      vi.restoreAllMocks();
+      cleanup();
     }
   );
-  describe('when unexpected server error', () => {
-    test('should have readable error status', async () => {
-      const user = userEvent.setup();
-      server.use(
-        http.get('https://api.scryfall.com/cards/search', () => {
-          return HttpResponse.error();
-        })
-      );
-      render(
-        <MemoryRouter initialEntries={['/search']}>
-          <App />
-        </MemoryRouter>
-      );
-      await mockUserInput(user, '');
-      const searchButton = screen.getByRole('button', {
-        name: 'Find Cards',
-      });
-      await user.click(searchButton);
-      const unexpectedStatus = await screen.findByText('Something Went Wrong');
-      expect(unexpectedStatus).toBeInTheDocument();
+});
+
+describe('SearchResults -- when unexpected server error', () => {
+  test('should have readable error status', async () => {
+    const user = userEvent.setup();
+    server.use(
+      http.get('https://api.scryfall.com/cards/search', () => {
+        return HttpResponse.error();
+      })
+    );
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <App />
+      </MemoryRouter>
+    );
+    await mockUserInput(user, '');
+    const searchButton = screen.getByRole('button', {
+      name: 'Find Cards',
     });
+    await user.click(searchButton);
+    const unexpectedStatus = await screen.findByText('Something Went Wrong');
+    expect(unexpectedStatus).toBeInTheDocument();
   });
 });
 
-describe('when loading', () => {
+describe('SearchResults -- when loading', () => {
   test('should disable UI', async () => {
     render(
       <MemoryRouter initialEntries={['/search']}>
@@ -217,7 +218,7 @@ describe('when loading', () => {
         <App />
       </MemoryRouter>
     );
-    const loading = screen.getAllByText(/⟡/);
+    const loading = await screen.findAllByText(/⟡/);
     expect(loading).toHaveLength(2);
     await waitFor(() => {
       const loadingAfter = screen.queryAllByText(/⟡/);

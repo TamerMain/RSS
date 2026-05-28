@@ -1,19 +1,33 @@
 import { useState, useEffect } from 'react';
 import useStorage from '../../hooks/useStorage';
+import { type SearchQuery } from '@/hooks/useFetchCardList';
+import { getInitialParams } from '@/utils/getParams';
 
-function SearchBar(props: {
+type SearchBarProps = {
   isLoading: boolean;
-  updateResultList: (currentInput: string) => void;
-}) {
+  updateCardList: ({ q, page }: SearchQuery) => void;
+};
+
+function SearchBar(props: SearchBarProps) {
   const { getItem: getRecentSearch, setItem: setRecentSearch } =
     useStorage('RecentSearch');
   const [searchTerm, setSearchTerm] = useState<string>(() => getRecentSearch());
 
   useEffect(() => {
-    const currentTerm = getRecentSearch();
-    const updateResultList = props.updateResultList;
-    updateResultList(currentTerm);
-  }, [getRecentSearch, props.updateResultList]);
+    const params = getInitialParams();
+    const updateResultList = props.updateCardList;
+
+    if (params) {
+      updateResultList({
+        q: params.q,
+        page: params.page,
+      });
+      setRecentSearch(params.q);
+    } else {
+      const newTerm = getRecentSearch();
+      updateResultList({ q: newTerm, page: 1 });
+    }
+  }, [getRecentSearch, setRecentSearch, props.updateCardList]);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(e.currentTarget.value);
@@ -21,11 +35,12 @@ function SearchBar(props: {
 
   function handleSearchSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-    const currentTerm = searchTerm.trim();
-    if (!setRecentSearch(currentTerm)) {
+    const newTerm = searchTerm.trim();
+    if (getRecentSearch() === newTerm) {
       return;
     }
-    props.updateResultList(currentTerm);
+    setRecentSearch(newTerm);
+    props.updateCardList({ q: newTerm });
   }
 
   return (

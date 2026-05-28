@@ -1,4 +1,4 @@
-export const BASE_URL: string = 'https://api.scryfall.com/cards/';
+import { FETCH_DETAILS_BASE_URL, GET_HEADERS } from '@/constants/fetch';
 
 export type DetailsResponse = {
   name: string;
@@ -9,20 +9,13 @@ export type DetailsResponse = {
 };
 
 export async function detailsRequest(id: string) {
-  const path: string = `${BASE_URL}${id}`;
+  const path= `${FETCH_DETAILS_BASE_URL}${id}`;
 
-  const response = await fetch(path, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      Accept: 'application/json;q=0.9,*/*;q=0.8',
-    },
-  });
-
+  const response = await fetch(path, GET_HEADERS);
   if (!response.ok) {
     throw new Error(`${response.status}`);
   }
   const responseObj: DetailsResponse = await response.json();
-
+  
   return responseObj;
 }
