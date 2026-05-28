@@ -8,7 +8,7 @@ function MockErrorChild () {
   return {}
 };
 
-describe('when child error', () => {
+describe('ErrorBoundary -- when child has error', () => {
   test('should show fallback UI', () => {
     render(
       <ErrorBoundary>
@@ -37,7 +37,7 @@ describe('when child error', () => {
   });
 });
 
-describe('when click fallback refresh button', () => {
+describe('ErrorBoundary -- when click fallback refresh button', () => {
   const originalLocation = window.location;
 
   beforeEach(() => {

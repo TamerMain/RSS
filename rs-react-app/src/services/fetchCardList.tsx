@@ -1,6 +1,9 @@
-export const BASE_URL: string = 'https://api.scryfall.com/cards/search';
-
-export const CARD_PER_PAGE = 175;
+import {
+  FETCH_SEARCH_BASE_URL,
+  GET_HEADERS,
+  CARD_PER_PAGE,
+} from '@/constants/fetch';
+import { createFetchSearchParams } from '@/utils/getParams';
 
 export type SearchAPIResponse = {
   page: number;
@@ -12,25 +15,22 @@ export type SearchAPIResponse = {
     id: string;
   }[];
 };
-
 export type SearchExtra = { total_pages: number; current_page: number };
 export type SearchResponse = SearchAPIResponse & SearchExtra;
 
+
+
 export async function searchRequest(searchTerm: string, searchPage: number) {
-  const path: string = `${BASE_URL}?page=${searchPage}&q=${searchTerm}+%28game%3Apaper%29`;
+  const params = createFetchSearchParams({ page: searchPage, q: searchTerm });
+  const path = `${FETCH_SEARCH_BASE_URL}?${params}`;
 
-  const response = await fetch(path, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      Accept: 'application/json;q=0.9,*/*;q=0.8',
-    },
-  });
-
+  const response = await fetch(path, GET_HEADERS);
   if (!response.ok) {
     throw new Error(`${response.status}`);
   }
   const responseObj: SearchAPIResponse = await response.json();
+
+  
   const totalPages = Math.ceil(responseObj.total_cards / CARD_PER_PAGE);
   const cardList: SearchResponse = {
     ...responseObj,

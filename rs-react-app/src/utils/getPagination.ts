@@ -1,5 +1,16 @@
-function paginationArray(total: number, current: number) {
-  if (total === 1) {
+interface GetPaginationParameters {
+  total: number;
+  current: number;
+}
+
+function getPagination({
+  total,
+  current,
+}: GetPaginationParameters): null | (number | '...')[] {
+  if (total <= 1) {
+    return null;
+  }
+  if (current < 1) {
     return null;
   }
 
@@ -23,4 +34,4 @@ function paginationArray(total: number, current: number) {
   return range;
 }
 
-export default paginationArray;
+export default getPagination;

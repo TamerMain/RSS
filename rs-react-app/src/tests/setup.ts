@@ -6,21 +6,21 @@ import { http, HttpResponse } from 'msw';
 import mockListResponse from '../test-utils/mockListResponse.json';
 import mockListDefaultResponse from '../test-utils/mockListDefaultResponse.json';
 import mockDetailResponse from '../test-utils/mockDetailResponse.json';
+import { FETCH_SEARCH_BASE_URL } from '@/constants/fetch';
 
 export const restHandlers = [
-  http.get('https://api.scryfall.com/cards/search', ({ request }) => {
+  http.get(FETCH_SEARCH_BASE_URL, ({ request }) => {
     const url = request.url;
 
     if (
       url ===
-      'https://api.scryfall.com/cards/search?page=1&q=Lotus+%28game%3Apaper%29'
+      'https://api.scryfall.com/cards/search?page=1&q=Lotus+game%3Apaper'
     ) {
       return HttpResponse.json(mockListResponse);
     }
 
     if (
-      url ===
-      'https://api.scryfall.com/cards/search?page=1&q=+%28game%3Apaper%29'
+      url === 'https://api.scryfall.com/cards/search?page=1&q=+game%3Apaper'
     ) {
       return HttpResponse.json(mockListDefaultResponse);
     }

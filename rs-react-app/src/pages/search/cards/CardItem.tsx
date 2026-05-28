@@ -1,12 +1,14 @@
-function CardItem(props: {
+type CardItemProps = {
   cardName: string | undefined;
   cardImageSrc: string | undefined;
-  handleActiveCard: () => void;
-}) {
+  onActiveCardClick: () => void;
+};
+
+function CardItem(props: CardItemProps) {
   return (
     <div
       onClick={() => {
-        props.handleActiveCard();
+        props.onActiveCardClick();
       }}
       className="flex flex-col items-center w-full text-gray-400 hover:text-gray-50 transition-colors duration-400"
     >
