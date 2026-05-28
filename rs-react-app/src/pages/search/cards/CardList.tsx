@@ -33,7 +33,7 @@ function CardList(props: CardListProps) {
             }
             cardName={card.name}
             isInCart={cart.some((cartItem) => cartItem.name === card.name)}
-            handleToCart={(e) => {
+            onToCartClick={(e) => {
               e.stopPropagation();
               handleToCart({
                 name: card.name,

@@ -11,13 +11,9 @@ describe('CardList -- when user click on card', () => {
     const user = userEvent.setup();
     render(
       <MemoryRouter initialEntries={['/search?q=Black%20Lotus&page=1']}>
-<<<<<<< HEAD:rs-react-app/src/tests/pages/search/+params/CardList.test.tsx
         <Provider store={store}>
-          <CardList resultList={MockListResponse} />
+          <CardList cardList={MockListResponse} />
         </Provider>
-=======
-        <CardList cardList={MockListResponse} />
->>>>>>> f05f595 (refactor: mentor changes):rs-react-app/src/tests/pages/search/cards/CardList.test.tsx
       </MemoryRouter>
     );
     const card = screen.getByAltText(/Black Lotus/i);
@@ -36,17 +32,11 @@ describe('CardList -- when user click on card', () => {
     };
     const user = userEvent.setup();
     render(
-<<<<<<< HEAD:rs-react-app/src/tests/pages/search/+params/CardList.test.tsx
       <MemoryRouter initialEntries={['/search?q=Black%20Lotus&page=1']}>
         <Provider store={store}>
           <Location />
-          <CardList resultList={MockListResponse} />
+          <CardList cardList={MockListResponse} />
         </Provider>
-=======
-      <MemoryRouter initialEntries={['/cards?page=1&q=Lotus']}>
-        <Location />
-        <CardList cardList={MockListResponse} />
->>>>>>> f05f595 (refactor: mentor changes):rs-react-app/src/tests/pages/search/cards/CardList.test.tsx
       </MemoryRouter>
     );
     const card = screen.getByAltText(/Black Lotus/i);
