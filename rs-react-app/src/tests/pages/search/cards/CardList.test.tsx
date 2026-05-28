@@ -10,7 +10,7 @@ describe('CardList -- when user click on card', () => {
   test('should show master detail and list should remain', async () => {
     const user = userEvent.setup();
     render(
-      <MemoryRouter initialEntries={['/search?q=Black%20Lotus&page=1']}>
+      <MemoryRouter initialEntries={['/cards?page=1&q=Lotus']}>
         <Provider store={store}>
           <CardList cardList={MockListResponse} />
         </Provider>
@@ -32,7 +32,7 @@ describe('CardList -- when user click on card', () => {
     };
     const user = userEvent.setup();
     render(
-      <MemoryRouter initialEntries={['/search?q=Black%20Lotus&page=1']}>
+      <MemoryRouter initialEntries={['/cards?page=1&q=Lotus']}>
         <Provider store={store}>
           <Location />
           <CardList cardList={MockListResponse} />

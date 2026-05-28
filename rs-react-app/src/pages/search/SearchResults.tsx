@@ -20,7 +20,6 @@ function SearchResults(props: SearchResultsProps) {
         </h1>
         {props.cardList && (
           <>
-            <h1 className="flex justify-center p-2 text-5xl">Card List</h1>
             <CardPagination
               cardList={props.cardList}
               updateCardList={props.updateCardList}

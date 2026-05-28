@@ -1,5 +1,4 @@
 import { Routes, Route, Outlet, Navigate } from 'react-router';
-
 import useFetchCardList from './hooks/useFetchCardList.tsx';
 
 import SearchBar from './pages/search/SearchBar.tsx';
@@ -9,6 +8,7 @@ import ErrorBoundary from './components/ErrorBoundary.tsx';
 import Navigation from './components/Navigation.tsx';
 import CardNotFound from './pages/search/cards-not-found/CardNotFound.tsx';
 import NotFound from './pages/404/NotFound.tsx';
+
 import { ThemeProvider } from '@/contexts/ThemeProvider.tsx';
 import { store } from '@/store/store.ts';
 import { Provider } from 'react-redux';
