@@ -1,5 +1,5 @@
 import rsIcon from '../../assets/rs-icon.svg';
-import ghIcon from '../../assets/gh-icon-white.svg';
+import ghIcon from '../../assets/gh-icon.svg';
 
 function About() {
   return (
