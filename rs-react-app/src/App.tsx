@@ -1,5 +1,4 @@
 import { Routes, Route, Outlet, Navigate } from 'react-router';
-import useFetchCardList from './hooks/useFetchCardList.tsx';
 
 import SearchBar from './pages/search/SearchBar.tsx';
 import SearchResults from './pages/search/SearchResults.tsx';
@@ -7,11 +6,9 @@ import About from './pages/about/About.tsx';
 import Navigation from './components/Navigation.tsx';
 import CardNotFound from './pages/search/cards-not-found/CardNotFound.tsx';
 import NotFound from './pages/404/NotFound.tsx';
-import { ROUTES } from '@/constants/routes.ts';
+import { ROUTES, NAVIGATION } from '@/constants/routes.ts';
 
 function App() {
-  const { cardList, updateCardList, isLoading, errorCode } = useFetchCardList();
-
   return (
     <div className="h-full min-h-[100vh] light:bg-mist-100">
       <Navigation />
@@ -19,38 +16,24 @@ function App() {
         <Routes>
           <Route
             path={ROUTES.HOME}
-            element={<Navigate to={ROUTES.SEARCH.BASE} replace />}
+            element={<Navigate to={NAVIGATION.SEARCH.BASE} replace />}
           />
           <Route
             path={ROUTES.SEARCH.BASE}
             element={
               <>
-                <SearchBar
-                  isLoading={isLoading}
-                  updateCardList={updateCardList}
-                />
+                <SearchBar />
                 <Outlet />
               </>
             }
           >
             <Route
               path={ROUTES.SEARCH.CHILDREN.CARDS}
-              element={
-                <SearchResults
-                  isLoading={isLoading}
-                  cardList={cardList}
-                  updateCardList={updateCardList}
-                />
-              }
+              element={<SearchResults />}
             ></Route>
             <Route
               path={ROUTES.SEARCH.CHILDREN.CARDS_NOT_FOUND}
-              element={
-                <CardNotFound
-                  errorCode={errorCode}
-                  updateCardList={updateCardList}
-                />
-              }
+              element={<CardNotFound />}
             ></Route>
           </Route>
           <Route path={ROUTES.ABOUT} element={<About />}></Route>

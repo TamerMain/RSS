@@ -1,45 +1,35 @@
 import getPagination from '../../../utils/getPagination.ts';
 import useStorage from '../../../hooks/useStorage.tsx';
-import { useState } from 'react';
-import { type SearchResponse } from '@/types/types.ts';
 import { type FetchSearchParams } from '@/types/types.ts';
+import { type SearchResponse } from '@/types/types.ts';
 
-type CardPaginationProps = {
-  updateCardList: ({ q, page }: FetchSearchParams) => void;
+type CardPaginationPRops = {
   cardList: SearchResponse;
+  updateCardList: (params: FetchSearchParams) => void;
 };
 
-function CardPagination(props: CardPaginationProps) {
-  const [pageList, setPageList] = useState({
-    list: getPagination({
-      total: props.cardList.total_pages,
-      current: props.cardList.current_page,
-    }),
-  });
+function CardPagination(props: CardPaginationPRops) {
   const { getItem: getRecentSearch } = useStorage('RecentSearch');
 
+  const pageList = getPagination({
+    total: props.cardList.total_pages,
+    current: props.cardList.current_page,
+  });
+
+  if (!pageList) {
+    return null;
+  }
+
   function handlePageClick(e: React.MouseEvent<HTMLButtonElement>) {
-    const newPage = +e.currentTarget.textContent.trim();
-    if (newPage === props.cardList.current_page) {
-      return;
-    }
-
-    const newPageList = getPagination({
-      total: props.cardList.total_pages,
-      current: newPage,
-    });
-    setPageList({
-      list: newPageList,
-    });
-
-    const newTerm = getRecentSearch();
-    props.updateCardList({ q: newTerm, page: newPage });
+    const nextPage = +e.currentTarget.textContent.trim();
+    const term = getRecentSearch();
+    props.updateCardList({ q: term, page: nextPage });
   }
 
   return (
     <div className="flex justify-center gap-2 p-2 align-middle h-9">
-      {pageList.list &&
-        pageList.list.map((page, index) =>
+      {pageList &&
+        pageList.map((page, index) =>
           page === '...' ? (
             <div key={`...+${index}`} className="p-1">
               ...

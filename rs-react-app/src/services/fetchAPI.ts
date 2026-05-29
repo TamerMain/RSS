@@ -45,4 +45,5 @@ export const fetchAPI = createApi({
   }),
 });
 
-export const { useFetchCardListQuery, useFetchCardDetailsQuery } = fetchAPI;
+export const { useLazyFetchCardListQuery, useLazyFetchCardDetailsQuery } =
+  fetchAPI;

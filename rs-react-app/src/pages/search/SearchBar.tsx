@@ -1,33 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import useStorage from '../../hooks/useStorage';
-import { type FetchSearchParams } from '@/types/types.ts';
-import { getInitialParams } from '@/utils/getInitialParams';
+import useLazyFetchCardList from '@/hooks/useLazyFetchCardList';
+import { ROUTES } from '@/constants/routes';
 
-type SearchBarProps = {
-  isLoading: boolean;
-  updateCardList: ({ q, page }: FetchSearchParams) => void;
-};
-
-function SearchBar(props: SearchBarProps) {
+function SearchBar() {
   const { getItem: getRecentSearch, setItem: setRecentSearch } =
     useStorage('RecentSearch');
   const [searchTerm, setSearchTerm] = useState<string>(() => getRecentSearch());
+  const navigate = useNavigate();
+  const { cardList, updateCardList, errorCode, isLoading } =
+    useLazyFetchCardList();
 
   useEffect(() => {
-    const params = getInitialParams();
-    const updateCardList = props.updateCardList;
-
-    if (params) {
-      updateCardList({
-        q: params.q,
-        page: params.page,
-      });
-      setRecentSearch(params.q);
-    } else {
-      const newTerm = getRecentSearch();
-      updateCardList({ q: newTerm, page: 1 });
+    if (cardList) {
+      navigate(ROUTES.SEARCH.CHILDREN.CARDS);
     }
-  }, [getRecentSearch, setRecentSearch, props.updateCardList]);
+    if (errorCode) {
+      navigate(ROUTES.SEARCH.CHILDREN.CARDS_NOT_FOUND);
+    }
+  }, [navigate, cardList, errorCode]);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(e.currentTarget.value);
@@ -40,7 +32,7 @@ function SearchBar(props: SearchBarProps) {
       return;
     }
     setRecentSearch(newTerm);
-    props.updateCardList({ q: newTerm, page: 1 });
+    updateCardList({ q: newTerm, page: 1 });
   }
 
   return (
@@ -56,12 +48,12 @@ function SearchBar(props: SearchBarProps) {
           placeholder="Example: Black Lotus or Lotus"
           value={searchTerm}
           onChange={handleInputChange}
-          disabled={props.isLoading}
+          disabled={isLoading}
         ></input>
         <button
           className="p-2 bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-400 transition-colors duration-400"
           type="submit"
-          disabled={props.isLoading}
+          disabled={isLoading}
         >
           Find Cards
         </button>

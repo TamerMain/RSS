@@ -41,3 +41,17 @@ export type InitialParams =
   | false;
 
 export type ErrorCode = '404' | 'UnknownError' | boolean;
+
+export type UseFetchCardListReturn = {
+  cardList: SearchResponse | undefined;
+  updateCardList: (params: FetchSearchParams) => void;
+  isLoading: boolean;
+  errorCode: ErrorCode;
+};
+
+export type UseFetchDetailsReturn = {
+  detailsCard: DetailsResponse | null | undefined;
+  updateDetails: (id: string | null) => void;
+  isLoading: boolean;
+  errorCode: ErrorCode;
+};

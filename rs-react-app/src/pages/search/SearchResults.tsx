@@ -1,30 +1,36 @@
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router';
+import { SEARCH_PARAMS } from '@/constants/routes.ts';
 import CardPagination from './cards/CardPagination.tsx';
 import CardList from './cards/CardList.tsx';
 import Loader from '../../components/Loader.tsx';
-import { type SearchResponse } from '@/types/types.ts';
-import { type FetchSearchParams } from '@/types/types.ts';
+import useLazyFetchCardList from '@/hooks/useLazyFetchCardList.tsx';
 
-type SearchResultsProps = {
-  isLoading: boolean;
-  cardList: SearchResponse | undefined;
-  updateCardList: ({ q, page }: FetchSearchParams) => void;
-};
+function SearchResults() {
+  const { cardList, updateCardList, isLoading } = useLazyFetchCardList();
+  const [searchParams] = useSearchParams();
+  const q = searchParams.get(SEARCH_PARAMS.QUERY) || '';
+  const page = Number(searchParams.get(SEARCH_PARAMS.PAGE)) || 1;
 
-function SearchResults(props: SearchResultsProps) {
-  if (props.isLoading) return <Loader />;
+  useEffect(() => {
+    updateCardList({ q, page });
+  }, [updateCardList, q, page]);
+
+  if (isLoading) return <Loader />;
+
   return (
     <>
       <div className="flex flex-col fade-in">
         <h1 className="flex justify-center p-2 text-5xl light:text-black">
           Card List
         </h1>
-        {props.cardList && (
+        {cardList && (
           <>
             <CardPagination
-              cardList={props.cardList}
-              updateCardList={props.updateCardList}
+              cardList={cardList}
+              updateCardList={updateCardList}
             />
-            <CardList cardList={props.cardList} />
+            <CardList cardList={cardList} />
           </>
         )}
       </div>

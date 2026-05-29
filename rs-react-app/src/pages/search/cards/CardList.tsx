@@ -3,18 +3,29 @@ import { Routes, Route, Outlet } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import CardItem from './CardItem.tsx';
 import CardMasterDetail from './CardMasterDetail.tsx';
-import { type SearchResponse } from '@/types/types.ts';
 import { toggleItem, type RootState, type CardInfo } from '@/store/store.ts';
+import { type SearchResponse } from '@/types/types.ts';
+import useLazyFetchDetails from '@/hooks/useLazyFetchDetails';
 
-type CardListProps = { cardList: SearchResponse };
+type CardListProps = {
+  cardList: SearchResponse;
+};
 
 function CardList(props: CardListProps) {
-  const [activeCard, setActiveCard] = useState<string | undefined>(undefined);
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
+  const [showDetails, setShowDetails] = useState<string | null>(null);
+  const { detailsCard, updateDetails, isLoading, errorCode } =
+    useLazyFetchDetails();
 
   function handleActiveCardClick(id: string) {
-    setActiveCard(id);
+    updateDetails(id);
+    setShowDetails(id);
+  }
+
+  function handleCloseClick() {
+    updateDetails(null);
+    setShowDetails(null);
   }
 
   function handleToCart(payload: CardInfo) {
@@ -55,11 +66,13 @@ function CardList(props: CardListProps) {
 
   const cardMasterDetail = (
     <>
-      {activeCard && (
+      {showDetails && (
         <div className="w-2/5 flex justify-center">
           <CardMasterDetail
-            setActiveCard={setActiveCard}
-            activeCard={activeCard}
+            detailsCard={detailsCard}
+            isLoading={isLoading}
+            errorCode={errorCode}
+            onCloseClick={handleCloseClick}
           />
         </div>
       )}
