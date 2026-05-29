@@ -6,10 +6,12 @@ import { http, HttpResponse } from 'msw';
 import mockListResponse from '../test-utils/mockListResponse.json';
 import mockListDefaultResponse from '../test-utils/mockListDefaultResponse.json';
 import mockDetailResponse from '../test-utils/mockDetailResponse.json';
-import { FETCH_SEARCH_BASE_URL } from '@/constants/fetch';
+import { clearCart } from '@/store/cartSlice';
+import { fetchAPI } from '@/services/fetchAPI';
+import { store } from '@/store/store';
 
 export const restHandlers = [
-  http.get(FETCH_SEARCH_BASE_URL, ({ request }) => {
+  http.get('https://api.scryfall.com/cards/search', ({ request }) => {
     const url = request.url;
 
     if (
@@ -42,11 +44,17 @@ beforeAll(() => {
   server.listen({ onUnhandledRequest: 'error' });
 });
 
+beforeEach(() => {
+  server.resetHandlers();
+  server.use(...restHandlers);
+});
+
 afterAll(() => server.close());
 
 afterEach(() => {
+  store.dispatch(clearCart());
+  store.dispatch(fetchAPI.util.resetApiState());
   localStorage.clear();
-  server.resetHandlers();
   vi.restoreAllMocks();
   cleanup();
 });

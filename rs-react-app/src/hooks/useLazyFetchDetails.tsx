@@ -8,10 +8,12 @@ export default function useLazyFetchDetails(): UseFetchDetailsReturn {
   const [searchParams, setSearchParams] = useStableSearchParams();
   const details = searchParams.get(SEARCH_PARAMS.DETAILS) || '';
 
-  const { data, isLoading, error, isFetching } =
-    useFetchCardDetailsQuery(details, {
+  const { data, isLoading, error, isFetching } = useFetchCardDetailsQuery(
+    details,
+    {
       skip: !details,
-    });
+    }
+  );
 
   const errorCode = error
     ? 'status' in error && error.status === 404
