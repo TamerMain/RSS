@@ -37,7 +37,7 @@ function CardPagination(props: CardPaginationPRops) {
           ) : (
             <button
               key={page}
-              className={`h-full p-2 cursor-pointer ${props.cardList.current_page === page ? 'text-gray-50' : 'text-gray-400'}  hover:text-gray-50 disabled:cursor-not-allowed disabled:text-gray-400 transition-colors duration-200`}
+              className={`h-full p-2 cursor-pointer ${props.cardList.current_page === page ? 'text-gray-50 light:text-black light:font-semibold' : 'text-gray-400 light:text-gray-600'}  hover:text-gray-50 light:hover:text-black light:hover:font-semibold disabled:cursor-not-allowed disabled:text-gray-400 transition-colors duration-200`}
               onClick={handlePageClick}
             >
               {page}
