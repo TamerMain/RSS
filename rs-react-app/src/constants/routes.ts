@@ -5,7 +5,6 @@ export const ROUTES = {
     BASE: 'search',
     CHILDREN: {
       CARDS: 'cards',
-      CARDS_NOT_FOUND: 'cards-not-found',
     },
   },
   NOT_FOUND: '/*',
@@ -17,7 +16,6 @@ export const NAVIGATION = {
   SEARCH: {
     BASE: '/search',
     CARDS: '/search/cards',
-    CARDS_NOT_FOUND: '/search/cards-not-found',
   },
   NOT_FOUND: '/*',
 } as const;
@@ -31,4 +29,10 @@ export const SEARCH_PARAMS = {
 export const ERROR_CODES = {
   NOT_FOUND: '404',
   UNKNOWN_ERROR: 'UnknownError',
+  UNPROCESSABLE_CONTENT: 'UnprocessableContent',
+} as const;
+
+export const CACHE_TAG = {
+  CARD_LIST: 'Card List',
+  DETAILS: 'Details',
 } as const;

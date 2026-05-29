@@ -4,9 +4,8 @@ import SearchBar from './pages/search/SearchBar.tsx';
 import SearchResults from './pages/search/SearchResults.tsx';
 import About from './pages/about/About.tsx';
 import Navigation from './components/Navigation.tsx';
-import CardNotFound from './pages/search/cards-not-found/CardNotFound.tsx';
 import NotFound from './pages/404/NotFound.tsx';
-import { ROUTES, NAVIGATION } from '@/constants/routes.ts';
+import { ROUTES } from '@/constants/routes.ts';
 
 function App() {
   return (
@@ -16,7 +15,7 @@ function App() {
         <Routes>
           <Route
             path={ROUTES.HOME}
-            element={<Navigate to={NAVIGATION.SEARCH.BASE} replace />}
+            element={<Navigate to={ROUTES.SEARCH.BASE} replace />}
           />
           <Route
             path={ROUTES.SEARCH.BASE}
@@ -28,16 +27,16 @@ function App() {
             }
           >
             <Route
+              index
+              element={<Navigate to={ROUTES.SEARCH.CHILDREN.CARDS} replace />}
+            />
+            <Route
               path={ROUTES.SEARCH.CHILDREN.CARDS}
               element={<SearchResults />}
-            ></Route>
-            <Route
-              path={ROUTES.SEARCH.CHILDREN.CARDS_NOT_FOUND}
-              element={<CardNotFound />}
-            ></Route>
+            />
           </Route>
-          <Route path={ROUTES.ABOUT} element={<About />}></Route>
-          <Route path={ROUTES.NOT_FOUND} element={<NotFound />}></Route>
+          <Route path={ROUTES.ABOUT} element={<About />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </div>

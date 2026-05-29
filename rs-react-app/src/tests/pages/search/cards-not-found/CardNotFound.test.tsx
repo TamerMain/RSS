@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 
-import CardNotFound from '@/pages/search/cards-not-found/CardNotFound';
+import CardNotFound from '@/pages/search/cards/CardNotFound';
 
 describe('CardNotFound -- when error', () => {
   test('should perform search again on refresh button', async () => {

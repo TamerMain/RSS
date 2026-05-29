@@ -1,5 +1,6 @@
 import Loader from '@/components/Loader';
 import { type DetailsResponse, type ErrorCode } from '@/types/types';
+import { ERROR_CODES } from '@/constants/routes';
 
 type CardMasterDetailProps = {
   detailsCard: DetailsResponse | null | undefined;
@@ -17,8 +18,8 @@ function CardMasterDetail(props: CardMasterDetailProps) {
     );
 
   if (
-    props.errorCode === '404' ||
-    props.errorCode === 'UnknownError' ||
+    props.errorCode === ERROR_CODES.NOT_FOUND ||
+    props.errorCode === ERROR_CODES.UNKNOWN_ERROR ||
     !props.detailsCard
   ) {
     return (
@@ -29,10 +30,10 @@ function CardMasterDetail(props: CardMasterDetailProps) {
   }
 
   return (
-    <div className="fixed flex flex-col items-center w-1/4 p-2 bg-mist-800 text-center fade-in">
+    <div className="fixed flex flex-col items-center w-1/4 max-w-[440px] p-2 bg-mist-800 text-center fade-in">
       <div className=" pr-2 ">
         {props.detailsCard.set_name
-          ? props.detailsCard.set_name + 'Set'
+          ? props.detailsCard.set_name + ' Set'
           : 'Set Not Found'}
       </div>
       <h2 className="text-2xl">

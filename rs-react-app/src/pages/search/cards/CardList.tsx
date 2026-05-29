@@ -1,11 +1,13 @@
-import { useState } from 'react';
-import { Routes, Route, Outlet } from 'react-router';
+import { useState, useEffect } from 'react';
+import { Routes, Route, Outlet, useSearchParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import CardItem from './CardItem.tsx';
 import CardMasterDetail from './CardMasterDetail.tsx';
-import { toggleItem, type RootState, type CardInfo } from '@/store/store.ts';
+import { toggleItem, type CardInfo } from '@/store/cartSlice.ts';
+import { type RootState } from '@/store/store.ts';
 import { type SearchResponse } from '@/types/types.ts';
 import useLazyFetchDetails from '@/hooks/useLazyFetchDetails';
+import { SEARCH_PARAMS } from '@/constants/routes.ts';
 
 type CardListProps = {
   cardList: SearchResponse;
@@ -14,18 +16,27 @@ type CardListProps = {
 function CardList(props: CardListProps) {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
-  const [showDetails, setShowDetails] = useState<string | null>(null);
+  const [showDetails, setShowDetails] = useState<boolean>(true);
   const { detailsCard, updateDetails, isLoading, errorCode } =
     useLazyFetchDetails();
 
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get(SEARCH_PARAMS.DETAILS);
+
+  useEffect(() => {
+    if (id) {
+      updateDetails(id);
+    }
+  }, [id, updateDetails]);
+
   function handleActiveCardClick(id: string) {
     updateDetails(id);
-    setShowDetails(id);
+    setShowDetails(true);
   }
 
   function handleCloseClick() {
     updateDetails(null);
-    setShowDetails(null);
+    setShowDetails(false);
   }
 
   function handleToCart(payload: CardInfo) {
@@ -66,7 +77,7 @@ function CardList(props: CardListProps) {
 
   const cardMasterDetail = (
     <>
-      {showDetails && (
+      {showDetails && detailsCard && (
         <div className="w-2/5 flex justify-center">
           <CardMasterDetail
             detailsCard={detailsCard}

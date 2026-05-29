@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { type RootState } from '@/store/store';
-import { clearCart } from '@/store/store.ts';
+import { clearCart } from '@/store/cartSlice';
 import DownloadButton from './DownloadButton';
 
 function Cart() {

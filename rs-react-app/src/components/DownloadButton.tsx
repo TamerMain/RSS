@@ -1,4 +1,4 @@
-import { type CardInfo } from '@/store/store';
+import { type CardInfo } from '@/store/cartSlice';
 
 function detailsURL(search: string, page: number, name: string) {
   const origin = window.location.origin;
@@ -13,7 +13,7 @@ function DownloadButton(props: { cart: CardInfo[] }) {
       'This file contains your selected card information.\r\nSuch as Name, ID and Description link to original art and details URL which is not impelemented yet for direct access from browser.\r\n\r\n';
     const contentBody = props.cart
       .map((item, index) => {
-        return `------- Card ${index+1} -------\r\nName: ${item.name}\r\nScryfall unique ID: ${item.id}\r\nOriginal Art: ${item.imageSrc ? item.imageSrc : 'No art available'}\r\nDetails URL: ${detailsURL(item.search, item.page, item.name)}.\r\n`;
+        return `------- Card ${index + 1} -------\r\nName: ${item.name}\r\nScryfall unique ID: ${item.id}\r\nOriginal Art: ${item.imageSrc ? item.imageSrc : 'No art available'}\r\nDetails URL: ${detailsURL(item.search, item.page, item.name)}.\r\n`;
       })
       .join('\r\n');
     const content = `${contentHeader + contentBody}`;

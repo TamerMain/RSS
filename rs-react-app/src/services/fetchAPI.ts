@@ -17,6 +17,7 @@ import { transformFetchSearchResponse } from '@/utils/transformFetchSearchRespon
 
 export const fetchAPI = createApi({
   reducerPath: 'fetch',
+  tagTypes: ['Card List', 'Details'],
   baseQuery: fetchBaseQuery({
     baseUrl: FETCH_BASE_URL,
     prepareHeaders: (headers) => {
@@ -36,14 +37,15 @@ export const fetchAPI = createApi({
         _meta,
         params: FetchSearchParams
       ) => transformFetchSearchResponse(res, params),
-      keepUnusedDataFor: 600,
+      keepUnusedDataFor: 15000,
+      providesTags: ['Card List'],
     }),
     fetchCardDetails: builder.query<DetailsResponse, string>({
       query: (id) => `${FETCH_DETAILS_URL}${id}`,
-      keepUnusedDataFor: 600,
+      keepUnusedDataFor: 15000,
+      providesTags: ['Details'],
     }),
   }),
 });
 
-export const { useLazyFetchCardListQuery, useLazyFetchCardDetailsQuery } =
-  fetchAPI;
+export const { useFetchCardListQuery, useFetchCardDetailsQuery } = fetchAPI;

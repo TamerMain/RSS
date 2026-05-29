@@ -1,25 +1,12 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useState } from 'react';
 import useStorage from '../../hooks/useStorage';
 import useLazyFetchCardList from '@/hooks/useLazyFetchCardList';
-import { ROUTES } from '@/constants/routes';
 
 function SearchBar() {
   const { getItem: getRecentSearch, setItem: setRecentSearch } =
     useStorage('RecentSearch');
   const [searchTerm, setSearchTerm] = useState<string>(() => getRecentSearch());
-  const navigate = useNavigate();
-  const { cardList, updateCardList, errorCode, isLoading } =
-    useLazyFetchCardList();
-
-  useEffect(() => {
-    if (cardList) {
-      navigate(ROUTES.SEARCH.CHILDREN.CARDS);
-    }
-    if (errorCode) {
-      navigate(ROUTES.SEARCH.CHILDREN.CARDS_NOT_FOUND);
-    }
-  }, [navigate, cardList, errorCode]);
+  const { updateCardList, isLoading } = useLazyFetchCardList();
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(e.currentTarget.value);
@@ -28,9 +15,6 @@ function SearchBar() {
   function handleSearchSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const newTerm = searchTerm.trim();
-    if (getRecentSearch() === newTerm) {
-      return;
-    }
     setRecentSearch(newTerm);
     updateCardList({ q: newTerm, page: 1 });
   }

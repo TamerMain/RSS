@@ -24,6 +24,7 @@ function CardItem(props: CardItemProps) {
               width="480"
               height="680"
               loading="lazy"
+              decoding="async"
             ></img>
             <button
               onClick={props.onToCartClick}
