@@ -3,6 +3,7 @@ import {
   createSlice,
   type PayloadAction,
 } from '@reduxjs/toolkit';
+import { fetchAPI } from '@/services/fetchAPI';
 
 export type CardInfo = {
   name: string;
@@ -30,7 +31,14 @@ const cartSlice = createSlice({
 export const { toggleItem, clearCart } = cartSlice.actions;
 
 export const store = configureStore({
-  reducer: { cart: cartSlice.reducer },
+  reducer: {
+    cart: cartSlice.reducer,
+    [fetchAPI.reducerPath]: fetchAPI.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(fetchAPI.middleware),
 });
+
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch; // Add this for dispatch typing
 export default store;

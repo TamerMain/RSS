@@ -3,7 +3,7 @@ import { Routes, Route, Outlet } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import CardItem from './CardItem.tsx';
 import CardMasterDetail from './CardMasterDetail.tsx';
-import { type SearchResponse } from '../../../services/fetchCardList.tsx';
+import { type SearchResponse } from '@/types/types.ts';
 import { toggleItem, type RootState, type CardInfo } from '@/store/store.ts';
 
 type CardListProps = { cardList: SearchResponse };
@@ -42,7 +42,7 @@ function CardList(props: CardListProps) {
                   card?.image_uris?.normal ||
                   card?.card_faces?.[0]?.image_uris?.normal,
                 page: props.cardList.current_page,
-                search: props.cardList.search_term
+                search: props.cardList.search_term,
               });
             }}
             onActiveCardClick={() => handleActiveCardClick(card.id)}

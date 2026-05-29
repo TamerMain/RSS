@@ -1,13 +1,13 @@
 import CardPagination from './cards/CardPagination.tsx';
 import CardList from './cards/CardList.tsx';
 import Loader from '../../components/Loader.tsx';
-import { type SearchResponse } from '../../services/fetchCardList.tsx';
-import { type SearchQuery } from '@/hooks/useFetchCardList.tsx';
+import { type SearchResponse } from '@/types/types.ts';
+import { type FetchSearchParams } from '@/types/types.ts';
 
 type SearchResultsProps = {
   isLoading: boolean;
-  cardList: SearchResponse | null;
-  updateCardList: ({ q, page }: SearchQuery) => void;
+  cardList: SearchResponse | undefined;
+  updateCardList: ({ q, page }: FetchSearchParams) => void;
 };
 
 function SearchResults(props: SearchResultsProps) {

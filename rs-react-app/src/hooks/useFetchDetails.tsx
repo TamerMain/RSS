@@ -1,53 +1,52 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router';
-import { detailsRequest, type DetailsResponse } from '../services/fetchDetails';
-import { createCardSearchParams } from '@/utils/getParams';
+import { createCardSearchParams } from '@/utils/createCardSearchParams';
 import { NAVIGATION, ERROR_CODES } from '@/constants/routes';
+import { useFetchCardDetailsQuery } from '@/services/fetchAPI';
 
 export type ErrorCode = '404' | 'UnknownError' | false;
 
 export default function useFetchDetails() {
-  const [detailsCard, setDetailsCard] = useState<DetailsResponse | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorCode, setErrorCode] = useState<ErrorCode>(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const locationRef = useRef(location);
+  const [cardId, setCardId] = useState<string | null>(null);
 
-  useEffect(() => {
-    locationRef.current = location;
-  }, [location]);
+  const {
+    data: detailsCard,
+    isLoading,
+    error,
+    isFetching,
+    refetch,
+  } = useFetchCardDetailsQuery(cardId || '', {
+    skip: !cardId,
+  });
+
+  const errorCode = error
+    ? 'status' in error && error.status === 404
+      ? ERROR_CODES.NOT_FOUND
+      : ERROR_CODES.UNKNOWN_ERROR
+    : false;
 
   const updateDetailsCard = useCallback(
     async (id: string) => {
-      setErrorCode(false);
-      setIsLoading(true);
+      setCardId(id);
 
-      try {
-        const card = await detailsRequest(id);
-        navigate({
-          pathname: NAVIGATION.SEARCH.CARDS,
-          search: createCardSearchParams({
-            location: locationRef.current.search,
-            details: card.id,
-          }),
-        });
-        window.setTimeout(() => {
-          setDetailsCard(card);
-          setIsLoading(false);
-        }, 500);
-      } catch (err) {
-        setDetailsCard(null);
-        if (err instanceof Error && err.message === ERROR_CODES.NOT_FOUND) {
-          setErrorCode(ERROR_CODES.NOT_FOUND);
-        } else {
-          setErrorCode(ERROR_CODES.UNKNOWN_ERROR);
-        }
-
-        setIsLoading(false);
-      }
+      navigate({
+        pathname: NAVIGATION.SEARCH.CARDS,
+        search: createCardSearchParams({
+          location: location.search,
+          details: id,
+        }),
+      });
     },
-    [navigate]
+    [navigate, location.search]
   );
-  return { detailsCard, updateDetailsCard, navigate, isLoading, errorCode };
+
+  return {
+    detailsCard,
+    updateDetailsCard,
+    isLoading: isLoading || isFetching,
+    errorCode,
+    refetch,
+  };
 }

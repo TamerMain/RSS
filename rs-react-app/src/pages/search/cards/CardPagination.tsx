@@ -1,11 +1,11 @@
 import getPagination from '../../../utils/getPagination.ts';
 import useStorage from '../../../hooks/useStorage.tsx';
 import { useState } from 'react';
-import type { SearchResponse } from '../../../services/fetchCardList.tsx';
-import { type SearchQuery } from '@/hooks/useFetchCardList.tsx';
+import { type SearchResponse } from '@/types/types.ts';
+import { type FetchSearchParams } from '@/types/types.ts';
 
 type CardPaginationProps = {
-  updateCardList: ({ q, page }: SearchQuery) => void;
+  updateCardList: ({ q, page }: FetchSearchParams) => void;
   cardList: SearchResponse;
 };
 

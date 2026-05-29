@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router';
 import useStorage from '../../../hooks/useStorage';
-import { type SearchQuery, type ErrorCode } from '@/hooks/useFetchCardList';
+import { type FetchSearchParams, type ErrorCode } from '@/types/types';
 import { NAVIGATION, ERROR_CODES } from '@/constants/routes';
 
 type CardNotFoundProps = {
   errorCode: ErrorCode;
-  updateCardList: ({ q, page }: SearchQuery) => void;
+  updateCardList: ({ q, page }: FetchSearchParams) => void;
 };
 
 function CardNotFound(props: CardNotFoundProps) {

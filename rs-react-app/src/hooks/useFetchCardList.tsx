@@ -1,54 +1,57 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import {
-  searchRequest,
-  type SearchResponse,
-} from '../services/fetchCardList.tsx';
-import { createCardSearchParams } from '@/utils/getParams.ts';
+import { createCardSearchParams } from '@/utils/createCardSearchParams.ts';
 import { NAVIGATION, ERROR_CODES } from '@/constants/routes';
+import { useFetchCardListQuery } from '@/services/fetchAPI.ts';
+import { type FetchSearchParams } from '@/types/types.ts';
 
 export type ErrorCode = '404' | 'UnknownError' | false;
-export type SearchQuery = {
-  q?: string | '';
-  page?: number | 1;
-};
 
 export default function useFetchCardList() {
-  const [cardList, setCardList] = useState<SearchResponse | null>(null);
-  const [errorCode, setErrorCode] = useState<ErrorCode>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const [params, setParams] = useState<FetchSearchParams>({
+    q: '',
+    page: 1,
+  });
+
+  const {
+    data: cardList,
+    isLoading,
+    error,
+    isFetching,
+    refetch,
+  } = useFetchCardListQuery(
+    { q: params.q || '', page: params.page || 1 },
+  );
+
+  const errorCode = error
+    ? 'status' in error && error.status === 404
+      ? ERROR_CODES.NOT_FOUND
+      : ERROR_CODES.UNKNOWN_ERROR
+    : false;
 
   const updateCardList = useCallback(
-    async ({ q = '', page = 1 }: SearchQuery) => {
-      setErrorCode(false);
-      setIsLoading(true);
-      try {
-        const cardList = await searchRequest(q, page);
-        navigate({
-          pathname: NAVIGATION.SEARCH.CARDS,
-          search: createCardSearchParams({
-            q: q,
-            page: page,
-          }),
-        });
-        window.setTimeout(() => {
-          setCardList(cardList);
-          setIsLoading(false);
-        }, 500);
-      } catch (err) {
-        setCardList(null);
-        if (err instanceof Error && err.message === ERROR_CODES.NOT_FOUND) {
-          setErrorCode(ERROR_CODES.NOT_FOUND);
-        } else {
-          setErrorCode(ERROR_CODES.UNKNOWN_ERROR);
-        }
-        setIsLoading(false); 
-        navigate(NAVIGATION.SEARCH.CARDS_NOT_FOUND);
-      }
+    async ({ q = '1', page = 1 }: FetchSearchParams) => {
+      setParams({ q, page });
+      navigate({
+        pathname: NAVIGATION.SEARCH.CARDS,
+        search: createCardSearchParams({ q, page }),
+      });
     },
     [navigate]
   );
 
-  return { cardList, updateCardList, isLoading, errorCode };
+  useEffect(() => {
+    if (error && 'status' in error && error.status === 404) {
+      navigate(NAVIGATION.SEARCH.CARDS_NOT_FOUND);
+    }
+  }, [error, navigate]);
+
+  return {
+    cardList,
+    updateCardList,
+    isLoading: isLoading || isFetching,
+    errorCode,
+    refetch,
+  };
 }

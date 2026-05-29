@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import useFetchDetails from '@/hooks/useFetchDetails';
 import Loader from '@/components/Loader';
-import { createCardSearchParams } from '@/utils/getParams';
+import { createCardSearchParams } from '@/utils/createCardSearchParams';
 import { NAVIGATION } from '@/constants/routes';
 
 type CardMasterDetailProps = {
@@ -11,9 +11,10 @@ type CardMasterDetailProps = {
 };
 
 function CardMasterDetail(props: CardMasterDetailProps) {
-  const { detailsCard, updateDetailsCard, navigate, isLoading, errorCode } =
+  const { detailsCard, updateDetailsCard, isLoading, errorCode } =
     useFetchDetails();
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     updateDetailsCard(props.activeCard);

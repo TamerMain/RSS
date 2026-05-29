@@ -1,14 +1,10 @@
-export const FETCH_SEARCH_BASE_URL = 'https://api.scryfall.com/cards/search';
-export const FETCH_DETAILS_BASE_URL = 'https://api.scryfall.com/cards/';
+export const FETCH_BASE_URL = 'https://api.scryfall.com';
+export const FETCH_SEARCH_URL = 'cards/search?';
+export const FETCH_DETAILS_URL = 'cards/';
 
-export const GET_HEADERS = {
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json; charset=utf-8',
-    Accept: 'application/json;q=0.9,*/*;q=0.8',
-    
-  },
-} as const;
+export const FETCH_METHOD = 'GET' as const;
+export const FETCH_CONTENT_TYPE = 'application/json; charset=utf-8';
+export const FETCH_CONTENT_ACCEPT = 'application/json;q=0.9,*/*;q=0.8';
 
 export const CARD_PER_PAGE = 175;
 

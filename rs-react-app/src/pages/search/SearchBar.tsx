@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import useStorage from '../../hooks/useStorage';
-import { type SearchQuery } from '@/hooks/useFetchCardList';
-import { getInitialParams } from '@/utils/getParams';
+import { type FetchSearchParams } from '@/types/types.ts';
+import { getInitialParams } from '@/utils/getInitialParams';
 
 type SearchBarProps = {
   isLoading: boolean;
-  updateCardList: ({ q, page }: SearchQuery) => void;
+  updateCardList: ({ q, page }: FetchSearchParams) => void;
 };
 
 function SearchBar(props: SearchBarProps) {
@@ -15,17 +15,17 @@ function SearchBar(props: SearchBarProps) {
 
   useEffect(() => {
     const params = getInitialParams();
-    const updateResultList = props.updateCardList;
+    const updateCardList = props.updateCardList;
 
     if (params) {
-      updateResultList({
+      updateCardList({
         q: params.q,
         page: params.page,
       });
       setRecentSearch(params.q);
     } else {
       const newTerm = getRecentSearch();
-      updateResultList({ q: newTerm, page: 1 });
+      updateCardList({ q: newTerm, page: 1 });
     }
   }, [getRecentSearch, setRecentSearch, props.updateCardList]);
 
@@ -40,7 +40,7 @@ function SearchBar(props: SearchBarProps) {
       return;
     }
     setRecentSearch(newTerm);
-    props.updateCardList({ q: newTerm });
+    props.updateCardList({ q: newTerm, page: 1 });
   }
 
   return (
