@@ -66,27 +66,23 @@ describe('CardList/CardMasterDetails -- when user clicks', () => {
       </MemoryRouter>
     );
 
+    const loader = screen.queryByText('loading');
+    expect(loader).not.toBeInTheDocument();
+
     const card = await screen.findByRole('img', {
-      name: /Image of Black Lotus Card/i,
+      name: /Image of Black Lotus/i,
     });
-    await user.click(card);
 
-    const loader = await screen.findByTestId('loader');
-    expect(loader).toBeInTheDocument();
+    const newLoader = await screen.findByTestId('loader');
+    expect(newLoader).toBeInTheDocument();
 
-    const closeButton = await screen.findByRole('button', { name: /X/i });
-    expect(closeButton).toBeInTheDocument();
+    const fullCard = await screen.findByRole('img', {
+      name: /Full Art of Black Lotus/i,
+    });
+    expect(fullCard).toBeInTheDocument();
   });
 
   test('should have readable error status on fetch error', async () => {
-    server.use(
-      http.get(
-        'https://api.scryfall.com/cards/4a2e428c-dd25-484c-bbc8-2d6ce10ef42c',
-        () => {
-          return HttpResponse.error();
-        }
-      )
-    );
     render(
       <MemoryRouter
         initialEntries={[

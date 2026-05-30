@@ -10,10 +10,11 @@ import { clearCart } from '@/store/cartSlice';
 import { fetchAPI } from '@/services/fetchAPI';
 import { store } from '@/store/store';
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export const restHandlers = [
-  http.get('https://api.scryfall.com/cards/search', ({ request }) => {
+  http.get('https://api.scryfall.com/cards/search', async ({ request }) => {
+    await delay(600);
     const url = request.url;
-
     if (
       url ===
       'https://api.scryfall.com/cards/search?page=1&q=Lotus+game%3Apaper'
@@ -30,12 +31,17 @@ export const restHandlers = [
     return new HttpResponse(null, { status: 404 });
   }),
 
-  http.get(
-    'https://api.scryfall.com/cards/4a2e428c-dd25-484c-bbc8-2d6ce10ef42c',
-    () => {
+  http.get('https://api.scryfall.com/cards/*', async ({ request }) => {
+    await delay(600);
+    const url = request.url;
+    if (
+      url ===
+      'https://api.scryfall.com/cards/4a2e428c-dd25-484c-bbc8-2d6ce10ef42c'
+    ) {
       return HttpResponse.json(mockDetailResponse);
     }
-  ),
+    return new HttpResponse(null, { status: 404 });
+  }),
 ];
 
 export const server = setupServer(...restHandlers);

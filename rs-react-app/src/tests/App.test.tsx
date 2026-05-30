@@ -213,6 +213,8 @@ describe('SearchResults -- when loading', () => {
     });
   });
   test('should show loading spinner ', async () => {
+    const delay = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
     render(
       <MemoryRouter initialEntries={['/search/cards']}>
         <Provider store={store}>
@@ -222,10 +224,11 @@ describe('SearchResults -- when loading', () => {
     );
     const loading = await screen.findAllByText(/⟡/);
     expect(loading).toHaveLength(2);
-    await waitFor(() => {
-      const loadingAfter = screen.queryAllByText(/⟡/);
-      expect(loadingAfter).toHaveLength(0);
-    });
+    
+    await delay(2000);
+
+    const loadingAfter = screen.queryAllByText(/⟡/);
+    expect(loadingAfter).toHaveLength(0);
   });
 });
 
