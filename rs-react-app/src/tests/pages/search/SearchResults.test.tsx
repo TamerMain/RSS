@@ -126,6 +126,11 @@ describe('SearchResults -- when accessing from link', () => {
       status: 'Page Must Be A Number',
       expectedItems: 0,
     },
+    {
+      params: TEST_SEARCH_PARAMS.PAGE_ZERO,
+      status: 'Page Cant Be Zero',
+      expectedItems: 0,
+    },
   ])(
     'should render $expectedItems cards when $params and $status message',
     async ({ params, status, expectedItems }) => {

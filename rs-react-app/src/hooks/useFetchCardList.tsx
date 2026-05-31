@@ -24,6 +24,9 @@ export default function useFetchCardList({
     if (isNaN(Number(page))) {
       return ERROR_CODES.NOT_NUMBER;
     }
+    if (page === 0) {
+      return ERROR_CODES.NOT_ZERO;
+    }
     if (!error) return false;
     const status = 'status' in error ? error.status : null;
     switch (status) {

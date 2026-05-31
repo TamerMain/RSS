@@ -6,18 +6,18 @@ import useStorage from './useStorage';
 
 export default function useCardListSearchParams() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { getItem: getRecentSearch } =
-    useStorage('RecentSearch');
+  const { getItem: getRecentSearch } = useStorage('RecentSearch');
 
   useEffect(() => {
     const hasQuery = searchParams.has(SEARCH_PARAMS.QUERY);
     const hasPage = searchParams.has(SEARCH_PARAMS.PAGE);
+    const query = searchParams.get(SEARCH_PARAMS.QUERY);
+    const page = searchParams.get(SEARCH_PARAMS.PAGE);
 
     if (!hasQuery || !hasPage) {
       setSearchParams({
-        q:
-          searchParams.get(SEARCH_PARAMS.QUERY) || getRecentSearch() || '',
-        page: searchParams.get(SEARCH_PARAMS.PAGE) || '1',
+        q: query || (query === '' && '') || getRecentSearch() || '',
+        page: page || '1',
       });
     }
   }, [setSearchParams, getRecentSearch]);

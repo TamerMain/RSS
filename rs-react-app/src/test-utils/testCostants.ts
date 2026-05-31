@@ -33,6 +33,7 @@ export const TEST_SEARCH_PARAMS = {
   INVALID: '?q=INVALID&page=1',
   NO_PAGE: '?q=Lotus&page=200',
   PAGE_NOT_NUMBER: '?q=Lotus&page=INVALID',
+  PAGE_ZERO: '?q=Lotus&page=0',
 } as const;
 
 export const TEST_DETAILS_PARAMS = {

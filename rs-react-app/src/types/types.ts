@@ -54,4 +54,5 @@ export type ErrorCode =
   | 'UnknownError'
   | 'UnprocessableContent'
   | 'NotANumber'
+  | 'NotAZero'
   | boolean;
