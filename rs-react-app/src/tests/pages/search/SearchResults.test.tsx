@@ -35,7 +35,7 @@ describe('SearchResults -- when initial load', () => {
   test('should check local storage for search term', () => {
     const storageGetSpy = vi.spyOn(Storage.prototype, 'getItem');
     render(
-      <MemoryRouter initialEntries={['/search/cards']}>
+      <MemoryRouter initialEntries={[TEST_SEARCH_URL]}>
         <Provider store={store}>
           <SearchResults />
         </Provider>

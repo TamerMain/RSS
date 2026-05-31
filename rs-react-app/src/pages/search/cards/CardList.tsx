@@ -27,7 +27,7 @@ function CardList(props: CardListProps) {
     setSearchParams({ id: null });
   }
 
-  function handleToCart(payload: CardInfo) {
+  function handleToCartClick(payload: CardInfo) {
     dispatch(toggleItem(payload));
   }
 
@@ -45,7 +45,7 @@ function CardList(props: CardListProps) {
             isInCart={cart.some((cartItem) => cartItem.name === card.name)}
             onToCartClick={(e) => {
               e.stopPropagation();
-              handleToCart({
+              handleToCartClick({
                 name: card.name,
                 id: card.id,
                 imageSrc:
