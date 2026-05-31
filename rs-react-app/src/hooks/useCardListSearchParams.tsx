@@ -6,21 +6,8 @@ import useStorage from './useStorage';
 
 export default function useCardListSearchParams() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { getItem: getRecentSearch } = useStorage('RecentSearch');
-
-  useEffect(() => {
-    const hasQuery = searchParams.has(SEARCH_PARAMS.QUERY);
-    const hasPage = searchParams.has(SEARCH_PARAMS.PAGE);
-    const query = searchParams.get(SEARCH_PARAMS.QUERY);
-    const page = searchParams.get(SEARCH_PARAMS.PAGE);
-
-    if (!hasQuery || !hasPage) {
-      setSearchParams({
-        q: query === '' ? '' : query || getRecentSearch() || '',
-        page: page || '1',
-      });
-    }
-  }, [setSearchParams, getRecentSearch]);
+  const { getItem: getRecentSearch, setItem: setRecentSearch } =
+    useStorage('RecentSearch');
 
   const currentParams: FetchSearchParams = {
     [SEARCH_PARAMS.QUERY]:
@@ -28,11 +15,38 @@ export default function useCardListSearchParams() {
     [SEARCH_PARAMS.PAGE]: Number(searchParams.get(SEARCH_PARAMS.PAGE)),
   };
 
+  useEffect(() => {
+    if (
+      !searchParams.has(SEARCH_PARAMS.QUERY) ||
+      !searchParams.has(SEARCH_PARAMS.PAGE)
+    ) {
+      if (getRecentSearch()) {
+        setSearchParams((prev) => {
+          prev.set('q', getRecentSearch());
+          prev.set('page', String(1));
+          return prev;
+        });
+      } else {
+        setSearchParams((prev) => {
+          prev.set('q', String(''));
+          prev.set('page', String(1));
+          return prev;
+        });
+      }
+    }
+    if (
+      searchParams.has(SEARCH_PARAMS.QUERY) &&
+      searchParams.has(SEARCH_PARAMS.PAGE) &&
+      searchParams.get(SEARCH_PARAMS.QUERY) === ''
+    ) {
+      setRecentSearch('');
+    }
+  });
+
   const updateParams = (newParams: FetchSearchParams) => {
     setSearchParams((prev) => {
-      if (newParams.q !== null) prev.set(SEARCH_PARAMS.QUERY, newParams.q);
-      if (newParams.page !== null)
-        prev.set(SEARCH_PARAMS.PAGE, String(newParams.page));
+      prev.set(SEARCH_PARAMS.QUERY, newParams.q);
+      prev.set(SEARCH_PARAMS.PAGE, String(newParams.page));
       return prev;
     });
   };

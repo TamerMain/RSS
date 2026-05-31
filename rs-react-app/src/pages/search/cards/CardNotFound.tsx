@@ -13,8 +13,8 @@ function CardNotFound(props: CardNotFoundProps) {
   const navigate = useNavigate();
 
   function handleSearchAgainClick() {
+    navigate(NAVIGATION.HOME);
     props.setSearchParams({ q: '', page: 1 });
-    navigate(NAVIGATION.SEARCH.CARDS);
     setRecentSearch('');
   }
 
@@ -29,6 +29,8 @@ function CardNotFound(props: CardNotFoundProps) {
         {props.errorCode === ERROR_CODES.UNPROCESSABLE_CONTENT &&
           'No Cards Found On That Page'}
         {props.errorCode === ERROR_CODES.NOT_ZERO && 'Page Cant Be Zero'}
+        {props.errorCode === ERROR_CODES.NOT_NATURAL &&
+          'Page Can Only Positive Whole Number '}
       </h1>
       <button
         className="p-3 text-xl bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-400 transition-colors duration-400"

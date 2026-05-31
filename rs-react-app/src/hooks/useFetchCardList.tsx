@@ -16,7 +16,8 @@ export default function useFetchCardList({
       page,
     },
     {
-      skip: !page || isNaN(Number(page)),
+      skip:
+        !page || isNaN(Number(page)) || !Number.isInteger(page) || page <= 0,
     }
   );
 
@@ -26,6 +27,9 @@ export default function useFetchCardList({
     }
     if (page === 0) {
       return ERROR_CODES.NOT_ZERO;
+    }
+    if (!Number.isInteger(page) || page <= 0) {
+      return ERROR_CODES.NOT_NATURAL;
     }
     if (!error) return false;
     const status = 'status' in error ? error.status : null;

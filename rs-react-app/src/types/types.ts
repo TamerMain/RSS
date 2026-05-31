@@ -55,4 +55,5 @@ export type ErrorCode =
   | 'UnprocessableContent'
   | 'NotANumber'
   | 'NotAZero'
+  | 'NotNatural'
   | boolean;

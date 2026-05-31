@@ -30,8 +30,9 @@ export const ERROR_CODES = {
   NOT_FOUND: '404',
   UNKNOWN_ERROR: 'UnknownError',
   UNPROCESSABLE_CONTENT: 'UnprocessableContent',
-  NOT_NUMBER: "NotANumber",
-  NOT_ZERO: "NotAZero"
+  NOT_NUMBER: 'NotANumber',
+  NOT_ZERO: 'NotAZero',
+  NOT_NATURAL: 'NotNatural',
 } as const;
 
 export const CACHE_TAG = {
