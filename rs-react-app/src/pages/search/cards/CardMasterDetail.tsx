@@ -3,7 +3,7 @@ import { useLocation } from 'react-router';
 import useFetchDetails from '@/hooks/useFetchDetails';
 import Loader from '@/components/Loader';
 import { createCardSearchParams } from '@/utils/getParams';
-import { NAVIGATION, ERROR_CODES } from '@/constants/routes';
+import { NAVIGATION } from '@/constants/routes';
 
 type CardMasterDetailProps = {
   activeCard: string;
