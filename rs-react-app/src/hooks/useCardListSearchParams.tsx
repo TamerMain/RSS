@@ -16,7 +16,7 @@ export default function useCardListSearchParams() {
 
     if (!hasQuery || !hasPage) {
       setSearchParams({
-        q: query || (query === '' && '') || getRecentSearch() || '',
+        q: query === '' ? '' : query || getRecentSearch() || '',
         page: page || '1',
       });
     }
