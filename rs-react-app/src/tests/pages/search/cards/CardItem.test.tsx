@@ -9,7 +9,7 @@ describe('CardItem -- when render', () => {
         cardImageSrc="Card.png"
         isInCart={false}
         onToCartClick={vi.fn()}
-        onActiveCardClick={vi.fn()}
+        onOpenDetailsClick={vi.fn()}
       />
     );
     const image = screen.getByRole('img');
@@ -25,7 +25,7 @@ describe('CardItem -- when render', () => {
         cardImageSrc={undefined}
         isInCart={false}
         onToCartClick={vi.fn()}
-        onActiveCardClick={vi.fn()}
+        onOpenDetailsClick={vi.fn()}
       />
     );
     const image = screen.queryByRole('img');
