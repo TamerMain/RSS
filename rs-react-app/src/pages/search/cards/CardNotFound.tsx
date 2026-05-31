@@ -4,7 +4,7 @@ import { NAVIGATION, ERROR_CODES } from '@/constants/routes';
 import { type FetchSearchParams, type ErrorCode } from '@/types/types';
 
 type CardNotFoundProps = {
-  updateCardList: (params: FetchSearchParams) => void;
+  setSearchParams: (newParams: FetchSearchParams) => void;
   errorCode: ErrorCode;
 };
 
@@ -13,7 +13,7 @@ function CardNotFound(props: CardNotFoundProps) {
   const navigate = useNavigate();
 
   function handleSearchAgainClick() {
-    props.updateCardList({ q: '', page: 1 });
+    props.setSearchParams({ q: '', page: 1 });
     navigate(NAVIGATION.SEARCH.CARDS);
     setRecentSearch('');
   }
@@ -23,10 +23,12 @@ function CardNotFound(props: CardNotFoundProps) {
       <h1 className="p-2 text-5xl">
         {props.errorCode === ERROR_CODES.NOT_FOUND &&
           'No Cards Found With That Name'}
-        {props.errorCode === ERROR_CODES.UNPROCESSABLE_CONTENT &&
-          'No Cards Found On That Page'}
         {props.errorCode === ERROR_CODES.UNKNOWN_ERROR &&
           'Something Went Wrong'}
+        {props.errorCode === ERROR_CODES.UNPROCESSABLE_CONTENT &&
+          'No Cards Found On That Page'}
+        {props.errorCode === ERROR_CODES.NOT_NUMBER &&
+          'Page Have To Be A Number'}
       </h1>
       <button
         className="p-3 text-xl bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-400 transition-colors duration-400"

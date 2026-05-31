@@ -23,13 +23,14 @@ export const NAVIGATION = {
 export const SEARCH_PARAMS = {
   QUERY: 'q',
   PAGE: 'page',
-  DETAILS: 'details',
+  DETAILS: 'id',
 } as const;
 
 export const ERROR_CODES = {
   NOT_FOUND: '404',
   UNKNOWN_ERROR: 'UnknownError',
   UNPROCESSABLE_CONTENT: 'UnprocessableContent',
+  NOT_NUMBER: "NotANumber"
 } as const;
 
 export const CACHE_TAG = {

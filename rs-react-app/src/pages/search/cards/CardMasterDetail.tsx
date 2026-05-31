@@ -25,6 +25,14 @@ function CardMasterDetail(props: CardMasterDetailProps) {
     return (
       <div className="fixed flex flex-col items-center w-1/4 p-2 bg-mist-800 text-center fade-in">
         <h2 className="text-2xl">Details not found for that card.</h2>
+        <button
+          className="absolute  right-0 top-0 p-2 cursor-pointer"
+          onClick={() => {
+            props.onCloseClick();
+          }}
+        >
+          X
+        </button>
       </div>
     );
   }

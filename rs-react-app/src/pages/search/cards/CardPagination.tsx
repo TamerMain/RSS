@@ -1,29 +1,21 @@
 import getPagination from '../../../utils/getPagination.ts';
-import useStorage from '../../../hooks/useStorage.tsx';
 import { type FetchSearchParams } from '@/types/types.ts';
 import { type SearchResponse } from '@/types/types.ts';
 
 type CardPaginationPRops = {
   cardList: SearchResponse;
-  updateCardList: (params: FetchSearchParams) => void;
+  setSearchParams: (newParams: FetchSearchParams) => void;
 };
 
 function CardPagination(props: CardPaginationPRops) {
-  const { getItem: getRecentSearch } = useStorage('RecentSearch');
-
   const pageList = getPagination({
     total: props.cardList.total_pages,
     current: props.cardList.current_page,
   });
 
-  if (!pageList) {
-    return null;
-  }
-
   function handlePageClick(e: React.MouseEvent<HTMLButtonElement>) {
-    const nextPage = +e.currentTarget.textContent.trim();
-    const term = getRecentSearch();
-    props.updateCardList({ q: term, page: nextPage });
+    const nextPage = Number(+e.currentTarget.textContent.trim());
+    props.setSearchParams({ q: props.cardList.search_term, page: nextPage });
   }
 
   return (

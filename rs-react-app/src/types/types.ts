@@ -27,40 +27,31 @@ export type DetailsResponse = {
   set_name: string;
 };
 
-export type CardSearchParams = {
-  location?: string;
-  q?: string;
-  page?: number;
-  details?: string | false;
-};
-
 export type FetchSearchParams = {
   q: string;
   page: number;
 };
 
-export type InitialParams =
-  | { q: string; page: number; details: string | undefined }
-  | false;
-
-export type ErrorCode =
-  | '404'
-  | 'UnknownError'
-  | 'UnprocessableContent'
-  | boolean;
+export type FetchDetailsParams = {
+  id: string | null;
+};
 
 export type UseFetchCardListReturn = {
   cardList: SearchResponse | undefined;
-  updateCardList: (params: FetchSearchParams) => void;
   isLoading: boolean;
   errorCode: ErrorCode;
 };
 
 export type UseFetchDetailsReturn = {
   detailsCard: DetailsResponse | null | undefined;
-  updateDetails: (id: string | null) => void;
   isLoading: boolean;
   errorCode: ErrorCode;
 };
 
 export type FetchError = FetchBaseQueryError | SerializedError | undefined;
+export type ErrorCode =
+  | '404'
+  | 'UnknownError'
+  | 'UnprocessableContent'
+  | 'NotANumber'
+  | boolean;

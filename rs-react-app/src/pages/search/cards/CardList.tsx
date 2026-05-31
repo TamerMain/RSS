@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Routes, Route, Outlet, useSearchParams } from 'react-router';
+import { Routes, Route, Outlet } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
+import useFetchDetails from '@/hooks/useFetchDetails.tsx';
+import useDetailsSearchParams from '@/hooks/useDetailsSearchParams.tsx';
 import CardItem from './CardItem.tsx';
 import CardMasterDetail from './CardMasterDetail.tsx';
 import { toggleItem, type CardInfo } from '@/store/cartSlice.ts';
 import { type RootState } from '@/store/store.ts';
 import { type SearchResponse } from '@/types/types.ts';
-import useLazyFetchDetails from '@/hooks/useLazyFetchDetails';
-import { SEARCH_PARAMS } from '@/constants/routes.ts';
 
 type CardListProps = {
   cardList: SearchResponse;
@@ -16,27 +15,16 @@ type CardListProps = {
 function CardList(props: CardListProps) {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
-  const [showDetails, setShowDetails] = useState<boolean>(true);
-  const { detailsCard, updateDetails, isLoading, errorCode } =
-    useLazyFetchDetails();
-
-  const [searchParams] = useSearchParams();
-  const id = searchParams.get(SEARCH_PARAMS.DETAILS);
-
-  useEffect(() => {
-    if (id) {
-      updateDetails(id);
-    }
-  }, [id, updateDetails]);
+  const { searchParams, setSearchParams } = useDetailsSearchParams();
+  const detailsID = searchParams.id;
+  const { detailsCard, isLoading, errorCode } = useFetchDetails(searchParams);
 
   function handleActiveCardClick(id: string) {
-    updateDetails(id);
-    setShowDetails(true);
+    setSearchParams({ id: id });
   }
 
   function handleCloseClick() {
-    updateDetails(null);
-    setShowDetails(false);
+    setSearchParams({ id: null });
   }
 
   function handleToCart(payload: CardInfo) {
@@ -77,7 +65,7 @@ function CardList(props: CardListProps) {
 
   const cardMasterDetail = (
     <>
-      {showDetails && detailsCard && (
+      {detailsID && (
         <div className="w-2/5 flex justify-center">
           <CardMasterDetail
             detailsCard={detailsCard}

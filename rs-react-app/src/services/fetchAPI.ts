@@ -11,6 +11,7 @@ import {
   type SearchAPIResponse,
   type DetailsResponse,
   type FetchSearchParams,
+  type FetchDetailsParams,
 } from '@/types/types';
 import { createFetchSearchParams } from '@/utils/createFetchSearchParams';
 import { transformFetchSearchResponse } from '@/utils/transformFetchSearchResponse';
@@ -40,8 +41,8 @@ export const fetchAPI = createApi({
       keepUnusedDataFor: 15000,
       providesTags: ['Card List'],
     }),
-    fetchCardDetails: builder.query<DetailsResponse, string>({
-      query: (id) => `${FETCH_DETAILS_URL}${id}`,
+    fetchCardDetails: builder.query<DetailsResponse, FetchDetailsParams>({
+      query: ({ id }) => `${FETCH_DETAILS_URL}${id}`,
       keepUnusedDataFor: 15000,
       providesTags: ['Details'],
     }),
