@@ -34,7 +34,7 @@
         "name": "Black Lotus"
       },
       {
-        "id": "96e2b3d0-f060-4f3c-9d12-a0444b202008",
+        "id": "INVALID",
         "image_uris": {
           "normal": "https://cards.scryfall.io/normal/front/9/6/96e2b3d0-f060-4f3c-9d12-a0444b202008.jpg?1764120007"
         },
@@ -45,7 +45,7 @@
             }
           }
         ],
-        "name": "Gather the White Lotus"
+        "name": "INVALID"
       }
     ]
   }

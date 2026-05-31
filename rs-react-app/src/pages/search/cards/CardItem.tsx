@@ -3,7 +3,7 @@ type CardItemProps = {
   cardImageSrc: string | undefined;
   isInCart: boolean;
   onToCartClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onActiveCardClick: () => void;
+  onOpenDetailsClick: () => void;
 };
 
 function CardItem(props: CardItemProps) {
@@ -12,7 +12,7 @@ function CardItem(props: CardItemProps) {
       {props.cardImageSrc && (
         <div
           onClick={() => {
-            props.onActiveCardClick();
+            props.onOpenDetailsClick();
           }}
           className="flex flex-col items-center w-full text-gray-400 hover:text-gray-50 hover:font-bold light:text-gray-800 light:hover:text-black  transition-colors transition-font-weight duration-400"
         >

@@ -10,7 +10,7 @@ describe('CardNotFound -- when error', () => {
     const mockSearchAgain = vi.fn();
     render(
       <MemoryRouter initialEntries={['/search/cards-not-found']}>
-        <CardNotFound errorCode={'404'} updateCardList={mockSearchAgain} />
+        <CardNotFound errorCode={'404'} setSearchParams={mockSearchAgain} />
       </MemoryRouter>
     );
     const refreshButton = screen.getByRole('button', { name: 'Search Again' });

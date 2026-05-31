@@ -19,11 +19,11 @@ function CardList(props: CardListProps) {
   const detailsID = searchParams.id;
   const { detailsCard, isLoading, errorCode } = useFetchDetails(searchParams);
 
-  function handleActiveCardClick(id: string) {
+  function handleOpenDetailsClick(id: string) {
     setSearchParams({ id: id });
   }
 
-  function handleCloseClick() {
+  function handleCloseDetailsClick() {
     setSearchParams({ id: null });
   }
 
@@ -55,7 +55,7 @@ function CardList(props: CardListProps) {
                 search: props.cardList.search_term,
               });
             }}
-            onActiveCardClick={() => handleActiveCardClick(card.id)}
+            onOpenDetailsClick={() => handleOpenDetailsClick(card.id)}
           />
         ))}
       </div>
@@ -71,7 +71,7 @@ function CardList(props: CardListProps) {
             detailsCard={detailsCard}
             isLoading={isLoading}
             errorCode={errorCode}
-            onCloseClick={handleCloseClick}
+            onCloseDetailsClick={handleCloseDetailsClick}
           />
         </div>
       )}

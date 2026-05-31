@@ -11,7 +11,7 @@ export default function useFetchDetails(
   const { data, isLoading, error, isFetching } = useFetchCardDetailsQuery(
     params,
     {
-      skip: params.id === null,
+      skip: !params?.id,
     }
   );
 

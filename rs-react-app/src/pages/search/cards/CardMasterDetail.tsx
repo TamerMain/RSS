@@ -1,12 +1,11 @@
 import Loader from '@/components/Loader';
 import { type DetailsResponse, type ErrorCode } from '@/types/types';
-import { ERROR_CODES } from '@/constants/routes';
 
 type CardMasterDetailProps = {
   detailsCard: DetailsResponse | null | undefined;
   isLoading: boolean;
   errorCode: ErrorCode;
-  onCloseClick: () => void;
+  onCloseDetailsClick: () => void;
 };
 
 function CardMasterDetail(props: CardMasterDetailProps) {
@@ -17,18 +16,14 @@ function CardMasterDetail(props: CardMasterDetailProps) {
       </div>
     );
 
-  if (
-    props.errorCode === ERROR_CODES.NOT_FOUND ||
-    props.errorCode === ERROR_CODES.UNKNOWN_ERROR ||
-    !props.detailsCard
-  ) {
+  if (props.errorCode || !props.detailsCard) {
     return (
       <div className="fixed flex flex-col items-center w-1/4 p-2 bg-mist-800 text-center fade-in">
         <h2 className="text-2xl">Details not found for that card.</h2>
         <button
           className="absolute  right-0 top-0 p-2 cursor-pointer"
           onClick={() => {
-            props.onCloseClick();
+            props.onCloseDetailsClick();
           }}
         >
           X
@@ -61,7 +56,7 @@ function CardMasterDetail(props: CardMasterDetailProps) {
       <button
         className="absolute  right-0 top-0 p-2 cursor-pointer"
         onClick={() => {
-          props.onCloseClick();
+          props.onCloseDetailsClick();
         }}
       >
         X

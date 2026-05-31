@@ -11,9 +11,9 @@ describe('CardPagination -- when render', () => {
     const user = userEvent.setup();
     const mockUpdate = vi.fn();
     render(
-      <MemoryRouter initialEntries={['/search?q=Black%20Lotus&page=1']}>
+      <MemoryRouter initialEntries={['/search?q=Lotus&page=1']}>
         <CardPagination
-          updateCardList={mockUpdate}
+          setSearchParams={mockUpdate}
           cardList={mockListResponse}
         />
       </MemoryRouter>
@@ -21,7 +21,7 @@ describe('CardPagination -- when render', () => {
     const unactivePage = screen.getByText('3');
     await user.click(unactivePage);
     await waitFor(() => {
-      expect(mockUpdate).toHaveBeenCalledWith({ q: '', page: 3 });
+      expect(mockUpdate).toHaveBeenCalledWith({ q: 'Lotus', page: 3 });
     });
   });
 });

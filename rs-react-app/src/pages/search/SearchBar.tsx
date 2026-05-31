@@ -26,6 +26,9 @@ function SearchBar() {
   function handleSearchSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const newTerm = searchTerm.trim();
+    if (newTerm === getRecentSearch()) {
+      return;
+    }
     setRecentSearch(newTerm);
     setSearchParams({ q: newTerm, page: 1 });
   }

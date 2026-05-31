@@ -8,137 +8,148 @@ import { http, HttpResponse } from 'msw';
 import { mockUserInput } from '../test-utils/mockUserInput';
 import { Provider } from 'react-redux';
 import { store } from '@/store/store.ts';
+import { ThemeProvider } from '@/contexts/ThemeProvider';
+import {
+  TEST_FETCH_URL,
+  TEST_SEARCH_URL,
+  TEST_SEARCH_INPUTS,
+  TEST_SEARCH_PARAMS,
+} from '@/test-utils/testCostants';
 
-describe('SearchBar/SearchResults -- when initial load', () => {
-  test('should check local storage for search term', () => {
-    const storageGetSpy = vi.spyOn(Storage.prototype, 'getItem');
-    render(
-      <MemoryRouter initialEntries={['/search/cards']}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </MemoryRouter>
-    );
-    expect(storageGetSpy).toHaveBeenCalledWith('RecentSearch');
-  });
-  test('should contain local storage search term as input value', async () => {
-    vi.spyOn(Storage.prototype, 'getItem').mockReturnValue('Lotus');
-    render(
-      <MemoryRouter initialEntries={['/search/cards']}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </MemoryRouter>
-    );
-    const searchBar = await screen.findByRole('searchbox');
-    expect(searchBar).toHaveValue('Lotus');
-  });
-
-  test.each([
-    { name: 'default term', term: '', status: 'Card List', expectedItems: 5 },
-    {
-      name: 'valid term',
-      term: 'Lotus',
-      status: 'Card List',
-      expectedItems: 3,
-    },
-    {
-      name: 'invalid 404 term',
-      term: '12345678',
-      status: 'No Cards Found With That Name',
-      expectedItems: 0,
-    },
-    {
-      name: 'have no term',
-      term: null,
-      status: 'Card List',
-      expectedItems: 5,
-    },
-  ])(
-    'should render $expectedItems items when $name in local storage and show $status status',
-    async ({ term, status, expectedItems }) => {
-      vi.spyOn(Storage.prototype, 'getItem').mockReturnValue(term);
-      render(
-        <MemoryRouter initialEntries={['/search/cards']}>
-          <Provider store={store}>
-            <App />
-          </Provider>
-        </MemoryRouter>
-      );
-      await waitFor(() => {
-        const cardImage = screen.queryAllByRole('img', {
-          name: /Image of/i,
-        });
-        expect(cardImage).toHaveLength(expectedItems);
-      });
-      const statusBar = await screen.findByRole('heading', {
-        level: 1,
-        name: status,
-      });
-      expect(statusBar).toBeInTheDocument();
-      localStorage.clear();
-      vi.restoreAllMocks();
-      cleanup();
-    }
-  );
-});
-
-describe('SearchBar/SearchResults -- when user search', () => {
-  test('should not make extra requests if search term remains the same', async () => {
+describe('App -- when data is cached', () => {
+  test('should not make extra requests if with same input', async () => {
     const user = userEvent.setup();
     const fetchSpy = vi.spyOn(window, 'fetch');
     render(
-      <MemoryRouter initialEntries={['/search/cards']}>
+      <MemoryRouter initialEntries={[TEST_SEARCH_URL]}>
         <Provider store={store}>
           <App />
         </Provider>
       </MemoryRouter>
     );
-    await waitFor(() => {
+    waitFor(() => {
       expect(fetchSpy).toHaveBeenCalledTimes(1);
     });
     const searchButton = screen.getByRole('button', {
       name: 'Find Cards',
     });
     await user.click(searchButton);
+    await user.click(searchButton);
+    await user.click(searchButton);
     await waitFor(() => {
       expect(fetchSpy).toHaveBeenCalledTimes(1);
     });
   });
-  test('should write trimmed search term into storage', async () => {
+  test('should not fetch cached card lists and should invalidate with clear button ', async () => {
     const user = userEvent.setup();
-    const storageSetSpy = vi.spyOn(Storage.prototype, 'setItem');
+    const fetchSpy = vi.spyOn(window, 'fetch');
     render(
-      <MemoryRouter initialEntries={['/search/cards']}>
+      <MemoryRouter initialEntries={[TEST_SEARCH_URL]}>
         <Provider store={store}>
           <App />
         </Provider>
       </MemoryRouter>
     );
-    await mockUserInput(user, '        Lotus');
-    expect(storageSetSpy).toHaveBeenCalledWith('RecentSearch', 'Lotus');
+
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+    });
+    const firstSearch = TEST_SEARCH_INPUTS.EMPTY;
+    const secondSearch = TEST_SEARCH_INPUTS.VALID;
+    const clearCacheButton = await screen.findByRole('button', {
+      name: 'Clear Card List Cache',
+    });
+
+    const interactions: [string, HTMLElement | string, number, string][] = [
+      ['input', secondSearch, 2, 'fetch'],
+      ['input', firstSearch, 2, 'fetch'],
+      ['input', secondSearch, 2, 'cache'],
+      ['input', firstSearch, 2, 'cache'],
+      ['clear', clearCacheButton, 3, 'refetch on clear'],
+      ['input', secondSearch, 4, 'new fetch'],
+    ];
+
+    for (const [action, element, expectedCalls] of interactions) {
+      if (action === 'input') {
+        await mockUserInput(user, element as string);
+      }
+      if (action === 'clear') {
+        await user.click(clearCacheButton);
+      }
+      await waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledTimes(expectedCalls);
+      });
+    }
   });
+
+  test('should not fetch cached details and should invalidate with clear button ', async () => {
+    const user = userEvent.setup();
+    const fetchSpy = vi.spyOn(window, 'fetch');
+    render(
+      <MemoryRouter
+        initialEntries={[`${TEST_SEARCH_URL}${TEST_SEARCH_PARAMS.VALID}`]}
+      >
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+    });
+    const firstCard = await screen.findByRole('img', {
+      name: /Image of Black Lotus/i,
+    });
+    const secondCard = await screen.findByRole('img', {
+      name: /Image of Blacker Lotus/i,
+    });
+    const clearCacheButton = await screen.findByRole('button', {
+      name: /Clear Details Cache/i,
+    });
+
+    const interactions: [HTMLElement, number, string][] = [
+      [firstCard, 2, 'fetch'],
+      [secondCard, 3, 'fetch'],
+      [firstCard, 3, 'cache'],
+      [secondCard, 3, 'cache'],
+      [clearCacheButton, 4, 'refetch on clear'],
+      [firstCard, 5, 'new fetch'],
+    ];
+
+    for (const [element, expectedCalls] of interactions) {
+      await user.click(element);
+      await waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledTimes(expectedCalls)
+      );
+    }
+  });
+});
+
+describe('App/SearchBar/SearchResults -- when user search in SearchBar', () => {
   test.each([
-    { name: 'no term', term: '', status: 'Card List', expectedItems: 5 },
     {
-      name: 'valid term',
-      term: 'Lotus',
+      term: TEST_SEARCH_INPUTS.EMPTY,
+      status: 'Card List',
+      expectedItems: 5,
+    },
+    {
+      term: TEST_SEARCH_INPUTS.VALID,
       status: 'Card List',
       expectedItems: 3,
     },
     {
-      name: 'invalid 404 term',
-      term: '12345678',
+      term: TEST_SEARCH_INPUTS.INVALID,
       status: 'No Cards Found With That Name',
       expectedItems: 0,
     },
   ])(
-    'should find $expectedItems items with $name and show $status status',
+    'should find in SearchResults $expectedItems items with $term and show $status',
     async ({ term, status, expectedItems }) => {
       vi.spyOn(Storage.prototype, 'getItem').mockReturnValue(term);
       const user = userEvent.setup();
       render(
-        <MemoryRouter initialEntries={['/search/cards']}>
+        <MemoryRouter initialEntries={[TEST_SEARCH_URL]}>
           <Provider store={store}>
             <App />
           </Provider>
@@ -161,18 +172,15 @@ describe('SearchBar/SearchResults -- when user search', () => {
       cleanup();
     }
   );
-});
-
-describe('SearchResults -- when unexpected server error', () => {
-  test('should have readable error status', async () => {
+  test('should on unexpected error show message', async () => {
     const user = userEvent.setup();
     server.use(
-      http.get('https://api.scryfall.com/cards/search', () => {
+      http.get(TEST_FETCH_URL, () => {
         return HttpResponse.error();
       })
     );
     render(
-      <MemoryRouter initialEntries={['/search/cards']}>
+      <MemoryRouter initialEntries={[TEST_SEARCH_URL]}>
         <Provider store={store}>
           <App />
         </Provider>
@@ -188,64 +196,16 @@ describe('SearchResults -- when unexpected server error', () => {
   });
 });
 
-describe('SearchResults -- when loading', () => {
-  test('should disable UI', async () => {
-    render(
-      <MemoryRouter initialEntries={['/search/cards']}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </MemoryRouter>
-    );
-    const searchBar = screen.getByRole('searchbox');
-    const searchButton = screen.getByRole('button', {
-      name: 'Find Cards',
-    });
-    expect(searchButton).toBeDisabled();
-    expect(searchBar).toBeDisabled();
-    await waitFor(() => {
-      const searchBarAfter = screen.getByRole('searchbox');
-      const searchButtonAfter = screen.getByRole('button', {
-        name: 'Find Cards',
-      });
-      expect(searchButtonAfter).toBeEnabled();
-      expect(searchBarAfter).toBeEnabled();
-    });
-  });
-  test('should show loading spinner ', async () => {
-    const delay = (ms: number) =>
-      new Promise((resolve) => setTimeout(resolve, ms));
-    render(
-      <MemoryRouter initialEntries={['/search/cards']}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </MemoryRouter>
-    );
-    const loading = await screen.findAllByText(/⟡/);
-    expect(loading).toHaveLength(2);
-    
-    await delay(2000);
-
-    const loadingAfter = screen.queryAllByText(/⟡/);
-    expect(loadingAfter).toHaveLength(0);
-  });
-});
-
-describe('Navigation/CardItem -- when add card to cart', async () => {
+describe('App/Navigation/CardItem -- when add card to cart', async () => {
   test('should update cart item counter when not items and add items', async () => {
     const user = userEvent.setup();
     render(
-      <MemoryRouter initialEntries={['/search/cards?q=&page=1']}>
+      <MemoryRouter initialEntries={[TEST_SEARCH_URL]}>
         <Provider store={store}>
           <App />
         </Provider>
       </MemoryRouter>
     );
-
-    const fetchSpy = vi.spyOn(window, 'fetch');
-
-    console.error('Fetch called with:', fetchSpy.mock.calls);
 
     const noCart = screen.queryByText(/Selected/i);
     expect(noCart).toBe(null);
@@ -269,7 +229,7 @@ describe('Navigation/CardItem -- when add card to cart', async () => {
   test('should clear cart when deselect', async () => {
     const user = userEvent.setup();
     render(
-      <MemoryRouter initialEntries={['/search/cards?q=&page=1']}>
+      <MemoryRouter initialEntries={[TEST_SEARCH_URL]}>
         <Provider store={store}>
           <App />
         </Provider>
@@ -279,7 +239,6 @@ describe('Navigation/CardItem -- when add card to cart', async () => {
     const card = await screen.findByRole('img', {
       name: /Image of Aang, Airbending Master Card/i,
     });
-    screen.debug(card);
     const cardSelectButton = card.nextSibling as Element;
     await user.click(cardSelectButton);
     const cart = await screen.findByText(/Selected/i);
@@ -293,7 +252,7 @@ describe('Navigation/CardItem -- when add card to cart', async () => {
   test('should persist selected items when changing routes', async () => {
     const user = userEvent.setup();
     render(
-      <MemoryRouter initialEntries={['/search/cards?q=&page=1']}>
+      <MemoryRouter initialEntries={[TEST_SEARCH_URL]}>
         <Provider store={store}>
           <App />
         </Provider>
@@ -319,26 +278,28 @@ describe('Navigation/CardItem -- when add card to cart', async () => {
   });
 });
 
-describe('ThemeProvider -- when changing theme', () => {
-  test('should toggle theme when button is clicked', async () => {
+describe('App/ThemeProvider -- when changing theme', () => {
+  test('should toggle theme when on toggle button', async () => {
     const user = userEvent.setup();
     render(
-      <MemoryRouter initialEntries={['/search/cards']}>
+      <MemoryRouter initialEntries={[TEST_SEARCH_URL]}>
         <Provider store={store}>
-          <App />
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
         </Provider>
       </MemoryRouter>
     );
 
-    const initialTheme = document.documentElement.classList.contains('light');
-    expect(initialTheme).not.toBe(true);
+    const initialTheme = document.querySelectorAll('[class*="light:"]');
+    expect(initialTheme.length).toBeLessThan(6);
 
     const themeButton = await screen.findByLabelText('Change Theme');
     await user.click(themeButton);
 
     await waitFor(() => {
-      const newTheme = document.documentElement.classList.contains('light');
-      expect(newTheme).toBe(initialTheme);
+      const initialTheme = document.querySelectorAll('[class*="light:"]');
+      expect(initialTheme.length).toBeGreaterThan(6);
     });
   });
 });

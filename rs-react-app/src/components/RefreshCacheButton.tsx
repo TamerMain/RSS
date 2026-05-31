@@ -18,7 +18,7 @@ function RefreshCacheButton(props: RefreshCacheButtonProps) {
       className="p-2 bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer transition-colors duration-400"
       onClick={handleRefreshCache}
     >
-      Clear {props.tag} 
+      Clear {props.tag} Cache
     </button>
   );
 }

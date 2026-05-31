@@ -10,10 +10,15 @@ export default function useFetchCardList({
   q,
   page,
 }: FetchSearchParams): UseFetchCardListReturn {
-  const { data, isLoading, error, isFetching } = useFetchCardListQuery({
-    q,
-    page,
-  });
+  const { data, isLoading, error, isFetching } = useFetchCardListQuery(
+    {
+      q,
+      page,
+    },
+    {
+      skip: !page || isNaN(Number(page)),
+    }
+  );
 
   const getErrorCode = (error: FetchError) => {
     if (isNaN(Number(page))) {

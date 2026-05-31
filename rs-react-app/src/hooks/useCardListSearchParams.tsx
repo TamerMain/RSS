@@ -2,9 +2,12 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 import { SEARCH_PARAMS } from '@/constants/routes';
 import { type FetchSearchParams } from '@/types/types';
+import useStorage from './useStorage';
 
 export default function useCardListSearchParams() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { getItem: getRecentSearch } =
+    useStorage('RecentSearch');
 
   useEffect(() => {
     const hasQuery = searchParams.has(SEARCH_PARAMS.QUERY);
@@ -12,14 +15,16 @@ export default function useCardListSearchParams() {
 
     if (!hasQuery || !hasPage) {
       setSearchParams({
-        [SEARCH_PARAMS.QUERY]: searchParams.get(SEARCH_PARAMS.QUERY) || '',
-        [SEARCH_PARAMS.PAGE]: searchParams.get(SEARCH_PARAMS.PAGE) || '1',
+        q:
+          searchParams.get(SEARCH_PARAMS.QUERY) || getRecentSearch() || '',
+        page: searchParams.get(SEARCH_PARAMS.PAGE) || '1',
       });
     }
-  }, [setSearchParams]);
+  }, [setSearchParams, getRecentSearch]);
 
   const currentParams: FetchSearchParams = {
-    [SEARCH_PARAMS.QUERY]: searchParams.get(SEARCH_PARAMS.QUERY) || '',
+    [SEARCH_PARAMS.QUERY]:
+      searchParams.get(SEARCH_PARAMS.QUERY) || getRecentSearch() || '',
     [SEARCH_PARAMS.PAGE]: Number(searchParams.get(SEARCH_PARAMS.PAGE)),
   };
 

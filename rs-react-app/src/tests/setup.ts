@@ -5,40 +5,55 @@ import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
 import mockListResponse from '../test-utils/mockListResponse.json';
 import mockListDefaultResponse from '../test-utils/mockListDefaultResponse.json';
-import mockDetailResponse from '../test-utils/mockDetailResponse.json';
+import mockDetailsResponse from '../test-utils/mockDetailsResponse.json';
 import { clearCart } from '@/store/cartSlice';
 import { fetchAPI } from '@/services/fetchAPI';
 import { store } from '@/store/store';
+import {
+  TEST_FETCH_DELAY,
+  TEST_FETCH_URL,
+  TEST_FETCH_DETAILS_URL,
+  TEST_FETCH_DETAILS_PARAMS,
+  TEST_FETCH_PARAMS,
+} from '@/test-utils/testCostants';
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const restHandlers = [
-  http.get('https://api.scryfall.com/cards/search', async ({ request }) => {
-    await delay(600);
+  http.get(TEST_FETCH_URL, async ({ request }) => {
+    await delay(TEST_FETCH_DELAY);
     const url = request.url;
-    if (
-      url ===
-      'https://api.scryfall.com/cards/search?page=1&q=Lotus+game%3Apaper'
-    ) {
+    if (url === `${TEST_FETCH_URL}${TEST_FETCH_PARAMS.VALID}`) {
       return HttpResponse.json(mockListResponse);
     }
 
-    if (
-      url === 'https://api.scryfall.com/cards/search?page=1&q=+game%3Apaper'
-    ) {
+    if (url === `${TEST_FETCH_URL}${TEST_FETCH_PARAMS.DEFAULT}`) {
       return HttpResponse.json(mockListDefaultResponse);
+    }
+
+    if (url === `${TEST_FETCH_URL}${TEST_FETCH_PARAMS.PAGE_NOT_FOUND}`) {
+      return new HttpResponse(null, { status: 422 });
     }
 
     return new HttpResponse(null, { status: 404 });
   }),
 
-  http.get('https://api.scryfall.com/cards/*', async ({ request }) => {
-    await delay(600);
+  http.get(`${TEST_FETCH_DETAILS_URL}*`, async ({ request }) => {
+    await delay(TEST_FETCH_DELAY);
     const url = request.url;
+    if (url === `${TEST_FETCH_DETAILS_URL}${TEST_FETCH_DETAILS_PARAMS.VALID}`) {
+      return HttpResponse.json(mockDetailsResponse[0]);
+    }
     if (
       url ===
-      'https://api.scryfall.com/cards/4a2e428c-dd25-484c-bbc8-2d6ce10ef42c'
+      `${TEST_FETCH_DETAILS_URL}${TEST_FETCH_DETAILS_PARAMS.VALID_SECOND}`
     ) {
-      return HttpResponse.json(mockDetailResponse);
+      return HttpResponse.json(mockDetailsResponse[1]);
+    }
+    if (
+      url === `${TEST_FETCH_DETAILS_URL}${TEST_FETCH_DETAILS_PARAMS.INVALID}`
+    ) {
+      return new HttpResponse(null);
     }
     return new HttpResponse(null, { status: 404 });
   }),
