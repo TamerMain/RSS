@@ -49,7 +49,7 @@ describe('when click download CSV', () => {
     expect(createdBlob).toBeInstanceOf(Blob);
     const text = await createdBlob!.text();
     expect(text).toBe(
-      'This file contains your selected card information.\r\nSuch as Name, ID and Description link to original art and details URL which is not impelemented yet for direct access from browser.\r\n\r\n------- Card 1 -------\r\nName: +2 Mace\r\nScryfall unique ID: e882c9f9-bf30-46b6-bedc-379d2c80e5cb\r\nOriginal Art: https://cards.scryfall.io/normal/front/e/8/e882c9f9-bf30-46b6-bedc-379d2c80e5cb.jpg?1627701221\r\nDetails URL: http://localhost:3000/search?q=&page=1&details=%252B2%2520Mace.\r\n'
+      'This file contains your selected card information.\r\nSuch as Name, ID and Description link to original art and details URL which is not impelemented yet for direct access from browser.\r\n\r\n------- Card 1 -------\r\nName: +2 Mace\r\nScryfall unique ID: e882c9f9-bf30-46b6-bedc-379d2c80e5cb\r\nOriginal Art: https://cards.scryfall.io/normal/front/e/8/e882c9f9-bf30-46b6-bedc-379d2c80e5cb.jpg?1627701221\r\nDetails URL: http://localhost:3000/search/cards?q=&page=1&details=e882c9f9-bf30-46b6-bedc-379d2c80e5cb.\r\n'
     );
   });
 });
