@@ -1,8 +1,9 @@
 import { type CardInfo } from '@/store/store';
+import { SEARCH_PARAMS, NAVIGATION } from '@/constants/routes';
 
-function detailsURL(search: string, page: number, name: string) {
+function detailsURL(search: string, page: number, id: string) {
   const origin = window.location.origin;
-  const URL = `${origin}/search?q=${encodeURIComponent(search ? search : '')}&page=${page}&details=${encodeURIComponent(encodeURIComponent(name))}`;
+  const URL = `${origin}${NAVIGATION.SEARCH.CARDS}?q=${encodeURIComponent(search ? search : '')}&${SEARCH_PARAMS.PAGE}=${page}&${SEARCH_PARAMS.DETAILS}=${id}`;
   return URL;
 }
 
@@ -13,7 +14,7 @@ function DownloadButton(props: { cart: CardInfo[] }) {
       'This file contains your selected card information.\r\nSuch as Name, ID and Description link to original art and details URL which is not impelemented yet for direct access from browser.\r\n\r\n';
     const contentBody = props.cart
       .map((item, index) => {
-        return `------- Card ${index+1} -------\r\nName: ${item.name}\r\nScryfall unique ID: ${item.id}\r\nOriginal Art: ${item.imageSrc ? item.imageSrc : 'No art available'}\r\nDetails URL: ${detailsURL(item.search, item.page, item.name)}.\r\n`;
+        return `------- Card ${index + 1} -------\r\nName: ${item.name}\r\nScryfall unique ID: ${item.id}\r\nOriginal Art: ${item.imageSrc ? item.imageSrc : 'No art available'}\r\nDetails URL: ${detailsURL(item.search, item.page, item.id)}.\r\n`;
       })
       .join('\r\n');
     const content = `${contentHeader + contentBody}`;
