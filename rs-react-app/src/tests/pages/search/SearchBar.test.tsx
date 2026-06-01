@@ -7,7 +7,7 @@ import { store } from '@/store/store.ts';
 import { TEST_SEARCH_URL } from '@/test-utils/testCostants';
 import { mockUserInput } from '@/test-utils/mockUserInput';
 
-describe('SearchResults -- when loading', () => {
+describe('SearchBar -- when loading', () => {
   test('should disable UI', async () => {
     render(
       <MemoryRouter initialEntries={[TEST_SEARCH_URL]}>

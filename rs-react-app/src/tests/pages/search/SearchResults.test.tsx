@@ -8,6 +8,7 @@ import {
   TEST_SEARCH_URL,
   TEST_SEARCH_INPUTS,
   TEST_SEARCH_PARAMS,
+  TEST_SEARCH_RESULTS,
 } from '@/test-utils/testCostants';
 
 describe('SearchResults -- when loading', () => {
@@ -48,22 +49,22 @@ describe('SearchResults -- when initial load', () => {
     {
       term: TEST_SEARCH_INPUTS.EMPTY,
       status: 'Card List',
-      expectedItems: 5,
+      expectedItems: TEST_SEARCH_RESULTS.INITIAL,
     },
     {
       term: TEST_SEARCH_INPUTS.VALID,
       status: 'Card List',
-      expectedItems: 3,
+      expectedItems: TEST_SEARCH_RESULTS.VALID,
     },
     {
       term: TEST_SEARCH_INPUTS.INVALID,
       status: 'No Cards Found With That Name',
-      expectedItems: 0,
+      expectedItems: TEST_SEARCH_RESULTS.INVALID,
     },
     {
       term: TEST_SEARCH_INPUTS.NULL,
       status: 'Card List',
-      expectedItems: 5,
+      expectedItems: TEST_SEARCH_RESULTS.INITIAL,
     },
   ])(
     'should render $expectedItems cards from local storage when $term',
@@ -99,37 +100,42 @@ describe('SearchResults -- when accessing from link', () => {
     {
       params: TEST_SEARCH_PARAMS.NULL,
       status: 'Card List',
-      expectedItems: 5,
+      expectedItems: TEST_SEARCH_RESULTS.INITIAL,
     },
     {
       params: TEST_SEARCH_PARAMS.EMPTY,
       status: 'Card List',
-      expectedItems: 5,
+      expectedItems: TEST_SEARCH_RESULTS.INITIAL,
     },
     {
       params: TEST_SEARCH_PARAMS.VALID,
       status: 'Card List',
-      expectedItems: 3,
+      expectedItems: TEST_SEARCH_RESULTS.VALID,
     },
     {
       params: TEST_SEARCH_PARAMS.INVALID,
       status: 'No Cards Found With That Name',
-      expectedItems: 0,
+      expectedItems: TEST_SEARCH_RESULTS.INVALID,
     },
     {
       params: TEST_SEARCH_PARAMS.NO_PAGE,
       status: 'No Cards Found On That Page',
-      expectedItems: 0,
+      expectedItems: TEST_SEARCH_RESULTS.ERROR,
     },
     {
       params: TEST_SEARCH_PARAMS.PAGE_NOT_NUMBER,
       status: 'Page Must Be A Number',
-      expectedItems: 0,
+      expectedItems: TEST_SEARCH_RESULTS.ERROR,
     },
     {
       params: TEST_SEARCH_PARAMS.PAGE_ZERO,
       status: 'Page Cant Be Zero',
-      expectedItems: 0,
+      expectedItems: TEST_SEARCH_RESULTS.ERROR,
+    },
+    {
+      params: TEST_SEARCH_PARAMS.PAGE_NOT_NATURAL,
+      status: 'Page Can Only Positive Whole Number',
+      expectedItems: TEST_SEARCH_RESULTS.ERROR,
     },
   ])(
     'should render $expectedItems cards when $params and $status message',
@@ -154,7 +160,6 @@ describe('SearchResults -- when accessing from link', () => {
           name: /Image of/i,
         });
         expect(cardImage).toHaveLength(expectedItems);
-        console.log(params);
       });
 
       const statusBar = await screen.findByRole('heading', {

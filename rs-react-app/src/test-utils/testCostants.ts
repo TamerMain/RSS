@@ -7,6 +7,7 @@ export const TEST_FETCH_DELAY = 100 as const;
 export const TEST_FETCH_PARAMS = {
   VALID: '?page=1&q=Lotus+game%3Apaper',
   DEFAULT: '?page=1&q=+game%3Apaper',
+  DEFAULT_PAGE_2: '?page=2&q=+game%3Apaper',
   PAGE_NOT_FOUND: '?page=200&q=Lotus+game%3Apaper',
   PAGE_NOT_NUMBER: '?page=INVALID&q=Lotus+game%3Apaper',
 } as const;
@@ -26,14 +27,23 @@ export const TEST_SEARCH_INPUTS = {
   NULL: null,
 } as const;
 
+export const TEST_SEARCH_RESULTS = {
+  INITIAL: 5,
+  VALID: 3,
+  INVALID: 0,
+  ERROR: 0,
+} as const;
+
 export const TEST_SEARCH_PARAMS = {
   NULL: '',
   EMPTY: '?q=&page=1',
+  EMPTY_PAGE_2: '?q=&page=2',
   VALID: '?q=Lotus&page=1',
   INVALID: '?q=INVALID&page=1',
   NO_PAGE: '?q=Lotus&page=200',
   PAGE_NOT_NUMBER: '?q=Lotus&page=INVALID',
   PAGE_ZERO: '?q=Lotus&page=0',
+  PAGE_NOT_NATURAL: '?q=Lotus&page=-0.45',
 } as const;
 
 export const TEST_DETAILS_PARAMS = {

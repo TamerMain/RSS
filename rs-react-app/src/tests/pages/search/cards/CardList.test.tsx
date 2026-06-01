@@ -59,7 +59,7 @@ describe('CardList -- when user click on card', () => {
   });
 });
 
-describe('CardList/CardMasterDetails -- when user clicks', () => {
+describe('CardList -- when user clicks', () => {
   test('should show loading when opening details', async () => {
     const user = userEvent.setup();
     render(

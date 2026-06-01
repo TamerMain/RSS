@@ -38,12 +38,12 @@ export const fetchAPI = createApi({
         _meta,
         params: FetchSearchParams
       ) => transformFetchSearchResponse(res, params),
-      keepUnusedDataFor: 15000,
+      keepUnusedDataFor: 60,
       providesTags: ['Card List'],
     }),
     fetchCardDetails: builder.query<DetailsResponse, FetchDetailsParams>({
       query: ({ id }) => `${FETCH_DETAILS_URL}${id}`,
-      keepUnusedDataFor: 15000,
+      keepUnusedDataFor: 60,
       providesTags: ['Details'],
     }),
   }),

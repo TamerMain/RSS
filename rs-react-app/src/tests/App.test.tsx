@@ -14,10 +14,11 @@ import {
   TEST_SEARCH_URL,
   TEST_SEARCH_INPUTS,
   TEST_SEARCH_PARAMS,
+  TEST_SEARCH_RESULTS,
 } from '@/test-utils/testCostants';
 
 describe('App -- when data is cached', () => {
-  test('should not make extra requests if with same input', async () => {
+  test('should not make extra requests with same input', async () => {
     const user = userEvent.setup();
     const fetchSpy = vi.spyOn(window, 'fetch');
     render(
@@ -62,7 +63,7 @@ describe('App -- when data is cached', () => {
 
     const interactions: [string, HTMLElement | string, number, string][] = [
       ['input', secondSearch, 2, 'fetch'],
-      ['input', firstSearch, 2, 'fetch'],
+      ['input', firstSearch, 2, 'cache'],
       ['input', secondSearch, 2, 'cache'],
       ['input', firstSearch, 2, 'cache'],
       ['clear', clearCacheButton, 3, 'refetch on clear'],
@@ -79,6 +80,62 @@ describe('App -- when data is cached', () => {
       await waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledTimes(expectedCalls);
       });
+    }
+  });
+  test('should not fetch cached pagination and should invalidate with clear button ', async () => {
+    const user = userEvent.setup();
+    const fetchSpy = vi.spyOn(window, 'fetch');
+    render(
+      <MemoryRouter initialEntries={[TEST_SEARCH_URL]}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+    });
+    const firstPage = await screen.findByRole('button', {
+      name: '1',
+    });
+    const secondPage = await screen.findByRole('button', {
+      name: '2',
+    });
+    console.log([firstPage, secondPage]);
+
+    const clearCacheButton = await screen.findByRole('button', {
+      name: 'Clear Card List Cache',
+    });
+
+    const interactions: [string, number, string][] = [
+      ['secondPage', 2, 'fetch'],
+      ['firstPage', 2, 'cache'],
+      ['secondPage', 2, 'cache'],
+      ['firstPage', 2, 'cache'],
+      ['clearCache', 3, 'refetch on clear'],
+      ['secondPage', 4, 'new fetch'],
+    ];
+
+    for (const [action, expectedCalls] of interactions) {
+      const firstPage = await screen.findByRole('button', {
+        name: '1',
+      });
+      const secondPage = await screen.findByRole('button', {
+        name: '2',
+      });
+      if (action === 'firstPage') {
+        await user.click(firstPage);
+      }
+      if (action === 'secondPage') {
+        await user.click(secondPage);
+      }
+      if (action === 'clearCache') {
+        await user.click(clearCacheButton);
+      }
+      await waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledTimes(expectedCalls)
+      );
     }
   });
 
@@ -131,17 +188,17 @@ describe('App/SearchBar/SearchResults -- when user search in SearchBar', () => {
     {
       term: TEST_SEARCH_INPUTS.EMPTY,
       status: 'Card List',
-      expectedItems: 5,
+      expectedItems: TEST_SEARCH_RESULTS.INITIAL,
     },
     {
       term: TEST_SEARCH_INPUTS.VALID,
       status: 'Card List',
-      expectedItems: 3,
+      expectedItems: TEST_SEARCH_RESULTS.VALID,
     },
     {
       term: TEST_SEARCH_INPUTS.INVALID,
       status: 'No Cards Found With That Name',
-      expectedItems: 0,
+      expectedItems: TEST_SEARCH_RESULTS.INVALID,
     },
   ])(
     'should find in SearchResults $expectedItems items with $term and show $status',
