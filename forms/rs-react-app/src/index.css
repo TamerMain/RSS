@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&display=swap');
 @import 'tailwindcss';
 
-
 html,
 body {
   font-family: 'Sorts Mill Goudy', serif;
 }
+
+
