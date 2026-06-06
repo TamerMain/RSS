@@ -1,9 +1,11 @@
-import UncontrolledForm from '@/components/Uncontrolled/UncontrolledForm';
+import UncontrolledForm from '@/components/UncontrolledForm';
+import ControlledForm from './components/ControlledForm';
 
 function App() {
   return (
     <>
-      <UncontrolledForm></UncontrolledForm>
+      {/* <UncontrolledForm /> */}
+      <ControlledForm />
     </>
   );
 }

@@ -5,10 +5,12 @@ export const formSchema = z
     name: z.string().min(2, 'Name must be at least 2 characters'),
     email: z.email('Invalid email address'),
     age: z
-      .number()
-      .min(18, 'Must be 18 or older')
-      .max(120, 'Invalid age')
-      .optional(),
+      .string()
+      .transform((val) => Number(val))
+      .refine((val) => !isNaN(val), 'Must be a number')
+      .refine((val) => val >= 18, 'Must be 18 or older')
+      .refine((val) => val <= 120, 'Invalid age')
+      .transform((val) => val.toString()),
     gender: z.string().min(1, 'Please select gender'),
     termsAccepted: z
       .boolean()
@@ -17,10 +19,11 @@ export const formSchema = z
     passwordConfirm: z.string().min(1, 'Please confirm password'),
     country: z.string().min(1, 'Please select country'),
     imageDownload: z
-      .instanceof(File)
-      .refine((file) => file.size <= 5 * 1024 * 1024, 'Max size 5MB')
+      .instanceof(FileList)
+      .refine((files) => files.length > 0, 'File is required')
+      .refine((file) => file[0]?.size <= 5 * 1024 * 1024, 'Max size 5MB')
       .refine(
-        (file) => ['image/jpeg', 'image/png'].includes(file.type),
+        (files) => ['image/jpeg', 'image/png'].includes(files[0]?.type),
         'Only JPG or PNG'
       ),
   })
@@ -29,5 +32,6 @@ export const formSchema = z
     path: ['passwordConfirm'],
   });
 
-export type FormData = z.infer<typeof formSchema>;
-export type FormErrorFlatten = z.ZodFlattenedError<FormData>;
+export type EntryFormData = z.infer<typeof formSchema>;
+export type EntryFormKeys = keyof EntryFormData;
+export type EntryFormErrorFlatten = z.ZodFlattenedError<EntryFormData>;

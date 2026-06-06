@@ -1,21 +1,20 @@
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { addEntry } from '@/store/formEntriesSlice';
 import { z } from 'zod';
 import countryList from '@/assets/country-list.json';
-import {
-  formSchema,
-  type FormData,
-  type FormErrorFlatten,
-} from '@/schemas/formSchema';
-import { addEntry } from '@/store/formEntriesSlice';
-import TextField from './TextField';
-import SelectField from './SelectField';
-import CheckboxField from './CheckboxField';
-import FileField from './FileField';
+import { formSchema, type EntryFormErrorFlatten } from '@/schemas/formSchema';
+import TextField from '@/components/fields/TextField';
+import SelectField from '@/components/fields/SelectField';
+import CheckboxField from '@/components/fields/CheckboxField';
+import FileField from '@/components/fields/FileField';
+import { processFormImage } from '@/utils/processFormImage';
 
 function UncontrolledForm() {
   const dispatch = useDispatch();
-  const [formErrors, setFormErrors] = useState<FormErrorFlatten | null>(null);
+  const [formErrors, setFormErrors] = useState<EntryFormErrorFlatten | null>(
+    null
+  );
   const nameInput = useRef<HTMLInputElement>(null);
   const emailInput = useRef<HTMLInputElement>(null);
   const ageInput = useRef<HTMLInputElement>(null);
@@ -26,7 +25,7 @@ function UncontrolledForm() {
   const countrySelect = useRef<HTMLSelectElement>(null);
   const imageDownload = useRef<HTMLInputElement>(null);
 
-  function handleFormSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+  async function handleFormSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const formData = {
@@ -38,18 +37,30 @@ function UncontrolledForm() {
       password: passwordInput.current?.value,
       passwordConfirm: passwordConfirmInput.current?.value,
       country: countrySelect.current?.value,
-      imageDownload: imageDownload.current?.files?.[0],
+      imageDownload: imageDownload.current?.files,
     };
     const result = formSchema.safeParse(formData);
     if (result.success) {
-      dispatch(addEntry(result.data));
-      setFormErrors(null);
+      try {
+        const base64Image = await processFormImage(result.data.imageDownload);
+        const submissionData = {
+          ...result.data,
+          imageDownload: base64Image,
+        };
+        dispatch(addEntry(submissionData));
+        setFormErrors(null);
+      } catch (error) {
+        setFormErrors({
+          formErrors: [],
+          fieldErrors: {
+            imageDownload: [
+              'Failed to process image. Please try a different file.',
+            ],
+          },
+        });
+      }
     } else {
-      setFormErrors(() => {
-        console.log(formData.imageDownload);
-        console.log(z.flattenError(result.error).fieldErrors);
-        return z.flattenError(result.error);
-      });
+      setFormErrors(z.flattenError(result.error));
     }
   }
   return (
@@ -58,65 +69,74 @@ function UncontrolledForm() {
       className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[35vh] justify-items-stretch gap-2"
     >
       <TextField
+        mode="uncontrolled"
         ref={nameInput}
         id="name"
         label="Name"
         placeholder="Enter Name"
-        error={formErrors?.fieldErrors['name']}
+        error={formErrors}
       />
       <TextField
+        mode="uncontrolled"
         ref={emailInput}
         id="email"
         label="Email"
         placeholder="Enter Email"
-        error={formErrors?.fieldErrors['email']}
+        error={formErrors}
       />
       <TextField
+        mode="uncontrolled"
         ref={ageInput}
         id="age"
         label="Age"
         placeholder="Enter Age"
-        error={formErrors?.fieldErrors['age']}
+        error={formErrors}
       />
       <SelectField
+        mode="uncontrolled"
         ref={genderSelect}
         id="gender"
         label="Gender"
         options={[{ name: 'Female' }, { name: 'Male' }, { name: 'Other' }]}
-        error={formErrors?.fieldErrors['gender']}
+        error={formErrors}
       />
       <CheckboxField
+        mode="uncontrolled"
         ref={termsCheck}
         id="termsAccepted"
         label="I've read Terms and Conditions"
-        error={formErrors?.fieldErrors['termsAccepted']}
+        error={formErrors}
       />
       <TextField
-        ref={ageInput}
+        mode="uncontrolled"
+        ref={passwordInput}
         id="password"
         label="Password"
         placeholder="Enter Password"
-        error={formErrors?.fieldErrors['password']}
+        error={formErrors}
       />
       <TextField
-        ref={ageInput}
+        mode="uncontrolled"
+        ref={passwordConfirmInput}
         id="passwordConfirm"
         label="Confirm Password"
         placeholder="Confirm Password"
-        error={formErrors?.fieldErrors['passwordConfirm']}
+        error={formErrors}
       />
       <SelectField
+        mode="uncontrolled"
         ref={countrySelect}
         id="country"
         label="Country"
         options={countryList}
-        error={formErrors?.fieldErrors['gender']}
+        error={formErrors}
       />
       <FileField
+        mode="uncontrolled"
         ref={imageDownload}
         id="imageDownload"
         label="Upload Image"
-        error={formErrors?.fieldErrors['imageDownload']}
+        error={formErrors}
       />
       <button type="submit">Send</button>
     </form>

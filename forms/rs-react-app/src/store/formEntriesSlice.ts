@@ -1,12 +1,16 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { type FormData } from '@/schemas/formSchema';
+import { type EntryFormData } from '@/schemas/formSchema';
 
-const initialState: FormData[] = [];
+export type EntryStoreData = Omit<EntryFormData, 'imageDownload'> & {
+  imageDownload: string;
+};
+
+const initialState: EntryStoreData[] = [];
 export const formEntriesSlice = createSlice({
   name: 'entries',
   initialState,
   reducers: {
-    addEntry: (state, action: PayloadAction<FormData>) => {
+    addEntry: (state, action: PayloadAction<EntryStoreData>) => {
       state.push(action.payload);
     },
     clearEntries: () => initialState,
