@@ -11,7 +11,7 @@ import FileField from '@/components/fields/FileField';
 import { processFormImage } from '@/utils/processFormImage';
 
 type ControlledFormProps = {
-  setIsModalOpen: (arg: boolean) => void;
+  onCloseModal: () => void;
 };
 
 function ControlledForm(props: ControlledFormProps) {
@@ -27,9 +27,6 @@ function ControlledForm(props: ControlledFormProps) {
     mode: 'onTouched',
   });
 
-  console.log('Dirty fields:', dirtyFields); // See WHICH field is dirty
-  console.log('Valid', isValid); // See WHICH field is dirty
-
   const onSubmit = async (data: EntryFormData) => {
     try {
       const base64Image = await processFormImage(data.imageDownload);
@@ -41,7 +38,7 @@ function ControlledForm(props: ControlledFormProps) {
       };
       dispatch(addEntry(submissionData));
       clearErrors('imageDownload');
-      props.setIsModalOpen(false);
+      props.onCloseModal();
     } catch (error) {
       setError('imageDownload', {
         type: 'manual',

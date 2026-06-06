@@ -11,7 +11,7 @@ import FileField from '@/components/fields/FileField';
 import { processFormImage } from '@/utils/processFormImage';
 
 type UnontrolledFormProps = {
-  setIsModalOpen: (arg: boolean) => void;
+  onCloseModal: () => void;
 };
 
 function UncontrolledForm(props: UnontrolledFormProps) {
@@ -53,7 +53,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
         };
         dispatch(addEntry(submissionData));
         setFormErrors(null);
-        props.setIsModalOpen(false);
+        props.onCloseModal();
       } catch (error) {
         setFormErrors({
           formErrors: [],

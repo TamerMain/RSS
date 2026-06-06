@@ -8,12 +8,12 @@ function App() {
   return (
     <>
       <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isModalOpen={isModalOpen}
+        onCloseModal={() => setIsModalOpen(false)}
         title="Submit Form"
       >
         {/* <UncontrolledForm /> */}
-        <ControlledForm setIsModalOpen={setIsModalOpen} />
+        <ControlledForm onCloseModal={() => setIsModalOpen(false)} />
       </Modal>
       <button onClick={() => setIsModalOpen(true)}>Open Form</button>
     </>
