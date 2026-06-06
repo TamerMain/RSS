@@ -10,7 +10,11 @@ import CheckboxField from '@/components/fields/CheckboxField';
 import FileField from '@/components/fields/FileField';
 import { processFormImage } from '@/utils/processFormImage';
 
-function UncontrolledForm() {
+type UnontrolledFormProps = {
+  setIsModalOpen: (arg: boolean) => void;
+};
+
+function UncontrolledForm(props: UnontrolledFormProps) {
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState<EntryFormErrorFlatten | null>(
     null
@@ -49,6 +53,7 @@ function UncontrolledForm() {
         };
         dispatch(addEntry(submissionData));
         setFormErrors(null);
+        props.setIsModalOpen(false);
       } catch (error) {
         setFormErrors({
           formErrors: [],
@@ -64,10 +69,7 @@ function UncontrolledForm() {
     }
   }
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[35vh] justify-items-stretch gap-2"
-    >
+    <form onSubmit={handleFormSubmit} className="justify-items-stretch gap-2">
       <TextField
         mode="uncontrolled"
         ref={nameInput}

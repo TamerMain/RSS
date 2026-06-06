@@ -10,17 +10,25 @@ import CheckboxField from '@/components/fields/CheckboxField';
 import FileField from '@/components/fields/FileField';
 import { processFormImage } from '@/utils/processFormImage';
 
-function ControlledForm() {
+type ControlledFormProps = {
+  setIsModalOpen: (arg: boolean) => void;
+};
+
+function ControlledForm(props: ControlledFormProps) {
   const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors, isSubmitting, isValid, dirtyFields },
     setError,
     clearErrors,
   } = useForm<EntryFormData>({
     resolver: zodResolver(formSchema),
+    mode: 'onTouched',
   });
+
+  console.log('Dirty fields:', dirtyFields); // See WHICH field is dirty
+  console.log('Valid', isValid); // See WHICH field is dirty
 
   const onSubmit = async (data: EntryFormData) => {
     try {
@@ -33,6 +41,7 @@ function ControlledForm() {
       };
       dispatch(addEntry(submissionData));
       clearErrors('imageDownload');
+      props.setIsModalOpen(false);
     } catch (error) {
       setError('imageDownload', {
         type: 'manual',
@@ -42,84 +51,87 @@ function ControlledForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[35vh] justify-items-stretch gap-2"
-    >
-      <TextField
-        mode="controlled"
-        register={register}
-        id="name"
-        label="Name"
-        placeholder="Enter Name"
-        error={errors}
-      />
-      <TextField
-        mode="controlled"
-        register={register}
-        id="email"
-        label="Email"
-        placeholder="Enter Email"
-        error={errors}
-      />
-      <TextField
-        mode="controlled"
-        register={register}
-        id="age"
-        label="Age"
-        placeholder="Enter Age"
-        error={errors}
-      />
-      <SelectField
-        mode="controlled"
-        register={register}
-        id="gender"
-        label="Gender"
-        options={[{ name: 'Female' }, { name: 'Male' }, { name: 'Other' }]}
-        error={errors}
-      />
-      <CheckboxField
-        mode="controlled"
-        register={register}
-        id="termsAccepted"
-        label="I've read Terms and Conditions"
-        error={errors}
-      />
-      <TextField
-        mode="controlled"
-        register={register}
-        id="password"
-        label="Password"
-        placeholder="Enter Password"
-        error={errors}
-      />
-      <TextField
-        mode="controlled"
-        register={register}
-        id="passwordConfirm"
-        label="Confirm Password"
-        placeholder="Confirm Password"
-        error={errors}
-      />
-      <SelectField
-        mode="controlled"
-        register={register}
-        id="country"
-        label="Country"
-        options={countryList}
-        error={errors}
-      />
-      <FileField
-        mode="controlled"
-        register={register}
-        id="imageDownload"
-        label="Upload Image"
-        error={errors}
-      />
-      <button type="submit" disabled={isSubmitting || !isValid}>
-        {isSubmitting ? 'Processing...' : 'Send'}
-      </button>
-    </form>
+    <>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="justify-items-stretch gap-2"
+      >
+        <TextField
+          mode="controlled"
+          register={register}
+          id="name"
+          label="Name"
+          placeholder="Enter Name"
+          error={errors}
+        />
+        <TextField
+          mode="controlled"
+          register={register}
+          id="email"
+          label="Email"
+          placeholder="Enter Email"
+          error={errors}
+        />
+        <TextField
+          mode="controlled"
+          register={register}
+          id="age"
+          label="Age"
+          placeholder="Enter Age"
+          error={errors}
+        />
+        <SelectField
+          mode="controlled"
+          register={register}
+          id="gender"
+          label="Gender"
+          options={[{ name: 'Female' }, { name: 'Male' }, { name: 'Other' }]}
+          error={errors}
+        />
+        <CheckboxField
+          mode="controlled"
+          register={register}
+          id="termsAccepted"
+          label="I've read Terms and Conditions"
+          error={errors}
+        />
+        <TextField
+          mode="controlled"
+          register={register}
+          id="password"
+          label="Password"
+          placeholder="Enter Password"
+          error={errors}
+        />
+        <TextField
+          mode="controlled"
+          register={register}
+          id="passwordConfirm"
+          label="Confirm Password"
+          placeholder="Confirm Password"
+          error={errors}
+        />
+        <SelectField
+          mode="controlled"
+          register={register}
+          id="country"
+          label="Country"
+          options={countryList}
+          error={errors}
+        />
+        <FileField
+          mode="controlled"
+          register={register}
+          id="imageDownload"
+          label="Upload Image"
+          error={errors}
+        />
+
+        <button type="submit" disabled={!isValid || isSubmitting}>
+          {isSubmitting ? 'Processing...' : 'Send'}
+        </button>
+      </form>
+    </>
   );
 }
 

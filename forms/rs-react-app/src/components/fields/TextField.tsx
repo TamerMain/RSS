@@ -24,10 +24,6 @@ type TextFieldProps = {
 
 function TextField(props: TextFieldProps) {
 
-  const passwordStrengthStatus = {
-    
-  }
-
 
   if (props.mode === 'controlled') {
     return (
