@@ -8,6 +8,7 @@ import ErrorBoundary from './components/ErrorBoundary.tsx';
 import Navigation from './components/Navigation.tsx';
 import CardNotFound from './pages/search/cards-not-found/CardNotFound.tsx';
 import NotFound from './pages/404/NotFound.tsx';
+import { ROUTES } from '@/constants/routes.ts';
 
 import { ThemeProvider } from '@/contexts/ThemeProvider.tsx';
 import { store } from '@/store/store.ts';
