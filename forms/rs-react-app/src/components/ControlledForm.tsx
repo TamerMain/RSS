@@ -1,14 +1,16 @@
 import { useDispatch } from 'react-redux';
 import { addEntry } from '@/store/formEntriesSlice';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formSchema, type EntryFormData } from '@/schemas/formSchema';
+import { processFormImage } from '@/utils/processFormImage';
+
 import countryList from '@/assets/country-list.json';
 import TextField from '@/components/fields/TextField';
 import SelectField from '@/components/fields/SelectField';
 import CheckboxField from '@/components/fields/CheckboxField';
 import FileField from '@/components/fields/FileField';
-import { processFormImage } from '@/utils/processFormImage';
+import CountriesField from '@/components/fields/CountriesField';
 import PasswordStrBar from './PasswordStrBar';
 
 type ControlledFormProps = {
@@ -20,7 +22,8 @@ function ControlledForm(props: ControlledFormProps) {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
+    setValue,
     formState: { errors, isSubmitting },
     setError,
     clearErrors,
@@ -28,7 +31,10 @@ function ControlledForm(props: ControlledFormProps) {
     resolver: zodResolver(formSchema),
     mode: 'onChange',
   });
-  const password = watch('password');
+  const password = useWatch({
+    control,
+    name: 'password',
+  });
 
   const onSubmit = async (data: EntryFormData) => {
     try {
@@ -103,9 +109,10 @@ function ControlledForm(props: ControlledFormProps) {
           options={[{ name: 'Female' }, { name: 'Male' }, { name: 'Other' }]}
           error={errors}
         />
-        <SelectField
+        <CountriesField
           mode="controlled"
           register={register}
+          setInputValue={setValue}
           id="country"
           label="Country"
           options={countryList}

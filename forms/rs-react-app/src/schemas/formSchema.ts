@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import countryList from '@/assets/country-list.json';
 
 export const formSchema = z
   .object({
@@ -12,7 +13,12 @@ export const formSchema = z
       .refine((val) => !isNaN(Number(val)), 'Must be a number')
       .refine((val) => Number(val) >= 18, 'Must be 18 or older')
       .refine((val) => Number(val) <= 120, 'Invalid age'),
-    country: z.string().min(1, 'Please select country'),
+    country: z
+      .string()
+      .refine(
+        (val) => val && countryList.includes(val),
+        'Please select a valid country'
+      ),
     imageUpload: z.instanceof(FileList).superRefine((files, ctx) => {
       if (files.length === 0) {
         ctx.addIssue({ code: 'custom', message: 'File is required' });

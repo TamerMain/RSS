@@ -40,7 +40,6 @@ function App() {
             Controlled Form
           </button>
         </div>
-
         <EntriesList />
       </div>
     </>

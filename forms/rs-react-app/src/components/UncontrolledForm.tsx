@@ -3,12 +3,14 @@ import { useDispatch } from 'react-redux';
 import { addEntry } from '@/store/formEntriesSlice';
 import { z } from 'zod';
 import countryList from '@/assets/country-list.json';
+import { processFormImage } from '@/utils/processFormImage';
 import { formSchema, type EntryFormErrorFlatten } from '@/schemas/formSchema';
+
 import TextField from '@/components/fields/TextField';
 import SelectField from '@/components/fields/SelectField';
 import CheckboxField from '@/components/fields/CheckboxField';
 import FileField from '@/components/fields/FileField';
-import { processFormImage } from '@/utils/processFormImage';
+import CountriesField from '@/components/fields/CountriesField';
 import PasswordStrBar from './PasswordStrBar';
 
 type UnontrolledFormProps = {
@@ -28,7 +30,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
   const termsCheck = useRef<HTMLInputElement>(null);
   const passwordInput = useRef<HTMLInputElement>(null);
   const passwordConfirmInput = useRef<HTMLInputElement>(null);
-  const countrySelect = useRef<HTMLSelectElement>(null);
+  const countrySelect = useRef<HTMLInputElement>(null);
   const imageUpload = useRef<HTMLInputElement>(null);
 
   async function handleFormSubmit(e: React.SubmitEvent<HTMLFormElement>) {
@@ -125,7 +127,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
         options={[{ name: 'Female' }, { name: 'Male' }, { name: 'Other' }]}
         error={formErrors}
       />
-      <SelectField
+      <CountriesField
         mode="uncontrolled"
         ref={countrySelect}
         id="country"
