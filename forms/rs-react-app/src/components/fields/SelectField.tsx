@@ -25,18 +25,18 @@ type SelectFieldProps = {
 function SelectField(props: SelectFieldProps) {
   if (props.mode === 'controlled') {
     return (
-      <div className="grid grid-cols-2 auto-rows-fr items-center">
+      <div className="grid grid-cols-2 h-15 auto-rows-fr items-center">
         <label className="block min-w-45 text-right pr-2" htmlFor={props.id}>
           {props.label}
         </label>
         <div>
           <select
             {...props.register(props.id)}
-            className="min-w-40 outline-none"
+            className="min-w-40 p-1 cursor-pointer capitalize"
             id={props.id}
           >
             <option className="text-gray" value="">
-              Select
+              Select {props.id}
             </option>
             {props.options.map((i) => (
               <option key={i.name} value={i.name}>
@@ -53,18 +53,18 @@ function SelectField(props: SelectFieldProps) {
   }
   if (props.mode === 'uncontrolled') {
     return (
-      <div className="grid grid-cols-2 auto-rows-fr items-center">
+      <div className="grid grid-cols-2 h-15 auto-rows-fr items-center">
         <label className="block min-w-45 text-right pr-2" htmlFor={props.id}>
           {props.label}
         </label>
         <div>
           <select
             ref={props.ref}
-            className="min-w-40 outline-none"
+            className="min-w-40 p-1 cursor-pointer capitalize"
             id={props.id}
           >
             <option className="text-gray" value="">
-              Select
+              Select {props.id}
             </option>
             {props.options.map((i) => (
               <option key={i.name} value={i.name}>

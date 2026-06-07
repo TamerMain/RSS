@@ -25,15 +25,16 @@ type TextFieldProps = {
 function TextField(props: TextFieldProps) {
 
 
+
   if (props.mode === 'controlled') {
     return (
-      <div className="grid grid-cols-2 auto-rows-fr items-center">
-        <label className="block min-w-45 text-right pr-2" htmlFor={props.id}>
+      <div className="grid grid-cols-2 h-15 auto-rows-fr items-center">
+        <label className="block min-w-45 min-h-7 text-right pr-2" htmlFor={props.id}>
           {props.label}
         </label>
         <input
           {...props.register(props.id)}
-          className="outline-none"
+          className="p-1"
           type="text"
           id={props.id}
           placeholder={props.placeholder}
@@ -47,14 +48,14 @@ function TextField(props: TextFieldProps) {
 
   if (props.mode === 'uncontrolled')
     return (
-      <div className="grid grid-cols-2 auto-rows-fr items-center">
+      <div className="grid grid-cols-2 h-15 auto-rows-fr items-center">
         <label className="block min-w-45 text-right pr-2" htmlFor={props.id}>
           {props.label}
         </label>
         {props.mode === 'uncontrolled' && (
           <input
             ref={props.ref}
-            className="outline-none"
+            className="p-1"
             type="text"
             id={props.id}
             placeholder={props.placeholder}

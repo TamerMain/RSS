@@ -8,9 +8,9 @@ export const fileToBase64 = (file: File): Promise<string> => {
 };
 
 export const processFormImage = async (
-  imageDownload: FileList
+  imageUpload: FileList
 ): Promise<string> => {
-  const file = imageDownload[0];
+  const file = imageUpload[0];
   if (!file) return '';
   return fileToBase64(file);
 };

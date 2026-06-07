@@ -1,8 +1,8 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { type EntryFormData } from '@/schemas/formSchema';
 
-export type EntryStoreData = Omit<EntryFormData, 'imageDownload'> & {
-  imageDownload: string;
+export type EntryStoreData = Omit<EntryFormData, 'imageUpload'> & {
+  imageUpload: string;
 };
 
 const initialState: EntryStoreData[] = [];

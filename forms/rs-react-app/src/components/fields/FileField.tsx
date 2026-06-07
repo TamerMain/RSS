@@ -24,15 +24,20 @@ type FileFieldProps = {
 function FileField(props: FileFieldProps) {
   if (props.mode === 'controlled') {
     return (
-      <div className="grid grid-cols-2 auto-rows-fr">
+      <div className="grid grid-cols-2 h-15 auto-rows-fr">
         <div className="col-span-2 justify-self-center">
-          <label className=" min-w-45 text-right pr-2" htmlFor={props.id}>
-            {props.label}
+          <label
+            className=" min-w-45 text-right p-2 cursor-pointer"
+            htmlFor={props.id}
+            tabIndex={0}
+          >
+            ↪ {props.label}
           </label>
           <input
             {...props.register(props.id)}
             type="file"
             id={props.id}
+            tabIndex={0}
             accept="image/jpeg,image/png"
             className="hidden"
           />
@@ -45,10 +50,14 @@ function FileField(props: FileFieldProps) {
   }
   if (props.mode === 'uncontrolled') {
     return (
-      <div className="grid grid-cols-2 auto-rows-fr">
+      <div className="grid grid-cols-2 h-15 auto-rows-fr">
         <div className="col-span-2 justify-self-center">
-          <label className=" min-w-45 text-right pr-2" htmlFor={props.id}>
-            {props.label}
+          <label
+            className=" min-w-45 text-right p-2 cursor-pointer"
+            htmlFor={props.id}
+            tabIndex={0}
+          >
+            ↪ {props.label}
           </label>
           <input
             ref={props.ref}

@@ -1,11 +1,10 @@
-import { useEffect, type ReactNode, useRef } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 type ModalProps = {
-  isModalOpen: boolean;
+  isModalOpen: 'controlled' | 'uncontrolled' | false;
   onCloseModal: () => void;
   children: ReactNode;
-  title?: string;
 };
 
 function Modal(props: ModalProps) {
@@ -37,18 +36,6 @@ function Modal(props: ModalProps) {
         className="max-w-md w-full mx-4 rounded-lg shadow-xl bg-white"
         onClick={(e) => e.stopPropagation()}
       >
-        {props.title && (
-          <div className="flex justify-between items-center p-4 border-b">
-            <h2 className="text-xl font-semibold">{props.title}</h2>
-            <button
-              onClick={props.onCloseModal}
-              className="text-gray-500 hover:text-gray-700 text-2xl"
-            >
-              ×
-            </button>
-          </div>
-        )}
-
         <div className="p-4">{props.children}</div>
       </div>
     </div>,

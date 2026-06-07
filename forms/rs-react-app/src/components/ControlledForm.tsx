@@ -19,28 +19,26 @@ function ControlledForm(props: ControlledFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid, dirtyFields },
+    formState: { errors, isSubmitting, dirtyFields },
     setError,
     clearErrors,
   } = useForm<EntryFormData>({
     resolver: zodResolver(formSchema),
-    mode: 'onTouched',
+    mode: 'onChange',
   });
 
   const onSubmit = async (data: EntryFormData) => {
     try {
-      const base64Image = await processFormImage(data.imageDownload);
+      const base64Image = await processFormImage(data.imageUpload);
       const submissionData = {
         ...data,
-        imageDownload: base64Image,
-        id: crypto.randomUUID(),
-        timestamp: Date.now(),
+        imageUpload: base64Image,
       };
       dispatch(addEntry(submissionData));
-      clearErrors('imageDownload');
+      clearErrors('imageUpload');
       props.onCloseModal();
     } catch (error) {
-      setError('imageDownload', {
+      setError('imageUpload', {
         type: 'manual',
         message: 'Failed to process image. Please try a different file.',
       });
@@ -49,10 +47,7 @@ function ControlledForm(props: ControlledFormProps) {
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="justify-items-stretch gap-2"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 p-4 bg-purple-50">
         <TextField
           mode="controlled"
           register={register}
@@ -77,21 +72,7 @@ function ControlledForm(props: ControlledFormProps) {
           placeholder="Enter Age"
           error={errors}
         />
-        <SelectField
-          mode="controlled"
-          register={register}
-          id="gender"
-          label="Gender"
-          options={[{ name: 'Female' }, { name: 'Male' }, { name: 'Other' }]}
-          error={errors}
-        />
-        <CheckboxField
-          mode="controlled"
-          register={register}
-          id="termsAccepted"
-          label="I've read Terms and Conditions"
-          error={errors}
-        />
+
         <TextField
           mode="controlled"
           register={register}
@@ -111,6 +92,14 @@ function ControlledForm(props: ControlledFormProps) {
         <SelectField
           mode="controlled"
           register={register}
+          id="gender"
+          label="Gender"
+          options={[{ name: 'Female' }, { name: 'Male' }, { name: 'Other' }]}
+          error={errors}
+        />
+        <SelectField
+          mode="controlled"
+          register={register}
           id="country"
           label="Country"
           options={countryList}
@@ -119,12 +108,26 @@ function ControlledForm(props: ControlledFormProps) {
         <FileField
           mode="controlled"
           register={register}
-          id="imageDownload"
+          id="imageUpload"
           label="Upload Image"
           error={errors}
         />
-
-        <button type="submit" disabled={!isValid || isSubmitting}>
+        <CheckboxField
+          mode="controlled"
+          register={register}
+          id="termsAccepted"
+          label="I've read Terms and Conditions"
+          error={errors}
+        />
+        <button
+          type="submit"
+          disabled={Object.keys(errors).length > 0 || isSubmitting}
+          onClick={() => {
+            console.log(Object.keys(errors).length);
+          }}
+          tabIndex={0}
+          className={`text-6xl text-bitcount cursor-pointer disabled:cursor-not-allowed`}
+        >
           {isSubmitting ? 'Processing...' : 'Send'}
         </button>
       </form>

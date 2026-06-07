@@ -27,7 +27,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
   const passwordInput = useRef<HTMLInputElement>(null);
   const passwordConfirmInput = useRef<HTMLInputElement>(null);
   const countrySelect = useRef<HTMLSelectElement>(null);
-  const imageDownload = useRef<HTMLInputElement>(null);
+  const imageUpload = useRef<HTMLInputElement>(null);
 
   async function handleFormSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -35,21 +35,21 @@ function UncontrolledForm(props: UnontrolledFormProps) {
     const formData = {
       name: nameInput.current?.value,
       email: emailInput.current?.value,
-      age: ageInput.current?.value,
       gender: genderSelect.current?.value,
-      termsAccepted: termsCheck.current?.checked,
       password: passwordInput.current?.value,
       passwordConfirm: passwordConfirmInput.current?.value,
+      age: ageInput.current?.value,
       country: countrySelect.current?.value,
-      imageDownload: imageDownload.current?.files,
+      imageUpload: imageUpload.current?.files,
+      termsAccepted: termsCheck.current?.checked,
     };
     const result = formSchema.safeParse(formData);
     if (result.success) {
       try {
-        const base64Image = await processFormImage(result.data.imageDownload);
+        const base64Image = await processFormImage(result.data.imageUpload);
         const submissionData = {
           ...result.data,
-          imageDownload: base64Image,
+          imageUpload: base64Image,
         };
         dispatch(addEntry(submissionData));
         setFormErrors(null);
@@ -58,7 +58,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
         setFormErrors({
           formErrors: [],
           fieldErrors: {
-            imageDownload: [
+            imageUpload: [
               'Failed to process image. Please try a different file.',
             ],
           },
@@ -69,7 +69,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
     }
   }
   return (
-    <form onSubmit={handleFormSubmit} className="justify-items-stretch gap-2">
+    <form onSubmit={handleFormSubmit} className="flex flex-col gap-2 p-4 bg-emerald-50">
       <TextField
         mode="uncontrolled"
         ref={nameInput}
@@ -94,21 +94,6 @@ function UncontrolledForm(props: UnontrolledFormProps) {
         placeholder="Enter Age"
         error={formErrors}
       />
-      <SelectField
-        mode="uncontrolled"
-        ref={genderSelect}
-        id="gender"
-        label="Gender"
-        options={[{ name: 'Female' }, { name: 'Male' }, { name: 'Other' }]}
-        error={formErrors}
-      />
-      <CheckboxField
-        mode="uncontrolled"
-        ref={termsCheck}
-        id="termsAccepted"
-        label="I've read Terms and Conditions"
-        error={formErrors}
-      />
       <TextField
         mode="uncontrolled"
         ref={passwordInput}
@@ -127,6 +112,14 @@ function UncontrolledForm(props: UnontrolledFormProps) {
       />
       <SelectField
         mode="uncontrolled"
+        ref={genderSelect}
+        id="gender"
+        label="Gender"
+        options={[{ name: 'Female' }, { name: 'Male' }, { name: 'Other' }]}
+        error={formErrors}
+      />
+      <SelectField
+        mode="uncontrolled"
         ref={countrySelect}
         id="country"
         label="Country"
@@ -135,12 +128,19 @@ function UncontrolledForm(props: UnontrolledFormProps) {
       />
       <FileField
         mode="uncontrolled"
-        ref={imageDownload}
-        id="imageDownload"
+        ref={imageUpload}
+        id="imageUpload"
         label="Upload Image"
         error={formErrors}
       />
-      <button type="submit">Send</button>
+      <CheckboxField
+        mode="uncontrolled"
+        ref={termsCheck}
+        id="termsAccepted"
+        label="I've read Terms and Conditions"
+        error={formErrors}
+      />
+      <button type="submit" className={`text-6xl text-bitcount cursor-pointer disabled:cursor-not-allowed`}>Send</button>
     </form>
   );
 }
