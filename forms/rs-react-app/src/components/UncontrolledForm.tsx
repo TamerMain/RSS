@@ -38,7 +38,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
       gender: genderSelect.current?.value,
       password: passwordInput.current?.value,
       passwordConfirm: passwordConfirmInput.current?.value,
-      age: Number(ageInput.current?.value),
+      age: ageInput.current?.value,
       country: countrySelect.current?.value,
       imageUpload: imageUpload.current?.files,
       termsAccepted: termsCheck.current?.checked,

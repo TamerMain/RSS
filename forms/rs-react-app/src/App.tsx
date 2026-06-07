@@ -27,11 +27,13 @@ function App() {
         <div className="relative w-[50vw] h-35">
           <button
             onClick={() => setIsModalOpen('uncontrolled')}
+            tabIndex={isModalOpen ? -1 : 0}
             className={`absolute h-35 ${isModalOpen === 'uncontrolled' ? 'w-4/5 z-10' : 'w-2/4'} hover:w-4/5 hover:z-10 text-5xl  text-center rounded-l-lg bg-emerald-200 text-bitcount transition-all overflow-hidden`}
           >
             Uncontrolled Form
           </button>
           <button
+            tabIndex={isModalOpen ? -1 : 0}
             onClick={() => setIsModalOpen('controlled')}
             className={`absolute right-0 h-35 ${isModalOpen === 'controlled' ? 'w-4/5 z-10' : 'w-2/4'}  hover:w-4/5  text-5xl text-center rounded-r-lg bg-purple-200 text-bitcount transition-all overflow-hidden`}
           >

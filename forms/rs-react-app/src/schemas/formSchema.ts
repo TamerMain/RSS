@@ -8,10 +8,12 @@ export const formSchema = z
     password: z.string().min(6, 'Password must be at least 6 characters'),
     passwordConfirm: z.string().min(1, 'Please confirm password'),
     age: z
-      .number()
+      .string()
+      .transform((val) => Number(val))
       .refine((val) => !isNaN(val), 'Must be a number')
       .refine((val) => val >= 18, 'Must be 18 or older')
-      .refine((val) => val <= 120, 'Invalid age'),
+      .refine((val) => val <= 120, 'Invalid age')
+      .transform((val) => val.toString()),
     country: z.string().min(1, 'Please select country'),
     imageUpload: z
       .instanceof(FileList)
