@@ -226,3 +226,98 @@ describe('SearchResults -- when loading', () => {
     });
   });
 });
+
+describe('Navigation/CardItem -- when add card to cart', async () => {
+  test('should update cart item counter when not items and add items', async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    const noCart = screen.queryByText(/Selected/i);
+    expect(noCart).toBe(null);
+
+    const card1 = await screen.findByRole('img', {
+      name: /Image of Aang, Airbending Master Card/i,
+    });
+    const card1SelectButton = card1.nextSibling as Element;
+    await user.click(card1SelectButton);
+    const cartCart = await screen.findByText(/Selected/i);
+    expect(cartCart).toHaveTextContent('Selected 1');
+
+    const card2 = await screen.findByRole('img', {
+      name: /Aang, Air Nomad/i,
+    });
+    const card2SelectButton = card2.nextSibling as Element;
+    await user.click(card2SelectButton);
+    const updatedCart = await screen.findByText(/Selected/i);
+    expect(updatedCart).toHaveTextContent('Selected 2');
+  });
+  test('should clear cart when deselect', async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    const card = await screen.findByRole('img', {
+      name: /Image of Aang, Airbending Master Card/i,
+    });
+    const cardSelectButton = card.nextSibling as Element;
+    await user.click(cardSelectButton);
+    const cart = await screen.findByText(/Selected/i);
+    expect(cart).toHaveTextContent('Selected 1');
+
+    const deselectButton = await screen.findByText('Deselect All');
+    await user.click(deselectButton);
+    const emptyCart = screen.queryByText(/Selected/i);
+    expect(emptyCart).toBe(null);
+  });
+  test('should persist selected items when changing routes', async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <App />
+      </MemoryRouter>
+    );
+    const card = await screen.findByRole('img', {
+      name: /Image of Aang, Airbending Master Card/i,
+    });
+    const cardSelectButton = card.nextSibling as Element;
+    await user.click(cardSelectButton);
+
+    const toAboutButton = await screen.findByRole('link', { name: 'About' });
+    await user.click(toAboutButton);
+    const toSearchButton = await screen.findByRole('link', { name: 'Search' });
+    await user.click(toSearchButton);
+
+    const refetchedCard = await screen.findByRole('img', {
+      name: /Image of Aang, Airbending Master Card/i,
+    });
+    const refetchedSelectButton = refetchedCard.nextSibling as Element;
+    expect(refetchedSelectButton).not.toBe(cardSelectButton);
+    expect(refetchedSelectButton).toHaveClass('shadow-[inset_0_0_0_2px]');
+  });
+});
+
+describe('ThemeProvider -- when changing theme', () => {
+  test('should change theme to light', async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <App />
+      </MemoryRouter>
+    );
+    expect(document.querySelectorAll('[class*="light:"]').length).toBeLessThan(6);
+
+    await user.click(screen.getByLabelText('Change Theme'));
+    await waitFor(() => {
+      const lightThemedElements =
+        document.querySelectorAll('[class*="light:"]');
+      expect(lightThemedElements.length).toBeGreaterThan(6);
+    });
+  });
+});

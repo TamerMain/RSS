@@ -13,18 +13,22 @@ type SearchResultsProps = {
 function SearchResults(props: SearchResultsProps) {
   if (props.isLoading) return <Loader />;
   return (
-    <div className="flex flex-col fade-in">
-      {props.cardList && (
-        <>
-          <h1 className="flex justify-center p-2 text-5xl">Card List</h1>
-          <CardPagination
-            cardList={props.cardList}
-            updateCardList={props.updateCardList}
-          />
-          <CardList cardList={props.cardList} />
-        </>
-      )}
-    </div>
+    <>
+      <div className="flex flex-col fade-in">
+        <h1 className="flex justify-center p-2 text-5xl light:text-black">
+          Card List
+        </h1>
+        {props.cardList && (
+          <>
+            <CardPagination
+              cardList={props.cardList}
+              updateCardList={props.updateCardList}
+            />
+            <CardList cardList={props.cardList} />
+          </>
+        )}
+      </div>
+    </>
   );
 }
 

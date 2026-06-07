@@ -15,7 +15,8 @@ export type SearchAPIResponse = {
     id: string;
   }[];
 };
-export type SearchExtra = { total_pages: number; current_page: number };
+
+export type SearchExtra = { total_pages: number; current_page: number; search_term: string };
 export type SearchResponse = SearchAPIResponse & SearchExtra;
 
 
@@ -36,6 +37,7 @@ export async function searchRequest(searchTerm: string, searchPage: number) {
     ...responseObj,
     current_page: searchPage,
     total_pages: totalPages,
+    search_term: searchTerm,
   };
 
   return cardList;

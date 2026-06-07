@@ -5,9 +5,11 @@ describe('CardItem -- when render', () => {
   test('should render correct item name and image', () => {
     render(
       <CardItem
-        onActiveCardClick={vi.fn()}
-        cardImageSrc="Card.png"
         cardName="Card"
+        cardImageSrc="Card.png"
+        isInCart={false}
+        onToCartClick={vi.fn()}
+        onActiveCardClick={vi.fn()}
       />
     );
     const image = screen.getByRole('img');
@@ -19,9 +21,11 @@ describe('CardItem -- when render', () => {
   test('should render placeholder on invalid API response', () => {
     render(
       <CardItem
-        onActiveCardClick={vi.fn()}
-        cardImageSrc={undefined}
         cardName={undefined}
+        cardImageSrc={undefined}
+        isInCart={false}
+        onToCartClick={vi.fn()}
+        onActiveCardClick={vi.fn()}
       />
     );
     const image = screen.queryByRole('img');

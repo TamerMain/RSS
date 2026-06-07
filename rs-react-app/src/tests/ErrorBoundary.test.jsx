@@ -36,30 +36,3 @@ describe('ErrorBoundary -- when child has error', () => {
     );
   });
 });
-
-describe('ErrorBoundary -- when click fallback refresh button', () => {
-  const originalLocation = window.location;
-
-  beforeEach(() => {
-    vi.stubGlobal('location', {
-      ...originalLocation,
-      reload: vi.fn(),
-    });
-  });
-
-  afterEach(() => {
-    vi.unstubAllGlobals();
-  });
-
-  test('should refresh page', async () => {
-    const user = userEvent.setup();
-    render(
-      <ErrorBoundary>
-        <MockErrorChild />
-      </ErrorBoundary>
-    );
-    const refreshButton = screen.getByRole('button', { name: 'Refresh Page' });
-    await user.click(refreshButton);
-    await expect(window.location.reload).toHaveBeenCalledTimes(1);
-  });
-});

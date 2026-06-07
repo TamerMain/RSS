@@ -1,21 +1,29 @@
 import { useState } from 'react';
 import { Routes, Route, Outlet } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
 import CardItem from './CardItem.tsx';
 import CardMasterDetail from './CardMasterDetail.tsx';
 import { type SearchResponse } from '../../../services/fetchCardList.tsx';
+import { toggleItem, type RootState, type CardInfo } from '@/store/store.ts';
 
 type CardListProps = { cardList: SearchResponse };
 
 function CardList(props: CardListProps) {
   const [activeCard, setActiveCard] = useState<string | undefined>(undefined);
+  const dispatch = useDispatch();
+  const cart = useSelector((state: RootState) => state.cart);
 
   function handleActiveCardClick(id: string) {
     setActiveCard(id);
   }
 
+  function handleToCartClick(payload: CardInfo) {
+    dispatch(toggleItem(payload));
+  }
+
   const cardItemList = (
     <>
-      <div className={`flex-1 grid grid-cols-8 justify-items-center gap-4 p-2`}>
+      <div className={`flex-1 grid grid-cols-6 justify-items-center gap-4 p-2`}>
         {props.cardList.data?.map((card) => (
           <CardItem
             key={card.id}
@@ -24,6 +32,19 @@ function CardList(props: CardListProps) {
               card?.card_faces?.[0]?.image_uris?.normal
             }
             cardName={card.name}
+            isInCart={cart.some((cartItem) => cartItem.name === card.name)}
+            onToCartClick={(e) => {
+              e.stopPropagation();
+              handleToCartClick({
+                name: card.name,
+                id: card.id,
+                imageSrc:
+                  card?.image_uris?.normal ||
+                  card?.card_faces?.[0]?.image_uris?.normal,
+                page: props.cardList.current_page,
+                search: props.cardList.search_term
+              });
+            }}
             onActiveCardClick={() => handleActiveCardClick(card.id)}
           />
         ))}
