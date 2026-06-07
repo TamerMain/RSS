@@ -9,6 +9,7 @@ import SelectField from '@/components/fields/SelectField';
 import CheckboxField from '@/components/fields/CheckboxField';
 import FileField from '@/components/fields/FileField';
 import { processFormImage } from '@/utils/processFormImage';
+import PasswordStrBar from './PasswordStrBar';
 
 type ControlledFormProps = {
   onCloseModal: () => void;
@@ -19,6 +20,7 @@ function ControlledForm(props: ControlledFormProps) {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
     setError,
     clearErrors,
@@ -26,6 +28,7 @@ function ControlledForm(props: ControlledFormProps) {
     resolver: zodResolver(formSchema),
     mode: 'onChange',
   });
+  const password = watch('password');
 
   const onSubmit = async (data: EntryFormData) => {
     try {
@@ -49,7 +52,7 @@ function ControlledForm(props: ControlledFormProps) {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-2 p-4 bg-purple-50"
+        className="relative flex flex-col gap-2 p-4 bg-purple-50"
       >
         <TextField
           mode="controlled"
@@ -75,7 +78,7 @@ function ControlledForm(props: ControlledFormProps) {
           placeholder="Enter Age"
           error={errors}
         />
-
+        <PasswordStrBar password={password} />
         <TextField
           mode="controlled"
           register={register}

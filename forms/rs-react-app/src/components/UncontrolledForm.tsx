@@ -9,6 +9,7 @@ import SelectField from '@/components/fields/SelectField';
 import CheckboxField from '@/components/fields/CheckboxField';
 import FileField from '@/components/fields/FileField';
 import { processFormImage } from '@/utils/processFormImage';
+import PasswordStrBar from './PasswordStrBar';
 
 type UnontrolledFormProps = {
   onCloseModal: () => void;
@@ -19,6 +20,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
   const [formErrors, setFormErrors] = useState<EntryFormErrorFlatten | null>(
     null
   );
+  const [password, setPassword] = useState('');
   const nameInput = useRef<HTMLInputElement>(null);
   const emailInput = useRef<HTMLInputElement>(null);
   const ageInput = useRef<HTMLInputElement>(null);
@@ -71,7 +73,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
   return (
     <form
       onSubmit={handleFormSubmit}
-      className="flex flex-col gap-2 p-4 bg-emerald-50"
+      className="relative flex flex-col gap-2 p-4 bg-emerald-50"
     >
       <TextField
         mode="uncontrolled"
@@ -97,8 +99,10 @@ function UncontrolledForm(props: UnontrolledFormProps) {
         placeholder="Enter Age"
         error={formErrors}
       />
+      <PasswordStrBar password={password} />
       <TextField
         mode="uncontrolled"
+        setPassword={setPassword}
         ref={passwordInput}
         id="password"
         label="Password"

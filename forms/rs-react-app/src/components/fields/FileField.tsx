@@ -25,7 +25,7 @@ function FileField(props: FileFieldProps) {
   if (props.mode === 'controlled') {
     const errorMessage = props.error?.[props.id]?.message;
     return (
-      <div className="grid grid-cols-2 h-15 auto-rows-fr">
+      <div className="grid grid-cols-2 gap-1 h-15 auto-rows-fr">
         <div className="col-span-2 justify-self-center">
           <label
             className=" min-w-45 text-right p-2 bg-purple-100 cursor-pointer"
@@ -43,7 +43,7 @@ function FileField(props: FileFieldProps) {
             className="hidden"
           />
         </div>
-        <div className="[grid-column:2] text-xs text-red-500">
+        <div className="[grid-column:2] text-xs text-red-400">
           {errorMessage || ''}
         </div>
       </div>
@@ -52,7 +52,7 @@ function FileField(props: FileFieldProps) {
   if (props.mode === 'uncontrolled') {
     const errorMessage = props.error?.fieldErrors?.[props.id] || '';
     return (
-      <div className="grid grid-cols-2 h-15 auto-rows-fr">
+      <div className="grid grid-cols-2 gap-1 h-15 auto-rows-fr">
         <div className="col-span-2 justify-self-center">
           <label
             className=" min-w-45 text-right p-2 bg-emerald-100 cursor-pointer"
@@ -69,7 +69,7 @@ function FileField(props: FileFieldProps) {
             className="hidden"
           />
         </div>
-        <div className="[grid-column:2] text-xs text-red-500">
+        <div className="[grid-column:2] text-xs text-red-400">
           {errorMessage || ''}
         </div>
       </div>

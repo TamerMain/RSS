@@ -25,7 +25,7 @@ function CheckboxField(props: CheckboxFieldProps) {
   if (props.mode === 'controlled') {
     const errorMessage = props.error?.[props.id]?.message;
     return (
-      <div className="grid grid-cols-2 h-18 auto-rows-fr">
+      <div className="grid grid-cols-2 gap-1 h-18 auto-rows-fr">
         <div className="flex items-center col-span-2 justify-self-center">
           <label className=" min-w-45 text-right pr-2" htmlFor={props.id}>
             {props.label}
@@ -37,7 +37,7 @@ function CheckboxField(props: CheckboxFieldProps) {
             className="w-4 h-4 pl-2  cursor-pointer"
           />
         </div>
-        <div className="[grid-column:2] text-xs text-red-500">
+        <div className="[grid-column:2] text-xs text-red-400">
           {errorMessage || ''}
         </div>
       </div>
@@ -47,7 +47,7 @@ function CheckboxField(props: CheckboxFieldProps) {
   if (props.mode === 'uncontrolled') {
     const errorMessage = props.error?.fieldErrors?.[props.id] || '';
     return (
-      <div className="grid grid-cols-2 h-18 auto-rows-fr">
+      <div className="grid grid-cols-2 gap-1 h-18 auto-rows-fr">
         <div className="flex items-center col-span-2 justify-self-center">
           <label className=" min-w-45 text-right pr-2" htmlFor={props.id}>
             {props.label}
@@ -59,7 +59,7 @@ function CheckboxField(props: CheckboxFieldProps) {
             className="w-4 h-4 pl-2 cursor-pointer"
           />
         </div>
-        <div className="[grid-column:2] text-xs text-red-500">
+        <div className="[grid-column:2] text-xs text-red-400">
           {errorMessage || ''}
         </div>
       </div>

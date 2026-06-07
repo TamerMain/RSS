@@ -9,20 +9,24 @@ export const formSchema = z
     passwordConfirm: z.string().min(1, 'Please confirm password'),
     age: z
       .string()
-      .transform((val) => Number(val))
-      .refine((val) => !isNaN(val), 'Must be a number')
-      .refine((val) => val >= 18, 'Must be 18 or older')
-      .refine((val) => val <= 120, 'Invalid age')
-      .transform((val) => val.toString()),
+      .refine((val) => !isNaN(Number(val)), 'Must be a number')
+      .refine((val) => Number(val) >= 18, 'Must be 18 or older')
+      .refine((val) => Number(val) <= 120, 'Invalid age'),
     country: z.string().min(1, 'Please select country'),
-    imageUpload: z
-      .instanceof(FileList)
-      .refine((files) => files.length > 0, 'File is required')
-      .refine((file) => file[0]?.size <= 5 * 1024 * 1024, 'Max size 5MB')
-      .refine(
-        (files) => ['image/jpeg', 'image/png'].includes(files[0]?.type),
-        'Only JPG or PNG'
-      ),
+    imageUpload: z.instanceof(FileList).superRefine((files, ctx) => {
+      if (files.length === 0) {
+        ctx.addIssue({ code: 'custom', message: 'File is required' });
+        return;
+      }
+      const file = files[0];
+      if (file.size > 5 * 1024 * 1024) {
+        ctx.addIssue({ code: 'custom', message: 'Max size 5MB' });
+        return;
+      }
+      if (!['image/jpeg', 'image/png'].includes(file.type)) {
+        ctx.addIssue({ code: 'custom', message: 'Only JPG or PNG' });
+      }
+    }),
     termsAccepted: z
       .boolean()
       .refine((val) => val === true, 'Must accept Terms and Conditions'),

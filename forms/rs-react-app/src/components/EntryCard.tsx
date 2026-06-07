@@ -10,13 +10,13 @@ function EntryCard({ data, lastEntry }: EntryCardProps) {
       <div
         className={`flex flex-col gap-2 ${lastEntry ? 'animate-bg-zinc' : 'bg-zinc-100'} rounded-lg p-4`}
       >
-        <div className="font-mono text-sm bg-neutral-800 rounded-lg p-4 shadow-lg overflow-x-auto">
-          <div className="relative text-[#d4d4d4]">
-            {lastEntry && (
-              <div className="absolute right-0 text-red-400 animate-pulse">
-                ● New
-              </div>
-            )}
+        <div className="relative font-mono text-sm bg-neutral-800 rounded-lg p-4 shadow-lg overflow-x-auto">
+          {lastEntry && (
+            <div className="absolute right-5 text-red-400 animate-pulse">
+              ● New
+            </div>
+          )}
+          <div className="text-[#d4d4d4]">
             <span className="text-[#c586c0]">{`{`}</span>
 
             <div className="ml-4 space-y-0.5">
@@ -44,33 +44,45 @@ function EntryCard({ data, lastEntry }: EntryCardProps) {
               <div>
                 <span className="text-[#9cdcfe]">&quot;gender&quot;</span>
                 <span className="text-[#d4d4d4]">: </span>
-                <span className="text-[#ce9178]">&quot;{data.gender}&quot;</span>
+                <span className="text-[#ce9178]">
+                  &quot;{data.gender}&quot;
+                </span>
                 <span className="text-[#d4d4d4]">,</span>
               </div>
 
               <div>
                 <span className="text-[#9cdcfe]">&quot;password&quot;</span>
                 <span className="text-[#d4d4d4]">: </span>
-                <span className="text-[#ce9178]">&quot;{data.password}&quot;</span>
+                <span className="text-[#ce9178]">
+                  &quot;{data.password}&quot;
+                </span>
                 <span className="text-[#d4d4d4]">,</span>
               </div>
 
               <div>
-                <span className="text-[#9cdcfe]">&quot;passwordConfirm&quot;</span>
+                <span className="text-[#9cdcfe]">
+                  &quot;passwordConfirm&quot;
+                </span>
                 <span className="text-[#d4d4d4]">: </span>
-                <span className="text-[#ce9178]">&quot;{data.passwordConfirm}&quot;</span>
+                <span className="text-[#ce9178]">
+                  &quot;{data.passwordConfirm}&quot;
+                </span>
                 <span className="text-[#d4d4d4]">,</span>
               </div>
 
               <div>
                 <span className="text-[#9cdcfe]">&quot;country&quot;</span>
                 <span className="text-[#d4d4d4]">: </span>
-                <span className="text-[#ce9178]">&quot;{data.country}&quot;</span>
+                <span className="text-[#ce9178]">
+                  &quot;{data.country}&quot;
+                </span>
                 <span className="text-[#d4d4d4]">,</span>
               </div>
 
               <div>
-                <span className="text-[#9cdcfe]">&quot;termsAccepted&quot;</span>
+                <span className="text-[#9cdcfe]">
+                  &quot;termsAccepted&quot;
+                </span>
                 <span className="text-[#d4d4d4]">: </span>
                 <span
                   className={
