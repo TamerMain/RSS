@@ -16,6 +16,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/tests/setup.ts',
+    reporters: ['verbose'],
     coverage: {
       enabled: true,
       thresholds: {

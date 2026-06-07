@@ -2,9 +2,10 @@ import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addEntry } from '@/store/formEntriesSlice';
 import { z } from 'zod';
-import countryList from '@/assets/country-list.json';
 import { processFormImage } from '@/utils/processFormImage';
 import { formSchema, type EntryFormErrorFlatten } from '@/schemas/formSchema';
+import { useSelector } from 'react-redux';
+import { type RootState } from '@/store/store';
 
 import TextField from '@/components/fields/TextField';
 import SelectField from '@/components/fields/SelectField';
@@ -19,6 +20,7 @@ type UnontrolledFormProps = {
 
 function UncontrolledForm(props: UnontrolledFormProps) {
   const dispatch = useDispatch();
+  const countries = useSelector((state: RootState) => state.countries);
   const [formErrors, setFormErrors] = useState<EntryFormErrorFlatten | null>(
     null
   );
@@ -132,7 +134,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
         ref={countrySelect}
         id="country"
         label="Country"
-        options={countryList}
+        options={countries}
         error={formErrors}
       />
       <FileField

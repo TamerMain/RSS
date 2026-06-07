@@ -37,7 +37,7 @@ function SelectField(props: SelectFieldProps) {
             id={props.id}
           >
             <option className="text-gray" value="">
-              Select {props.id}
+              Select {props.label}
             </option>
             {props.options.map((i) => (
               <option key={i.name} value={i.name}>
@@ -46,8 +46,8 @@ function SelectField(props: SelectFieldProps) {
             ))}
           </select>
         </div>
-        <div className="[grid-column:2] text-xs text-red-400">
-          {errorMessage || ''}
+        <div data-testid={`invalid_${props.id}`} className="[grid-column:2] text-xs text-red-400">
+          {errorMessage}
         </div>
       </div>
     );
@@ -67,7 +67,7 @@ function SelectField(props: SelectFieldProps) {
             id={props.id}
           >
             <option className="text-gray" value="">
-              Select {props.id}
+              Select {props.label}
             </option>
             {props.options.map((i) => (
               <option key={i.name} value={i.name}>
@@ -76,8 +76,8 @@ function SelectField(props: SelectFieldProps) {
             ))}
           </select>
         </div>
-        <div className="[grid-column:2] text-xs text-red-400">
-          {errorMessage || ''}
+        <div data-testid={`invalid_${props.id}`} className="[grid-column:2] text-xs text-red-400">
+          {errorMessage}
         </div>
       </div>
     );

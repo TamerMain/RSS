@@ -4,8 +4,9 @@ import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formSchema, type EntryFormData } from '@/schemas/formSchema';
 import { processFormImage } from '@/utils/processFormImage';
+import { useSelector } from 'react-redux';
+import { type RootState } from '@/store/store';
 
-import countryList from '@/assets/country-list.json';
 import TextField from '@/components/fields/TextField';
 import SelectField from '@/components/fields/SelectField';
 import CheckboxField from '@/components/fields/CheckboxField';
@@ -19,6 +20,7 @@ type ControlledFormProps = {
 
 function ControlledForm(props: ControlledFormProps) {
   const dispatch = useDispatch();
+  const countries = useSelector((state: RootState) => state.countries);
   const {
     register,
     handleSubmit,
@@ -115,7 +117,7 @@ function ControlledForm(props: ControlledFormProps) {
           setInputValue={setValue}
           id="country"
           label="Country"
-          options={countryList}
+          options={countries}
           error={errors}
         />
         <FileField

@@ -42,8 +42,8 @@ function TextField(props: TextFieldProps) {
           id={props.id}
           placeholder={props.placeholder}
         />
-        <div className="[grid-column:2] text-xs text-red-400">
-          {errorMessage || ''}
+        <div data-testid={`invalid_${props.id}`} className="[grid-column:2] text-xs text-red-400">
+          {errorMessage}
         </div>
       </div>
     );
@@ -68,8 +68,8 @@ function TextField(props: TextFieldProps) {
             placeholder={props.placeholder}
           />
         )}
-        <div className="[grid-column:2] text-xs text-red-400">
-          {errorMessage || ''}
+        <div data-testid={`invalid_${props.id}`} className="[grid-column:2] text-xs text-red-400">
+          {errorMessage}
         </div>
       </div>
     );

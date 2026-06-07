@@ -37,8 +37,8 @@ function CheckboxField(props: CheckboxFieldProps) {
             className="w-4 h-4 pl-2  cursor-pointer"
           />
         </div>
-        <div className="[grid-column:2] text-xs text-red-400">
-          {errorMessage || ''}
+        <div data-testid={`invalid_${props.id}`} className="[grid-column:2] text-xs text-red-400">
+          {errorMessage}
         </div>
       </div>
     );
@@ -59,8 +59,8 @@ function CheckboxField(props: CheckboxFieldProps) {
             className="w-4 h-4 pl-2 cursor-pointer"
           />
         </div>
-        <div className="[grid-column:2] text-xs text-red-400">
-          {errorMessage || ''}
+        <div data-testid={`invalid_${props.id}`} className="[grid-column:2] text-xs text-red-400">
+          {errorMessage}
         </div>
       </div>
     );

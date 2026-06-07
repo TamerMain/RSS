@@ -55,6 +55,7 @@ const CountriesField = (props: CountriesFieldProps) => {
         </label>
         <div className="relative">
           <input
+            id={props.id}
             type="text"
             {...props.register(props.id, {
               onChange: (e) => {
@@ -65,7 +66,7 @@ const CountriesField = (props: CountriesFieldProps) => {
               },
             })}
             onFocus={() => setOpen(true)}
-            placeholder="Search country..."
+            placeholder={`Select ${props.label}`}
             className="w-full p-1 rounded bg-purple-100"
           />
 
@@ -89,8 +90,11 @@ const CountriesField = (props: CountriesFieldProps) => {
             </ul>
           )}
         </div>
-        <div className="[grid-column:2] text-xs text-red-400">
-          {errorMessage || ''}
+        <div
+          data-testid={`invalid_${props.id}`}
+          className="[grid-column:2] text-xs text-red-400"
+        >
+          {errorMessage}
         </div>
       </div>
     );
@@ -118,6 +122,7 @@ const CountriesField = (props: CountriesFieldProps) => {
         </label>
         <div className="relative">
           <input
+            id={props.id}
             type="text"
             ref={props.ref}
             onChange={(e) => setInput(e.target.value)}
@@ -149,8 +154,11 @@ const CountriesField = (props: CountriesFieldProps) => {
             </ul>
           )}
         </div>
-        <div className="[grid-column:2] text-xs text-red-400">
-          {errorMessage || ''}
+        <div
+          data-testid={`invalid_${props.id}`}
+          className="[grid-column:2] text-xs text-red-400"
+        >
+          {errorMessage}
         </div>
       </div>
     );

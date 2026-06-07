@@ -43,8 +43,8 @@ function FileField(props: FileFieldProps) {
             className="hidden"
           />
         </div>
-        <div className="[grid-column:2] text-xs text-red-400">
-          {errorMessage || ''}
+        <div data-testid={`invalid_${props.id}`} className="[grid-column:2] text-xs text-red-400">
+          {errorMessage}
         </div>
       </div>
     );
@@ -69,8 +69,8 @@ function FileField(props: FileFieldProps) {
             className="hidden"
           />
         </div>
-        <div className="[grid-column:2] text-xs text-red-400">
-          {errorMessage || ''}
+        <div data-testid={`invalid_${props.id}`} className="[grid-column:2] text-xs text-red-400">
+          {errorMessage}
         </div>
       </div>
     );

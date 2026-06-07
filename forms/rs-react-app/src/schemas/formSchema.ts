@@ -3,18 +3,23 @@ import countryList from '@/assets/country-list.json';
 
 export const formSchema = z
   .object({
-    name: z.string().min(2, 'Name must be at least 2 characters'),
+    name: z.string().trim().min(2, 'Name must be at least 2 characters'),
     email: z.email('Invalid email address'),
-    gender: z.string().min(1, 'Please select gender'),
-    password: z.string().min(6, 'Password must be at least 6 characters'),
-    passwordConfirm: z.string().min(1, 'Please confirm password'),
+    gender: z.string().trim().min(1, 'Please select gender'),
+    password: z
+      .string()
+      .trim()
+      .min(6, 'Password must be at least 6 characters'),
+    passwordConfirm: z.string().trim().min(1, 'Please confirm password'),
     age: z
       .string()
+      .trim()
       .refine((val) => !isNaN(Number(val)), 'Must be a number')
       .refine((val) => Number(val) >= 18, 'Must be 18 or older')
       .refine((val) => Number(val) <= 120, 'Invalid age'),
     country: z
       .string()
+      .trim()
       .refine(
         (val) => val && countryList.includes(val),
         'Please select a valid country'
