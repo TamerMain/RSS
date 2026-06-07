@@ -38,7 +38,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
       gender: genderSelect.current?.value,
       password: passwordInput.current?.value,
       passwordConfirm: passwordConfirmInput.current?.value,
-      age: ageInput.current?.value,
+      age: Number(ageInput.current?.value),
       country: countrySelect.current?.value,
       imageUpload: imageUpload.current?.files,
       termsAccepted: termsCheck.current?.checked,
@@ -54,7 +54,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
         dispatch(addEntry(submissionData));
         setFormErrors(null);
         props.onCloseModal();
-      } catch (error) {
+      } catch {
         setFormErrors({
           formErrors: [],
           fieldErrors: {
@@ -69,7 +69,10 @@ function UncontrolledForm(props: UnontrolledFormProps) {
     }
   }
   return (
-    <form onSubmit={handleFormSubmit} className="flex flex-col gap-2 p-4 bg-emerald-50">
+    <form
+      onSubmit={handleFormSubmit}
+      className="flex flex-col gap-2 p-4 bg-emerald-50"
+    >
       <TextField
         mode="uncontrolled"
         ref={nameInput}
@@ -140,7 +143,12 @@ function UncontrolledForm(props: UnontrolledFormProps) {
         label="I've read Terms and Conditions"
         error={formErrors}
       />
-      <button type="submit" className={`text-6xl text-bitcount cursor-pointer disabled:cursor-not-allowed`}>Send</button>
+      <button
+        type="submit"
+        className={`text-6xl text-bitcount cursor-pointer disabled:cursor-not-allowed`}
+      >
+        Send
+      </button>
     </form>
   );
 }

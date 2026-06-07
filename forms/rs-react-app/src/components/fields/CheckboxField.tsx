@@ -23,6 +23,7 @@ type CheckboxFieldProps = {
 
 function CheckboxField(props: CheckboxFieldProps) {
   if (props.mode === 'controlled') {
+    const errorMessage = props.error?.[props.id]?.message;
     return (
       <div className="grid grid-cols-2 h-18 auto-rows-fr">
         <div className="flex items-center col-span-2 justify-self-center">
@@ -37,13 +38,14 @@ function CheckboxField(props: CheckboxFieldProps) {
           />
         </div>
         <div className="[grid-column:2] text-xs text-red-500">
-          {props.error?.[props.id]?.message || ''}
+          {errorMessage || ''}
         </div>
       </div>
     );
   }
 
   if (props.mode === 'uncontrolled') {
+    const errorMessage = props.error?.fieldErrors?.[props.id] || '';
     return (
       <div className="grid grid-cols-2 h-18 auto-rows-fr">
         <div className="flex items-center col-span-2 justify-self-center">
@@ -58,7 +60,7 @@ function CheckboxField(props: CheckboxFieldProps) {
           />
         </div>
         <div className="[grid-column:2] text-xs text-red-500">
-          {props.error?.fieldErrors?.[props.id] || ''}
+          {errorMessage || ''}
         </div>
       </div>
     );

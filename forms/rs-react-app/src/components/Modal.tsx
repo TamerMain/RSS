@@ -23,7 +23,7 @@ function Modal(props: ModalProps) {
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = 'unset';
     };
-  }, [props.isModalOpen, props.onCloseModal]);
+  }, [props.isModalOpen, props]);
 
   if (!props.isModalOpen) return null;
 

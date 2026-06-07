@@ -19,7 +19,7 @@ function ControlledForm(props: ControlledFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, dirtyFields },
+    formState: { errors, isSubmitting },
     setError,
     clearErrors,
   } = useForm<EntryFormData>({
@@ -37,7 +37,7 @@ function ControlledForm(props: ControlledFormProps) {
       dispatch(addEntry(submissionData));
       clearErrors('imageUpload');
       props.onCloseModal();
-    } catch (error) {
+    } catch {
       setError('imageUpload', {
         type: 'manual',
         message: 'Failed to process image. Please try a different file.',
@@ -47,7 +47,10 @@ function ControlledForm(props: ControlledFormProps) {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 p-4 bg-purple-50">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-2 p-4 bg-purple-50"
+      >
         <TextField
           mode="controlled"
           register={register}
