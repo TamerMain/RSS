@@ -10,19 +10,21 @@ function App() {
   >(false);
   return (
     <>
-      <Modal
-        isModalOpen={isModalOpen}
-        onCloseModal={() => setIsModalOpen(false)}
+      <div
+        data-testid="app"
+        className="absolute flex flex-col items-center top-25 left-1/2 -translate-x-1/2 w-[75vw] "
       >
-        {isModalOpen === 'uncontrolled' && (
-          <UncontrolledForm onCloseModal={() => setIsModalOpen(false)} />
-        )}
-        {isModalOpen === 'controlled' && (
-          <ControlledForm onCloseModal={() => setIsModalOpen(false)} />
-        )}
-      </Modal>
-
-      <div className="absolute flex flex-col items-center top-25 left-1/2 -translate-x-1/2 w-[75vw] ">
+        <Modal
+          isModalOpen={isModalOpen}
+          onCloseModal={() => setIsModalOpen(false)}
+        >
+          {isModalOpen === 'uncontrolled' && (
+            <UncontrolledForm onCloseModal={() => setIsModalOpen(false)} />
+          )}
+          {isModalOpen === 'controlled' && (
+            <ControlledForm onCloseModal={() => setIsModalOpen(false)} />
+          )}
+        </Modal>
         <div className="relative w-[50vw] h-35">
           <button
             onClick={() => setIsModalOpen('uncontrolled')}

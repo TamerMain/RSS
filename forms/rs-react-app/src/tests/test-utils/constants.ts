@@ -6,8 +6,20 @@ export const TEST_FIELDS_LABELS = {
   CONFIRM_PASSWORD: 'Confirm Password',
   GENDER: 'Gender',
   COUNTRY: 'Country',
-  UPLOAD: 'Upload Image',
+  UPLOAD: '↪ Upload Image',
   TERMS: "I've read Terms and Conditions",
+} as const;
+
+export const TEST_VALID_INPUT = {
+  NAME: 'EXAMPLE',
+  EMAIL: 'AAAAAAAAA@gmail.com',
+  AGE: '18',
+  PASSWORD: 'EXAMPLE',
+  CONFIRM_PASSWORD: 'EXAMPLE',
+  GENDER: 'Other',
+  COUNTRY: 'Belarus',
+  UPLOAD: 'JPG',
+  TERMS: true,
 } as const;
 
 export const TEST_FIELDS_INPUTS = {
@@ -45,9 +57,13 @@ export const TEST_FIELDS_INPUTS = {
     VALID: 'EXAMPLE',
     MISSMATCH: 'AAAAAA',
   },
-  GENDER: { EMPTY: false, VALID: 'Other', INVALID: "Select Gender" },
+  GENDER: { EMPTY: false, VALID: 'Other', INVALID: 'Select Gender' },
   COUNTRY: { EMPTY: '', VALID: 'Belarus', INVALID: 'Wakanda' },
-  UPLOAD: 'Upload Image',
+  UPLOAD: {
+    VALID_JPG: 'JPG',
+    VALID_PNG: 'PNG',
+    INVALID_SIZE: '6MB',
+  },
   TERMS: { CHECK: true, UNCHECK: false },
 } as const;
 
@@ -83,16 +99,23 @@ export const TEST_VALIDATION_ERROR = {
     VALID: '',
     MISSMATCH: `Passwords don't match`,
   },
-  GENDER: { EMPTY: 'Please select gender', VALID: '', INVALID: 'Please select gender' },
+  GENDER: {
+    EMPTY: 'Please select gender',
+    VALID: '',
+    INVALID: 'Please select gender',
+  },
   COUNTRY: {
     EMPTY: 'Please select a valid country',
     VALID: '',
     INVALID: 'Please select a valid country',
   },
-  UPLOAD: 'File is required',
+  UPLOAD: {
+    VALID_JPG: '',
+    VALID_PNG: '',
+    INVALID_SIZE: 'Max size 5MB',
+  },
   TERMS: { CHECK: '', UNCHECK: 'Must accept Terms and Conditions' },
 } as const;
-
 
 export const TEST_VALIDATION_TESTID = {
   NAME: 'invalid_name',

@@ -25,7 +25,7 @@ function PasswordStrBar(props: PasswordStrBarProps) {
             ? 'bg-yellow-300 w-36'
             : 'bg-green-300 w-48';
   return (
-    <div
+    <div data-testid="password_str"
       className={`relative -right-48 top-1 h-1 ${barColor} transition-all`}
     ></div>
   );

@@ -36,6 +36,7 @@ export const formSchema = z
       }
       if (!['image/jpeg', 'image/png'].includes(file.type)) {
         ctx.addIssue({ code: 'custom', message: 'Only JPG or PNG' });
+        return;
       }
     }),
     termsAccepted: z

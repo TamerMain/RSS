@@ -6,6 +6,6 @@ export type TEST_INPUT_TYPES = {
   CONFIRM_PASSWORD?: string | undefined;
   GENDER?: string | false | undefined;
   COUNTRY?: string | undefined;
-  UPLOAD?: File | undefined;
+  UPLOAD?: string | undefined;
   TERMS?: boolean | undefined;
 };

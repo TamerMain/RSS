@@ -103,6 +103,30 @@ export const mockUserFormFill = async (
       await user.keyboard('{Delete}');
     }
   }
+  const uploadInput: HTMLLabelElement = screen.getByLabelText(
+    TEST_FIELDS_LABELS.UPLOAD
+  );
+  if (userInput.UPLOAD !== undefined) {
+    let file: File;
+
+    switch (userInput.UPLOAD) {
+      case 'JPG':
+        file = new File(['content'], 'photo.jpg', { type: 'image/jpeg' });
+        break;
+      case 'PNG':
+        file = new File(['content'], 'photo.png', { type: 'image/png' });
+        break;
+      case '6MB':
+        file = new File([new ArrayBuffer(6 * 1024 * 1024)], 'large.jpg', {
+          type: 'image/jpeg',
+        });
+        break;
+      default:
+        file = userInput.UPLOAD as unknown as File;
+    }
+
+    await user.upload(uploadInput, file);
+  }
 
   const termCheck: HTMLLabelElement = screen.getByLabelText(
     TEST_FIELDS_LABELS.TERMS

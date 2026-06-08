@@ -38,12 +38,15 @@ function FileField(props: FileFieldProps) {
             {...props.register(props.id)}
             type="file"
             id={props.id}
-            tabIndex={0}
             accept="image/jpeg,image/png"
             className="hidden"
+            tabIndex={-1}
           />
         </div>
-        <div data-testid={`invalid_${props.id}`} className="[grid-column:2] text-xs text-red-400">
+        <div
+          data-testid={`invalid_${props.id}`}
+          className="[grid-column:2] text-xs text-red-400"
+        >
           {errorMessage}
         </div>
       </div>
@@ -65,11 +68,15 @@ function FileField(props: FileFieldProps) {
             ref={props.ref}
             type="file"
             id={props.id}
+            tabIndex={-1}
             accept="image/jpeg,image/png"
             className="hidden"
           />
         </div>
-        <div data-testid={`invalid_${props.id}`} className="[grid-column:2] text-xs text-red-400">
+        <div
+          data-testid={`invalid_${props.id}`}
+          className="[grid-column:2] text-xs text-red-400"
+        >
           {errorMessage}
         </div>
       </div>

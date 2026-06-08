@@ -39,11 +39,14 @@ describe('ControlledForm', () => {
     [{ COUNTRY: TEST_FIELDS_INPUTS.COUNTRY.EMPTY }, TEST_VALIDATION_ERROR.COUNTRY.EMPTY, TEST_VALIDATION_TESTID.COUNTRY],
     [{ COUNTRY: TEST_FIELDS_INPUTS.COUNTRY.VALID }, TEST_VALIDATION_ERROR.COUNTRY.VALID, TEST_VALIDATION_TESTID.COUNTRY],
     [{ COUNTRY: TEST_FIELDS_INPUTS.COUNTRY.INVALID}, TEST_VALIDATION_ERROR.COUNTRY.INVALID, TEST_VALIDATION_TESTID.COUNTRY],
+    [{ UPLOAD: TEST_FIELDS_INPUTS.UPLOAD.VALID_JPG}, TEST_VALIDATION_ERROR.UPLOAD.VALID_JPG, TEST_VALIDATION_TESTID.UPLOAD],
+    [{ UPLOAD: TEST_FIELDS_INPUTS.UPLOAD.VALID_PNG}, TEST_VALIDATION_ERROR.UPLOAD.VALID_PNG, TEST_VALIDATION_TESTID.UPLOAD],
+    [{ UPLOAD: TEST_FIELDS_INPUTS.UPLOAD.INVALID_SIZE}, TEST_VALIDATION_ERROR.UPLOAD.INVALID_SIZE, TEST_VALIDATION_TESTID.UPLOAD],
     [{ TERMS: TEST_FIELDS_INPUTS.TERMS.CHECK}, TEST_VALIDATION_ERROR.TERMS.CHECK, TEST_VALIDATION_TESTID.TERMS],
     [{ TERMS: TEST_FIELDS_INPUTS.TERMS.UNCHECK}, TEST_VALIDATION_ERROR.TERMS.UNCHECK, TEST_VALIDATION_TESTID.TERMS],
   ]
   )(
-    'should validate text fields input %s and show %s',
+    'should validate fields input %s and show %s',
     async (input, expected, testid) => {
       const user = userEvent.setup();
       render(
@@ -52,7 +55,7 @@ describe('ControlledForm', () => {
         </Provider>
       );
       await mockUserFormFill(user, input);
-      const validationError = screen.queryByTestId(testid);
+      const validationError = await screen.findByTestId(testid);
       expect(validationError).toHaveTextContent(expected);
     }
   );
