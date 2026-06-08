@@ -90,11 +90,9 @@ describe('App -- when modal', () => {
         <App />
       </Provider>
     );
-    screen.debug();
     const openForm = screen.getByRole('button', { name: 'Controlled Form' });
     await user.click(openForm);
 
-    screen.debug();
     const modalBackDrop = screen.getByTestId('backdrop');
     fireEvent.click(modalBackDrop);
     const modalFormButton = screen.queryByRole('button', { name: 'Send' });
@@ -188,7 +186,6 @@ describe('App -- when tab navigation', () => {
       if (id === 'SEND') {
         const button = screen.getByRole('button', { name: 'Send' });
         expect(button).toHaveFocus();
-        console.log(id);
         await user.tab();
         continue;
       }

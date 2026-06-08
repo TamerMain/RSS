@@ -137,9 +137,6 @@ function ControlledForm(props: ControlledFormProps) {
         <button
           type="submit"
           disabled={Object.keys(errors).length > 0 || isSubmitting}
-          onClick={() => {
-            console.log(Object.keys(errors).length);
-          }}
           tabIndex={0}
           className={`text-6xl text-bitcount cursor-pointer disabled:cursor-not-allowed`}
         >
