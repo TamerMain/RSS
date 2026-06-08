@@ -62,4 +62,15 @@ describe('ControlledForm', () => {
       expect(validationError).toHaveTextContent(expected);
     }
   );
+  test('should disable send button with validation errors', async () => {
+    const user = userEvent.setup();
+    render(
+      <Provider store={store}>
+        <ControlledForm onCloseModal={vi.fn()} />
+      </Provider>
+    );
+    await mockUserFormFill(user, { TERMS: TEST_FIELDS_INPUTS.TERMS.UNCHECK });
+    const validationError = await screen.findByRole('button', { name: 'Send' });
+    expect(validationError).toBeDisabled();
+  });
 });
