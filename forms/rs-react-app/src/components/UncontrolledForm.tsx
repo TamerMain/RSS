@@ -3,7 +3,10 @@ import { useDispatch } from 'react-redux';
 import { addEntry } from '@/store/formEntriesSlice';
 import { z } from 'zod';
 import { processFormImage } from '@/utils/processFormImage';
-import { formSchema, type EntryFormErrorFlatten } from '@/schemas/formSchema';
+import {
+  createFormSchema,
+  type EntryFormErrorFlatten,
+} from '@/schemas/formSchema';
 import { useSelector } from 'react-redux';
 import { type RootState } from '@/store/store';
 
@@ -21,6 +24,7 @@ type UnontrolledFormProps = {
 function UncontrolledForm(props: UnontrolledFormProps) {
   const dispatch = useDispatch();
   const countries = useSelector((state: RootState) => state.countries);
+  const formSchema = createFormSchema(countries);
   const [formErrors, setFormErrors] = useState<EntryFormErrorFlatten | null>(
     null
   );

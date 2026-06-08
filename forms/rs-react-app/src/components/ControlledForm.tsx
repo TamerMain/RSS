@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { addEntry } from '@/store/formEntriesSlice';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { formSchema, type EntryFormData } from '@/schemas/formSchema';
+import { createFormSchema, type EntryFormData } from '@/schemas/formSchema';
 import { processFormImage } from '@/utils/processFormImage';
 import { useSelector } from 'react-redux';
 import { type RootState } from '@/store/store';
@@ -21,6 +21,7 @@ type ControlledFormProps = {
 function ControlledForm(props: ControlledFormProps) {
   const dispatch = useDispatch();
   const countries = useSelector((state: RootState) => state.countries);
+  const formSchema = createFormSchema(countries);
   const {
     register,
     handleSubmit,

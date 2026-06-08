@@ -13,8 +13,7 @@ export const formEntriesSlice = createSlice({
     addEntry: (state, action: PayloadAction<EntryStoreData>) => {
       state.push(action.payload);
     },
-    clearEntries: () => initialState,
   },
 });
 
-export const { addEntry, clearEntries } = formEntriesSlice.actions;
+export const { addEntry } = formEntriesSlice.actions;
