@@ -1,7 +1,5 @@
 import * as z from 'zod';
-import { store, type Countries } from '@/store/store.ts';
-
-const countryList: Countries = store.getState().countries;
+import countryList from '@/assets/country-list.json';
 
 export const formSchema = z
   .object({
