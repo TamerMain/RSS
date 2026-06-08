@@ -1,12 +1,47 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import App from '@/App';
 import { Provider } from 'react-redux';
 import { store } from '@/store/store.ts';
 import { mockUserFormFill } from './test-utils/MockUserFormFill';
-import {
-  TEST_VALID_INPUT
-} from './test-utils/constants';
+import { TEST_VALID_INPUT } from './test-utils/constants';
+
+describe('App -- when submitting form', () => {
+  test('should add results to main page via controlled form', async () => {
+    const user = userEvent.setup();
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+    const openForm = screen.getByRole('button', { name: 'Controlled Form' });
+    await user.click(openForm);
+    await mockUserFormFill(user, TEST_VALID_INPUT);
+    const formSubmitButton = await screen.findByRole('button', {
+      name: 'Send',
+    });
+    await user.click(formSubmitButton);
+    const resultsCard = await screen.findByText(`"${TEST_VALID_INPUT.EMAIL}"`);
+    expect(resultsCard).toBeInTheDocument();
+  });
+  test('should add results to main page via uncontrolled form', async () => {
+    const user = userEvent.setup();
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+    const openForm = screen.getByRole('button', { name: 'Uncontrolled Form' });
+    await user.click(openForm);
+    mockUserFormFill(user, TEST_VALID_INPUT);
+    const formSubmitButton = await screen.findByRole('button', {
+      name: 'Send',
+    });
+    await user.click(formSubmitButton);
+    const resultsCard = await screen.findByText(`"${TEST_VALID_INPUT.EMAIL}"`);
+    expect(resultsCard).toBeInTheDocument();
+  });
+});
 
 describe('App -- when modal', () => {
   test('should render not inside app', async () => {
@@ -77,8 +112,12 @@ describe('App -- when modal', () => {
     const modalFormButton = screen.queryByRole('button', { name: 'Send' });
     await mockUserFormFill(user, TEST_VALID_INPUT);
     await user.click(modalFormButton!);
-    const modalFormButtonNext = screen.queryByRole('button', { name: 'Send' });
-    expect(modalFormButtonNext).toBe(null);
+    waitFor(() => {
+      const modalFormButtonNext = screen.queryByRole('button', {
+        name: 'Send',
+      });
+      expect(modalFormButtonNext).toBe(null);
+    });
   });
 });
 

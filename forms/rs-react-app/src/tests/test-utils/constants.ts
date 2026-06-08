@@ -10,6 +10,20 @@ export const TEST_FIELDS_LABELS = {
   TERMS: "I've read Terms and Conditions",
 } as const;
 
+export const TEST_STORE_INPUT = (mock: string) => {
+  return {
+    name: `${mock}Name`,
+    email: `${mock}@mail.com`,
+    gender: 'Other' as const,
+    password: `${mock}Password`,
+    passwordConfirm: `${mock}Password`,
+    age: '25',
+    country: 'Belarus',
+    imageUpload: `${mock}Base64`,
+    termsAccepted: true,
+  };
+};
+
 export const TEST_VALID_INPUT = {
   NAME: 'EXAMPLE',
   EMAIL: 'AAAAAAAAA@gmail.com',

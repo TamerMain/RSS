@@ -11,7 +11,7 @@ function EntriesList() {
       {entriesList &&
         entriesList.map((entryData, index) => (
           <EntryCard
-            key={index}
+            key={`${entryData.name}-${index}`}
             data={entryData}
             lastEntry={entriesLength === index + 1}
           />
