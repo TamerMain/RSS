@@ -21,7 +21,6 @@ function Modal(props: ModalProps) {
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
     };
   }, [props.isModalOpen, props]);
 

@@ -37,7 +37,13 @@ export const TEST_VALID_INPUT = {
 } as const;
 
 export const TEST_FIELDS_INPUTS = {
-  NAME: { EMPTY: '', SHORT: 'A', VALID: 'EXAMPLE' },
+  NAME: {
+    EMPTY: '',
+    SHORT: 'A',
+    VALID: 'EXAMPLE',
+    LOWERCASE: 'example',
+    SYMBOLS: '?EXAMPLE',
+  },
   EMAIL: {
     EMPTY: '',
     VALID: 'AAAAAAAAA@gmail.com',
@@ -50,6 +56,7 @@ export const TEST_FIELDS_INPUTS = {
   AGE: {
     EMPTY: '',
     NOT_NUMBER: 'EXAMPLE',
+    NEGATIVE: '-1',
     LOWER: '14',
     VALID: '18',
     HIGHER: '121',
@@ -86,6 +93,8 @@ export const TEST_VALIDATION_ERROR = {
     EMPTY: 'Name must be at least 2 characters',
     SHORT: 'Name must be at least 2 characters',
     VALID: '',
+    LOWERCASE: 'First letter must be uppercase',
+    SYMBOLS: 'Name can only contain letters',
   },
   EMAIL: {
     EMPTY: 'Invalid email address',
@@ -99,6 +108,7 @@ export const TEST_VALIDATION_ERROR = {
   AGE: {
     EMPTY: 'Must be 18 or older',
     NOT_NUMBER: 'Must be a number',
+    NEGATIVE: 'Age cannot be negative',
     LOWER: 'Must be 18 or older',
     VALID: '',
     HIGHER: 'Invalid age',

@@ -3,8 +3,31 @@ import countryList from '@/assets/country-list.json';
 
 export const formSchema = z
   .object({
-    name: z.string().trim().min(2, 'Name must be at least 2 characters'),
-    email: z.email('Invalid email address'),
+    name: z
+      .string()
+      .trim()
+      .min(2, 'Name must be at least 2 characters')
+      .refine(
+        (val) => val.charAt(0) === val.charAt(0).toUpperCase(),
+        'First letter must be uppercase'
+      )
+      .refine(
+        (val) => /^[A-Za-z\s]+$/.test(val),
+        'Name can only contain letters'
+      ),
+    email: z
+      .string()
+      .trim()
+      .refine((val) => {
+        if (!val.includes('@')) return false;
+        const [localPart, domain] = val.split('@');
+        const dotCount = domain.split('.').length - 1;
+        if (!localPart || localPart.length === 0) return false;
+        if (!domain || !domain.includes('.')) return false;
+        if (domain.startsWith('.') || domain.endsWith('.')) return false;
+        if (dotCount > 1) return false;
+        return true;
+      }, 'Invalid email address'),
     gender: z.string().trim().min(1, 'Please select gender'),
     password: z
       .string()
@@ -15,6 +38,7 @@ export const formSchema = z
       .string()
       .trim()
       .refine((val) => !isNaN(Number(val)), 'Must be a number')
+      .refine((val) => Number(val) >= 0, 'Age cannot be negative')
       .refine((val) => Number(val) >= 18, 'Must be 18 or older')
       .refine((val) => Number(val) <= 120, 'Invalid age'),
     country: z
