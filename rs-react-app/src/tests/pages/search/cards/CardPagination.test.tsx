@@ -4,7 +4,7 @@ import { userEvent } from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 
 import CardPagination from '@/pages/search/cards/CardPagination';
-import mockListResponse from '@/test-utils/mockListResponse.json';
+import mockListResponse from '@/test-mocks/mockListResponse.json';
 
 describe('CardPagination -- when render', () => {
   test('should update list when click another page', async () => {

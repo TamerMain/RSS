@@ -3,13 +3,14 @@ import '@testing-library/jest-dom';
 import { afterAll, afterEach, beforeAll } from 'vitest';
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
-import mockListResponse from '../test-utils/mockListResponse.json';
-import mockListDefaultResponse from '../test-utils/mockListDefaultResponse.json';
-import mockListDefaultResponsePage2 from '../test-utils/mockListDefaultResponsePage2.json';
-import mockDetailsResponse from '../test-utils/mockDetailsResponse.json';
+import mockListResponse from '../test-mocks/mockListResponse.json';
+import mockListDefaultResponse from '../test-mocks/mockListDefaultResponse.json';
+import mockListDefaultResponsePage2 from '../test-mocks/mockListDefaultResponsePage2.json';
+import mockDetailsResponse from '../test-mocks/mockDetailsResponse.json';
 import { clearCart } from '@/store/cartSlice';
 import { fetchAPI } from '@/services/fetchAPI';
 import { store } from '@/store/store';
+import { HTTP_STATUS } from '@/constants/routes';
 import {
   TEST_FETCH_DELAY,
   TEST_FETCH_URL,
@@ -36,10 +37,12 @@ export const restHandlers = [
     }
 
     if (url === `${TEST_FETCH_URL}${TEST_FETCH_PARAMS.PAGE_NOT_FOUND}`) {
-      return new HttpResponse(null, { status: 422 });
+      return new HttpResponse(null, {
+        status: HTTP_STATUS.UNPROCESSABLE_CONTENT,
+      });
     }
 
-    return new HttpResponse(null, { status: 404 });
+    return new HttpResponse(null, { status: HTTP_STATUS.NOT_FOUND });
   }),
 
   http.get(`${TEST_FETCH_DETAILS_URL}*`, async ({ request }) => {
@@ -59,7 +62,7 @@ export const restHandlers = [
     ) {
       return new HttpResponse(null);
     }
-    return new HttpResponse(null, { status: 404 });
+    return new HttpResponse(null, { status: HTTP_STATUS.NOT_FOUND });
   }),
 ];
 

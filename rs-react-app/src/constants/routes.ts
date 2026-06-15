@@ -26,6 +26,11 @@ export const SEARCH_PARAMS = {
   DETAILS: 'id',
 } as const;
 
+export const HTTP_STATUS = {
+  NOT_FOUND: 404,
+  UNPROCESSABLE_CONTENT: 422,
+} as const;
+
 export const ERROR_CODES = {
   NOT_FOUND: '404',
   UNKNOWN_ERROR: 'UnknownError',

@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { MemoryRouter, useLocation, type Location } from 'react-router';
 import CardList from '@/pages/search/cards/CardList';
-import mockListResponse from '@/test-utils/mockListResponse.json';
+import mockListResponse from '@/test-mocks/mockListResponse.json';
 import { store } from '@/store/store.ts';
 import { Provider } from 'react-redux';
 import {

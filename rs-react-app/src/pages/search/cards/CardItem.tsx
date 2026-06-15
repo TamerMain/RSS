@@ -25,7 +25,7 @@ function CardItem(props: CardItemProps) {
               height="680"
               loading="lazy"
               decoding="async"
-            ></img>
+            />
             <button
               onClick={props.onToCartClick}
               className={`absolute left-[3%] bottom-[3%] w-5 h-5 rounded-full border-2 border-mist-400 light:border-mist-800 ${
@@ -33,7 +33,7 @@ function CardItem(props: CardItemProps) {
                   ? 'bg-mist-400 light:bg-mist-800 shadow-[inset_0_0_0_2px] shadow-black light:shadow-mist-200'
                   : 'bg-black light:bg-mist-200'
               }`}
-            ></button>
+            />
           </div>
           <p className="text-center">{props.cardName}</p>
         </div>
@@ -51,7 +51,7 @@ function CardItem(props: CardItemProps) {
                   ? 'bg-mist-400 light:bg-mist-800 shadow-[inset_0_0_0_2px] shadow-black light:shadow-mist-200'
                   : 'bg-black light:bg-mist-200'
               }`}
-            ></button>
+            />
           </div>
           <p className="text-center">{props.cardName}</p>
         </div>

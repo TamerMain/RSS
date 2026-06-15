@@ -1,19 +1,19 @@
-import { useFetchCardListQuery } from '@/services/fetchAPI.ts';
+import { useCardListQuery } from '@/services/fetchAPI.ts';
 import {
   type FetchSearchParams,
   type UseFetchCardListReturn,
   type FetchError,
 } from '@/types/types.ts';
-import { ERROR_CODES } from '@/constants/routes';
+import { ERROR_CODES, HTTP_STATUS, SEARCH_PARAMS } from '@/constants/routes';
 
 export default function useFetchCardList({
-  q,
-  page,
+  [SEARCH_PARAMS.QUERY]: q,
+  [SEARCH_PARAMS.PAGE]: page,
 }: FetchSearchParams): UseFetchCardListReturn {
-  const { data, isLoading, error, isFetching } = useFetchCardListQuery(
+  const { data, isLoading, error, isFetching } = useCardListQuery(
     {
-      q,
-      page,
+      [SEARCH_PARAMS.QUERY]: q,
+      [SEARCH_PARAMS.PAGE]: page,
     },
     {
       skip:
@@ -34,9 +34,9 @@ export default function useFetchCardList({
     if (!error) return false;
     const status = 'status' in error ? error.status : null;
     switch (status) {
-      case 404:
+      case HTTP_STATUS.NOT_FOUND:
         return ERROR_CODES.NOT_FOUND;
-      case 422:
+      case HTTP_STATUS.UNPROCESSABLE_CONTENT:
         return ERROR_CODES.UNPROCESSABLE_CONTENT;
       default:
         return ERROR_CODES.UNKNOWN_ERROR;

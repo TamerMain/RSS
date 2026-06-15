@@ -2,6 +2,7 @@ import { useState } from 'react';
 import useStorage from '../../hooks/useStorage';
 import useFetchCardList from '@/hooks/useFetchCardList';
 import useCardListSearchParams from '@/hooks/useCardListSearchParams';
+import { SEARCH_PARAMS } from '@/constants/routes';
 
 function SearchBar() {
   const { getItem: getRecentSearch, setItem: setRecentSearch } =
@@ -9,7 +10,7 @@ function SearchBar() {
   const { searchParams, setSearchParams } = useCardListSearchParams();
   const { isLoading } = useFetchCardList(searchParams);
   const [searchTerm, setSearchTerm] = useState<string>(() => {
-    return searchParams.q;
+    return searchParams[SEARCH_PARAMS.QUERY];
   });
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -23,7 +24,10 @@ function SearchBar() {
       return;
     }
     setRecentSearch(newTerm);
-    setSearchParams({ q: newTerm, page: 1 });
+    setSearchParams({
+      [SEARCH_PARAMS.QUERY]: newTerm,
+      [SEARCH_PARAMS.PAGE]: 1,
+    });
   }
 
   return (

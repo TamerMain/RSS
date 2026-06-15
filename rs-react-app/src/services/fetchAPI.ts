@@ -5,6 +5,7 @@ import {
   FETCH_DETAILS_URL,
   FETCH_CONTENT_ACCEPT,
   FETCH_CONTENT_TYPE,
+  FETCH_PARAMS,
 } from '@/constants/fetch';
 import {
   type SearchResponse,
@@ -28,8 +29,8 @@ export const fetchAPI = createApi({
     },
   }),
   endpoints: (builder) => ({
-    fetchCardList: builder.query<SearchResponse, FetchSearchParams>({
-      query: ({ q, page }) => {
+    cardList: builder.query<SearchResponse, FetchSearchParams>({
+      query: ({ [FETCH_PARAMS.QUERY]: q, [FETCH_PARAMS.PAGE]: page }) => {
         const url = `${FETCH_SEARCH_URL}${createFetchSearchParams({ q, page })}`;
         return url;
       },
@@ -41,12 +42,12 @@ export const fetchAPI = createApi({
       keepUnusedDataFor: 60,
       providesTags: ['Card List'],
     }),
-    fetchCardDetails: builder.query<DetailsResponse, FetchDetailsParams>({
-      query: ({ id }) => `${FETCH_DETAILS_URL}${id}`,
+    cardDetails: builder.query<DetailsResponse, FetchDetailsParams>({
+      query: ({ [FETCH_PARAMS.DETAILS]: id }) => `${FETCH_DETAILS_URL}${id}`,
       keepUnusedDataFor: 60,
       providesTags: ['Details'],
     }),
   }),
 });
 
-export const { useFetchCardListQuery, useFetchCardDetailsQuery } = fetchAPI;
+export const { useCardListQuery, useCardDetailsQuery } = fetchAPI;

@@ -1,5 +1,5 @@
-import { ERROR_CODES } from '@/constants/routes';
-import { useFetchCardDetailsQuery } from '@/services/fetchAPI';
+import { ERROR_CODES, HTTP_STATUS, SEARCH_PARAMS } from '@/constants/routes';
+import { useCardDetailsQuery } from '@/services/fetchAPI';
 import {
   type UseFetchDetailsReturn,
   type FetchDetailsParams,
@@ -8,15 +8,12 @@ import {
 export default function useFetchDetails(
   params: FetchDetailsParams
 ): UseFetchDetailsReturn {
-  const { data, isLoading, error, isFetching } = useFetchCardDetailsQuery(
-    params,
-    {
-      skip: !params?.id,
-    }
-  );
+  const { data, isLoading, error, isFetching } = useCardDetailsQuery(params, {
+    skip: !params?.[SEARCH_PARAMS.DETAILS],
+  });
 
   const errorCode = error
-    ? 'status' in error && error.status === 404
+    ? 'status' in error && error.status === HTTP_STATUS.NOT_FOUND
       ? ERROR_CODES.NOT_FOUND
       : ERROR_CODES.UNKNOWN_ERROR
     : false;

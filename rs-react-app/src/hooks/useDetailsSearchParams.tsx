@@ -11,12 +11,18 @@ export default function useDetailsSearchParams() {
 
   const updateParams = (newParams: FetchDetailsParams) => {
     setSearchParams((prev) => {
-      if (currentParams.id === newParams.id) {
+      if (
+        currentParams[SEARCH_PARAMS.DETAILS] ===
+        newParams[SEARCH_PARAMS.DETAILS]
+      ) {
         return prev;
       }
-      if (newParams.id !== null)
-        prev.set(SEARCH_PARAMS.DETAILS, String(newParams.id));
-      if (newParams.id === null) {
+      if (newParams[SEARCH_PARAMS.DETAILS] !== null)
+        prev.set(
+          SEARCH_PARAMS.DETAILS,
+          String(newParams[SEARCH_PARAMS.DETAILS])
+        );
+      if (newParams[SEARCH_PARAMS.DETAILS] === null) {
         prev.delete(SEARCH_PARAMS.DETAILS);
       }
       return prev;

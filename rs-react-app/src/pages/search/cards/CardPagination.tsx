@@ -1,6 +1,7 @@
 import getPagination from '../../../utils/getPagination.ts';
 import { type FetchSearchParams } from '@/types/types.ts';
 import { type SearchResponse } from '@/types/types.ts';
+import { SEARCH_PARAMS } from '@/constants/routes.ts';
 
 type CardPaginationPRops = {
   cardList: SearchResponse;
@@ -15,7 +16,10 @@ function CardPagination(props: CardPaginationPRops) {
 
   function handlePageClick(e: React.MouseEvent<HTMLButtonElement>) {
     const nextPage = Number(+e.currentTarget.textContent.trim());
-    props.setSearchParams({ q: props.cardList.search_term, page: nextPage });
+    props.setSearchParams({
+      [SEARCH_PARAMS.QUERY]: props.cardList.search_term,
+      [SEARCH_PARAMS.PAGE]: nextPage,
+    });
   }
 
   return (

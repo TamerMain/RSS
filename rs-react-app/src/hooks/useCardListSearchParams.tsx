@@ -22,14 +22,14 @@ export default function useCardListSearchParams() {
     ) {
       if (getRecentSearch()) {
         setSearchParams((prev) => {
-          prev.set('q', getRecentSearch());
-          prev.set('page', String(1));
+          prev.set(SEARCH_PARAMS.QUERY, getRecentSearch());
+          prev.set(SEARCH_PARAMS.PAGE, String(1));
           return prev;
         });
       } else {
         setSearchParams((prev) => {
-          prev.set('q', String(''));
-          prev.set('page', String(1));
+          prev.set(SEARCH_PARAMS.QUERY, String(''));
+          prev.set(SEARCH_PARAMS.PAGE, '1');
           return prev;
         });
       }
@@ -41,12 +41,12 @@ export default function useCardListSearchParams() {
     ) {
       setRecentSearch('');
     }
-  });
+  }, [getRecentSearch, searchParams, setRecentSearch, setSearchParams]);
 
   const updateParams = (newParams: FetchSearchParams) => {
     setSearchParams((prev) => {
-      prev.set(SEARCH_PARAMS.QUERY, newParams.q);
-      prev.set(SEARCH_PARAMS.PAGE, String(newParams.page));
+      prev.set(SEARCH_PARAMS.QUERY, newParams[SEARCH_PARAMS.QUERY]);
+      prev.set(SEARCH_PARAMS.PAGE, String(newParams[SEARCH_PARAMS.PAGE]));
       return prev;
     });
   };

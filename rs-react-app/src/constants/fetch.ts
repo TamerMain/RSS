@@ -11,5 +11,6 @@ export const CARD_PER_PAGE = 175;
 export const FETCH_PARAMS = {
   QUERY: 'q',
   PAGE: 'page',
+  DETAILS: 'id',
   FILTER: 'game:paper',
 } as const;
