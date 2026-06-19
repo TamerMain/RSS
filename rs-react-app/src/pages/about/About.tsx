@@ -1,5 +1,4 @@
-import rsIcon from '../../assets/rs-icon.svg';
-import ghIcon from '../../assets/gh-icon.svg';
+import Image from 'next/image';
 
 function About() {
   return (
@@ -11,7 +10,8 @@ function About() {
           rel="noopener noreferrer"
           className="inline-flex gap-2"
         >
-          <img src={ghIcon} alt="GitHub Logo"></img> RS School. React
+          <Image src="/gh-icon.svg" alt="GitHub Logo" width={24} height={24} />{' '}
+          RS School. React
         </a>
       </h1>
       <p>Churuya {'(@TamerMain)'}</p>
@@ -21,8 +21,8 @@ function About() {
         rel="noopener noreferrer"
         className="inline-flex gap-2"
       >
-        <img src={rsIcon} alt="RS School Logo" width="24px" height="24px" /> RS
-        School
+        <Image src="/rs-icon.svg" alt="RS School Logo" width={24} height={24} />{' '}
+        RS School
       </a>
       <a
         href="https://github.com/TamerMain"
@@ -30,7 +30,8 @@ function About() {
         rel="noopener noreferrer"
         className="inline-flex gap-2"
       >
-        <img src={ghIcon} alt="GitHub Logo" /> Github
+        <Image src="/gh-icon.svg" alt="GitHub Logo" width={24} height={24} />{' '}
+        Github
       </a>
     </div>
   );
