@@ -23,7 +23,7 @@ export default function useCardListSearchParams() {
       if (getRecentSearch()) {
         setSearchParams((prev) => {
           prev.set(SEARCH_PARAMS.QUERY, getRecentSearch());
-          prev.set(SEARCH_PARAMS.PAGE, String(1));
+          prev.set(SEARCH_PARAMS.PAGE, '1');
           return prev;
         });
       } else {
