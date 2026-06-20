@@ -1,3 +1,5 @@
+'use client'
+
 import { ERROR_CODES, HTTP_STATUS, SEARCH_PARAMS } from '@/constants/routes';
 import { useCardDetailsQuery } from '@/services/fetchAPI';
 import {

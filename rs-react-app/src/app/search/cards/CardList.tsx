@@ -1,4 +1,3 @@
-import { Routes, Route, Outlet } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import useFetchDetails from '@/hooks/useFetchDetails.tsx';
 import useDetailsSearchParams from '@/hooks/useDetailsSearchParams.tsx';
@@ -32,8 +31,8 @@ function CardList(props: CardListProps) {
     dispatch(toggleItem(payload));
   }
 
-  const cardItemList = (
-    <>
+  return (
+    <div className="flex">
       <div className={`flex-1 grid grid-cols-6 justify-items-center gap-4 p-2`}>
         {props.cardList.data?.map((card) => (
           <CardItem
@@ -60,12 +59,6 @@ function CardList(props: CardListProps) {
           />
         ))}
       </div>
-      <Outlet />
-    </>
-  );
-
-  const cardMasterDetail = (
-    <>
       {detailsID && (
         <div className="w-2/5 flex justify-center">
           <CardMasterDetail
@@ -76,16 +69,6 @@ function CardList(props: CardListProps) {
           />
         </div>
       )}
-    </>
-  );
-
-  return (
-    <div className="flex">
-      <Routes>
-        <Route path="/*" element={cardItemList}>
-          <Route path="*" element={cardMasterDetail}></Route>
-        </Route>
-      </Routes>
     </div>
   );
 }

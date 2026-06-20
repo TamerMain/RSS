@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import useStorage from '../../hooks/useStorage';
+'use client';
+
+import { useState, useEffect } from 'react';
+import useStorage from '../../../hooks/useStorage';
 import useFetchCardList from '@/hooks/useFetchCardList';
 import useCardListSearchParams from '@/hooks/useCardListSearchParams';
 import { SEARCH_PARAMS } from '@/constants/routes';
@@ -9,9 +11,25 @@ function SearchBar() {
     useStorage('RecentSearch');
   const { searchParams, setSearchParams } = useCardListSearchParams();
   const { isLoading } = useFetchCardList(searchParams);
-  const [searchTerm, setSearchTerm] = useState<string>(() => {
-    return searchParams[SEARCH_PARAMS.QUERY];
-  });
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  useEffect(() => {
+    if (!searchParams[SEARCH_PARAMS.QUERY] && !getRecentSearch()) {
+      setSearchParams({
+        [SEARCH_PARAMS.QUERY]: '',
+        [SEARCH_PARAMS.PAGE]: 1,
+      });
+    }
+
+    if (!searchParams[SEARCH_PARAMS.QUERY] && getRecentSearch()) {
+      setSearchParams({
+        [SEARCH_PARAMS.QUERY]: getRecentSearch(),
+        [SEARCH_PARAMS.PAGE]: 1,
+      });
+    }
+
+    setSearchTerm(searchParams[SEARCH_PARAMS.QUERY] || getRecentSearch() || '');
+  }, []);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(e.currentTarget.value);

@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import './globals.css';
+import ClientLayout from './ClientLayout';
 
 export const metadata: Metadata = {
   title: 'Magic: The Gathering',
@@ -13,7 +15,9 @@ export default function RootLayout({
   return (
     <html className="h-full bg-mist-950 light:bg-mist-100" lang="en">
       <body className="text-gray-50">
-        <div id="root">{children}</div>
+        <div id="root">
+          <ClientLayout>{children}</ClientLayout>
+        </div>
       </body>
     </html>
   );

@@ -1,4 +1,6 @@
-import { useNavigate } from 'react-router';
+'use client';
+
+import { useRouter } from 'next/navigation';
 import useStorage from '../../../hooks/useStorage';
 import { NAVIGATION, ERROR_CODES, SEARCH_PARAMS } from '@/constants/routes';
 import { type FetchSearchParams, type ErrorCode } from '@/types/types';
@@ -10,10 +12,10 @@ type CardNotFoundProps = {
 
 function CardNotFound(props: CardNotFoundProps) {
   const { setItem: setRecentSearch } = useStorage('RecentSearch');
-  const navigate = useNavigate();
+  const router = useRouter();
 
   function handleSearchAgainClick() {
-    navigate(NAVIGATION.HOME);
+    router.push(NAVIGATION.HOME);
     props.setSearchParams({
       [SEARCH_PARAMS.QUERY]: '',
       [SEARCH_PARAMS.PAGE]: 1,

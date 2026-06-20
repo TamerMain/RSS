@@ -1,13 +1,15 @@
-import { useNavigate } from 'react-router';
+'use client';
+
+import { useRouter } from 'next/navigation';
 import useStorage from '@/hooks/useStorage';
 import { NAVIGATION } from '@/constants/routes';
 
-function NotFound() {
+export default function NotFound() {
   const { setItem: setRecentSearch } = useStorage('RecentSearch');
-  const navigate = useNavigate();
+  const router = useRouter();
 
   function handleHomePageClick() {
-    navigate(NAVIGATION.HOME);
+    router.push(NAVIGATION.HOME);
     setRecentSearch('');
   }
 
@@ -23,5 +25,3 @@ function NotFound() {
     </div>
   );
 }
-
-export default NotFound;

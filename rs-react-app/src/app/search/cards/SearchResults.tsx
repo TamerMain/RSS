@@ -1,10 +1,12 @@
+'use client'
+
 import { ERROR_CODES } from '@/constants/routes.ts';
 import useFetchCardList from '@/hooks/useFetchCardList.tsx';
 import useCardListSearchParams from '@/hooks/useCardListSearchParams.tsx';
-import CardPagination from './cards/CardPagination.tsx';
-import CardList from './cards/CardList.tsx';
-import CardNotFound from './cards/CardNotFound.tsx';
-import Loader from '../../components/Loader.tsx';
+import CardPagination from './CardPagination.tsx';
+import CardList from './CardList.tsx';
+import CardNotFound from './CardNotFound.tsx';
+import Loader from '@/components/Loader.tsx';
 
 function SearchResults() {
   const { searchParams, setSearchParams } = useCardListSearchParams();
