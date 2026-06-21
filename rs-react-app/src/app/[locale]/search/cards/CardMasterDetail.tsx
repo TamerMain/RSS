@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import CardMasterDetailsCloseButton from '@/app/search/cards/CardMasterDetailsCloseButton';
+import CardMasterDetailsCloseButton from '@/app/[locale]/search/cards/CardMasterDetailsCloseButton';
 import fetchDetails from '@/services/fetchDetails';
 import { type SearchParams } from '@/types/types';
 import { SEARCH_PARAMS } from '@/constants/routes.ts';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import useStorage from '../../../hooks/useStorage';
+import useStorage from '../../../../hooks/useStorage';
 import useClientSearchParams from '@/hooks/useClientSearchParams';
 import { NAVIGATION, ERROR_CODES, SEARCH_PARAMS } from '@/constants/routes';
 import { type ErrorCode } from '@/types/types';

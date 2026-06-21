@@ -1,5 +1,5 @@
 import CardItem from './CardItem.tsx';
-import CardItemContainer from '@/app/search/cards/CardItemContainer';
+import CardItemContainer from '@/app/[locale]/search/cards/CardItemContainer.tsx';
 import { type SearchResponse } from '@/types/types.ts';
 
 type CardListProps = {

@@ -2,7 +2,7 @@
 
 import Loader from '@/components/Loader.tsx';
 import useClientSearchParams from '@/hooks/useClientSearchParams.tsx';
-import getPagination from '../../../utils/getPagination.ts';
+import getPagination from '../../../../utils/getPagination.ts';
 import { type SearchResponse } from '@/types/types.ts';
 import { SEARCH_PARAMS } from '@/constants/routes.ts';
 
