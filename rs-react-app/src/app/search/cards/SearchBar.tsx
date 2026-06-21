@@ -2,15 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import useStorage from '../../../hooks/useStorage';
-import useFetchCardList from '@/hooks/useFetchCardList';
-import useCardListSearchParams from '@/hooks/useCardListSearchParams';
+import useClientSearchParams from '@/hooks/useClientSearchParams';
 import { SEARCH_PARAMS } from '@/constants/routes';
 
 function SearchBar() {
   const { getItem: getRecentSearch, setItem: setRecentSearch } =
     useStorage('RecentSearch');
-  const { searchParams, setSearchParams } = useCardListSearchParams();
-  const { isLoading } = useFetchCardList(searchParams);
+  const { searchParams, setSearchParams } = useClientSearchParams();
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
@@ -61,12 +59,10 @@ function SearchBar() {
           placeholder="Example: Black Lotus or Lotus"
           value={searchTerm}
           onChange={handleInputChange}
-          disabled={isLoading}
         ></input>
         <button
           className="p-2 bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-400 transition-colors duration-400"
           type="submit"
-          disabled={isLoading}
         >
           Find Cards
         </button>

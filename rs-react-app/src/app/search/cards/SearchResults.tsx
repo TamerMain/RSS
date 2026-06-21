@@ -1,23 +1,23 @@
-'use client'
-
-import { ERROR_CODES } from '@/constants/routes.ts';
-import useFetchCardList from '@/hooks/useFetchCardList.tsx';
-import useCardListSearchParams from '@/hooks/useCardListSearchParams.tsx';
+import fetchCardList from '@/services/fetchCardList.tsx';
 import CardPagination from './CardPagination.tsx';
 import CardList from './CardList.tsx';
+import CardMasterDetail from './CardMasterDetail.tsx';
 import CardNotFound from './CardNotFound.tsx';
-import Loader from '@/components/Loader.tsx';
+import { SEARCH_PARAMS } from '@/constants/routes.ts';
+import type { SearchParams } from '@/types/types.ts';
 
-function SearchResults() {
-  const { searchParams, setSearchParams } = useCardListSearchParams();
-  const { cardList, errorCode, isLoading } = useFetchCardList(searchParams);
+type SearchResultsProps = { searchParams: SearchParams };
 
-  if (isLoading) return <Loader />;
+async function SearchResults(props: SearchResultsProps) {
+  const validSearchParams = {
+    [SEARCH_PARAMS.QUERY]: props.searchParams[SEARCH_PARAMS.QUERY] || '',
+    [SEARCH_PARAMS.PAGE]: Number(props.searchParams[SEARCH_PARAMS.PAGE]) || 1,
+  };
 
-  if (errorCode)
-    return (
-      <CardNotFound errorCode={errorCode} setSearchParams={setSearchParams} />
-    );
+  const { cardList, errorCode } = await fetchCardList(validSearchParams);
+  console.log(props.searchParams[SEARCH_PARAMS.DETAILS]);
+
+  if (errorCode) return <CardNotFound errorCode={errorCode} />;
 
   if (cardList) {
     return (
@@ -25,18 +25,18 @@ function SearchResults() {
         <h1 className="flex justify-center p-2 text-5xl light:text-black">
           Card List
         </h1>
-        <CardPagination cardList={cardList} setSearchParams={setSearchParams} />
-        <CardList cardList={cardList} />
+        <CardPagination cardList={cardList} />
+        <div className="flex">
+          <div
+            className={`flex-1 grid grid-cols-6 justify-items-center gap-4 p-2`}
+          >
+            <CardList cardList={cardList} key={Math.random()} />
+          </div>  
+          <CardMasterDetail searchParams={props.searchParams} />
+        </div>
       </div>
     );
   }
-
-  return (
-    <CardNotFound
-      errorCode={ERROR_CODES.UNKNOWN_ERROR}
-      setSearchParams={setSearchParams}
-    />
-  );
 }
 
 export default SearchResults;

@@ -2,21 +2,22 @@
 
 import { useRouter } from 'next/navigation';
 import useStorage from '../../../hooks/useStorage';
+import useClientSearchParams from '@/hooks/useClientSearchParams';
 import { NAVIGATION, ERROR_CODES, SEARCH_PARAMS } from '@/constants/routes';
-import { type FetchSearchParams, type ErrorCode } from '@/types/types';
+import { type ErrorCode } from '@/types/types';
 
 type CardNotFoundProps = {
-  setSearchParams: (newParams: FetchSearchParams) => void;
   errorCode: ErrorCode;
 };
 
 function CardNotFound(props: CardNotFoundProps) {
+  const { setSearchParams } = useClientSearchParams();
   const { setItem: setRecentSearch } = useStorage('RecentSearch');
   const router = useRouter();
 
   function handleSearchAgainClick() {
     router.push(NAVIGATION.HOME);
-    props.setSearchParams({
+    setSearchParams({
       [SEARCH_PARAMS.QUERY]: '',
       [SEARCH_PARAMS.PAGE]: 1,
     });

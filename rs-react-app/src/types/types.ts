@@ -1,6 +1,3 @@
-import { type FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { type SerializedError } from '@reduxjs/toolkit';
-
 export type SearchAPIResponse = {
   page: number;
   total_cards: number;
@@ -36,19 +33,22 @@ export type FetchDetailsParams = {
   id: string | null;
 };
 
-export type UseFetchCardListReturn = {
+export type SearchParams = {
+  q?: string;
+  page?: number;
+  id?: string | null;
+};
+
+export type FetchCardListReturn = {
   cardList: SearchResponse | undefined;
-  isLoading: boolean;
   errorCode: ErrorCode;
 };
 
-export type UseFetchDetailsReturn = {
+export type FetchDetailsReturn = {
   detailsCard: DetailsResponse | null | undefined;
-  isLoading: boolean;
   errorCode: ErrorCode;
 };
 
-export type FetchError = FetchBaseQueryError | SerializedError | undefined;
 export type ErrorCode =
   | '404'
   | 'UnknownError'
@@ -56,4 +56,4 @@ export type ErrorCode =
   | 'NotANumber'
   | 'NotAZero'
   | 'NotNatural'
-  | boolean;
+  | false;
