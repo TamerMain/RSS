@@ -1,10 +1,12 @@
 'use client';
 import { useSelector, useDispatch } from 'react-redux';
 import { type ReactNode } from 'react';
-import useClientSearchParams from '@/hooks/useClientSearchParams.tsx';
 import { SEARCH_PARAMS } from '@/constants/routes.ts';
 import { toggleItem, type CardInfo } from '@/store/cartSlice.ts';
 import { type RootState } from '@/store/store.ts';
+import { detailsAction } from '@/app/actions/details';
+import { useTransition } from 'react';
+import Loader from '@/components/Loader';
 
 type CardItemContainerProps = {
   id: string;
@@ -21,14 +23,27 @@ function CardItemContainer(props: CardItemContainerProps) {
     dispatch(toggleItem(props.card));
   }
 
-  const { setDetailsParams } = useClientSearchParams();
+  const [isPending, startTransition] = useTransition();
+  function handleDetailsClick() {
+    const formData = new FormData();
+    formData.append(SEARCH_PARAMS.QUERY, props.card.search);
+    formData.append(SEARCH_PARAMS.PAGE, String(props.card.page));
+    formData.append(SEARCH_PARAMS.DETAILS, props.id);
+
+    startTransition(() => {
+      detailsAction(formData);
+    });
+  }
   return (
     <div
-      onClick={() => {
-        setDetailsParams({ [SEARCH_PARAMS.DETAILS]: props.id });
-      }}
+      onClick={handleDetailsClick}
       className="relative flex flex-col items-center w-full text-gray-400 hover:text-gray-50 hover:font-bold light:text-gray-800 light:hover:text-black transition-colors transition-font-weight duration-400"
     >
+      {isPending && (
+        <div className="absolute -top-[35px] ">
+          <Loader />
+        </div>
+      )}
       {props.children}
       <button
         onClick={onToCartClick}

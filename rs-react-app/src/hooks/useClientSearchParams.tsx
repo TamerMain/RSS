@@ -57,6 +57,6 @@ export default function useCardListSearchParams() {
     searchParams: currentParams,
     setSearchParams: setSearchParams,
     setDetailsParams: setDetailsParams,
-    isLoading: isPending
+    isLoading: isPending,
   };
 }
