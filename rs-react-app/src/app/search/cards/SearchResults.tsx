@@ -26,7 +26,7 @@ async function SearchResults(props: SearchResultsProps) {
           Card List
         </h1>
         <CardPagination cardList={cardList} />
-        <div className="flex">
+        <div className="flex pt-2">
           <div
             className={`flex-1 grid grid-cols-6 justify-items-center gap-4 p-2`}
           >

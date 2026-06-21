@@ -1,5 +1,6 @@
 'use client';
 
+import Loader from '@/components/Loader.tsx';
 import useClientSearchParams from '@/hooks/useClientSearchParams.tsx';
 import getPagination from '../../../utils/getPagination.ts';
 import { type SearchResponse } from '@/types/types.ts';
@@ -10,7 +11,7 @@ type CardPaginationPRops = {
 };
 
 function CardPagination(props: CardPaginationPRops) {
-  const { setSearchParams } = useClientSearchParams();
+  const { setSearchParams, isLoading } = useClientSearchParams();
   const pageList = getPagination({
     total: props.cardList.total_pages,
     current: props.cardList.current_page,
@@ -22,6 +23,10 @@ function CardPagination(props: CardPaginationPRops) {
       [SEARCH_PARAMS.QUERY]: props.cardList.search_term,
       [SEARCH_PARAMS.PAGE]: nextPage,
     });
+  }
+
+  if (isLoading) {
+    return <Loader />;
   }
 
   return (
