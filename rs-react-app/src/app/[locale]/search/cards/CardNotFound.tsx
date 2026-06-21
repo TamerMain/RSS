@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import useStorage from '../../../../hooks/useStorage';
 import useClientSearchParams from '@/hooks/useClientSearchParams';
 import { NAVIGATION, ERROR_CODES, SEARCH_PARAMS } from '@/constants/routes';
@@ -11,6 +12,7 @@ type CardNotFoundProps = {
 };
 
 function CardNotFound(props: CardNotFoundProps) {
+  const t = useTranslations('CardNotFound');
   const { setSearchParams } = useClientSearchParams();
   const { setItem: setRecentSearch } = useStorage('RecentSearch');
   const router = useRouter();
@@ -27,22 +29,19 @@ function CardNotFound(props: CardNotFoundProps) {
   return (
     <div className="flex flex-col items-center gap-4">
       <h1 className="p-2 text-5xl">
-        {props.errorCode === ERROR_CODES.NOT_NUMBER && 'Page Must Be A Number'}
-        {props.errorCode === ERROR_CODES.NOT_FOUND &&
-          'No Cards Found With That Name'}
-        {props.errorCode === ERROR_CODES.UNKNOWN_ERROR &&
-          'Something Went Wrong'}
+        {props.errorCode === ERROR_CODES.NOT_NUMBER && t('notNumber')}
+        {props.errorCode === ERROR_CODES.NOT_FOUND && t('notFound')}
+        {props.errorCode === ERROR_CODES.UNKNOWN_ERROR && t('unknown')}
         {props.errorCode === ERROR_CODES.UNPROCESSABLE_CONTENT &&
-          'No Cards Found On That Page'}
-        {props.errorCode === ERROR_CODES.NOT_ZERO && 'Page Cant Be Zero'}
-        {props.errorCode === ERROR_CODES.NOT_NATURAL &&
-          'Page Can Only Positive Whole Number'}
+          t('unprocessableContent')}
+        {props.errorCode === ERROR_CODES.NOT_ZERO && t('notZero')}
+        {props.errorCode === ERROR_CODES.NOT_NATURAL && t('notNatural')}
       </h1>
       <button
         className="p-3 text-xl bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-400 transition-colors duration-400"
         onClick={handleSearchAgainClick}
       >
-        Search Again
+        {t('homeButton')}
       </button>
     </div>
   );

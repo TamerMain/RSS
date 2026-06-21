@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { type CardInfo } from '@/store/cartSlice';
 import { NAVIGATION, SEARCH_PARAMS } from '@/constants/routes';
 
@@ -8,6 +9,8 @@ function detailsURL(search: string, page: number, id: string) {
 }
 
 function DownloadButton(props: { cart: CardInfo[] }) {
+  const t = useTranslations('Cart');
+  
   function handleDownload() {
     if (props.cart.length === 0) return;
     const contentHeader =
@@ -33,7 +36,7 @@ function DownloadButton(props: { cart: CardInfo[] }) {
       className="p-2  bg-mist-800 hover:text-gray-50 cursor-pointer transition-colors duration-400"
       onClick={handleDownload}
     >
-      Download CSV
+      {t('download')}
     </button>
   );
 }

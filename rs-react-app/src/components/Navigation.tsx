@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTranslations, useLocale } from 'next-intl';
 import ErrorButton from '../components/ErrorButton.tsx';
 import ThemeButton from './ThemeButton.tsx';
 import RefreshCacheButton from './RefreshCacheButton.tsx';
@@ -8,7 +9,9 @@ import Cart from './Cart.tsx';
 import { NAVIGATION } from '@/constants/routes.ts';
 
 export default function Navigation() {
+  const t = useTranslations('Navigation');
   const pathname = usePathname();
+  const locale = useLocale();
 
   function isActive(path: string): boolean {
     return pathname === path;
@@ -19,24 +22,24 @@ export default function Navigation() {
       <div className="flex flex-col gap-1 fade-in">
         <ThemeButton />
         <Link
-          href={NAVIGATION.SEARCH.BASE}
+          href={`/${locale}${NAVIGATION.SEARCH.BASE}`}
           className={`p-2 bg-mist-800 ${
             isActive(NAVIGATION.SEARCH.BASE)
               ? 'text-gray-50 pointer-events-none'
               : 'text-gray-400 hover:text-gray-50'
           } cursor-pointer max-w-30 transition-colors duration-400`}
         >
-          Search
+          {t('search')}
         </Link>
         <Link
-          href={NAVIGATION.ABOUT}
+          href={`/${locale}${NAVIGATION.ABOUT}`}
           className={`p-2 bg-mist-800 ${
             isActive(NAVIGATION.ABOUT)
               ? 'text-gray-50 pointer-events-none'
               : 'text-gray-400 hover:text-gray-50'
           } cursor-pointer max-w-30 transition-colors duration-400`}
         >
-          About
+          {t('about')}
         </Link>
         <ErrorButton />
         <RefreshCacheButton tag={CACHE_TAG.CARD_LIST} />

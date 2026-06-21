@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { CACHE_TAG } from '@/constants/routes';
 // import { useDispatch } from 'react-redux';
 
@@ -6,6 +7,7 @@ type RefreshCacheButtonProps = {
 };
 
 function RefreshCacheButton(props: RefreshCacheButtonProps) {
+    const t = useTranslations('Navigation');
   // const dispatch = useDispatch();
 
   // function handleRefreshCache() {
@@ -17,7 +19,7 @@ function RefreshCacheButton(props: RefreshCacheButtonProps) {
       className="p-2 bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer transition-colors duration-400"
       // onClick={handleRefreshCache}
     >
-      Clear {props.tag} Cache
+      {t(props.tag)}
     </button>
   );
 }

@@ -1,6 +1,8 @@
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 
-function About() {
+async function About() {
+  const t = await getTranslations('About');
   return (
     <div className="flex flex-col p-2 text-2xl bg-mist-800 light:bg-mist-100 light:text-black">
       <h1 className="text-4xl my-2">
@@ -10,19 +12,29 @@ function About() {
           rel="noopener noreferrer"
           className="inline-flex gap-2"
         >
-          <Image src="/gh-icon.svg" alt="GitHub Logo" width={24} height={24} />{' '}
-          RS School. React
+          <Image
+            src="/gh-icon.svg"
+            alt={t('githubImgAlt')}
+            width={24}
+            height={24}
+          />
+          {t('title')}
         </a>
       </h1>
-      <p>Churuya {'(@TamerMain)'}</p>
+      <p>{t('discordProfile')}</p>
       <a
         href="https://app.rs.school/profile?githubId=tamermain"
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex gap-2"
       >
-        <Image src="/rs-icon.svg" alt="RS School Logo" width={24} height={24} />{' '}
-        RS School
+        <Image
+          src="/rs-icon.svg"
+          alt={t('courseImgAlt')}
+          width={24}
+          height={24}
+        />{' '}
+        {t('courseProfile')}
       </a>
       <a
         href="https://github.com/TamerMain"
@@ -30,8 +42,13 @@ function About() {
         rel="noopener noreferrer"
         className="inline-flex gap-2"
       >
-        <Image src="/gh-icon.svg" alt="GitHub Logo" width={24} height={24} />{' '}
-        Github
+        <Image
+          src="/gh-icon.svg"
+          alt={t('githubImgAlt')}
+          width={24}
+          height={24}
+        />{' '}
+        {t('githubProfile')}
       </a>
     </div>
   );

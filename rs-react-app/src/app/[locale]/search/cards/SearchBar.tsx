@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import useStorage from '../../../../hooks/useStorage';
 import useClientSearchParams from '@/hooks/useClientSearchParams';
 import { SEARCH_PARAMS } from '@/constants/routes';
 
 function SearchBar() {
+  const t = useTranslations('SearchBar');
   const { getItem: getRecentSearch, setItem: setRecentSearch } =
     useStorage('RecentSearch');
   const { searchParams, setSearchParams, isLoading } = useClientSearchParams();
@@ -56,7 +58,7 @@ function SearchBar() {
           name="search term"
           className="w-full p-2 bg-mist-800 outline-none"
           type="search"
-          placeholder="Example: Black Lotus or Lotus"
+          placeholder={t('placeholder')}
           value={searchTerm}
           onChange={handleInputChange}
           disabled={isLoading}
@@ -66,7 +68,7 @@ function SearchBar() {
           type="submit"
           disabled={isLoading}
         >
-          Find Cards
+          {t('searchButton')}
         </button>
       </form>
     </>

@@ -2,5 +2,54 @@
     "NotFound": {
         "title": "Page Not Found",
         "button": "Home Page"
+    },
+    "About": {
+        "title": "RS School. React Course",
+        "discordProfile": "Churuya (@TamerMain)",
+        "courseProfile": "RS School",
+        "githubProfile": "Github",
+        "githubImgAlt": "Github Logo",
+        "courseImgAlt": "RS School Logo"
+    },
+    "Navigation": {
+        "search": "Search",
+        "about": "About",
+        "emulateError": "Emulate Unexpected Error",
+        "clearListCache": "Clear Card List Cache",
+        "clearDetailsCache": "Clear Details Cache"
+    },
+    "Cart": {
+        "select": "Selected",
+        "deselect": "Deselect All",
+        "download": "Download CSV"
+    },
+    "Loader": {
+        "loader": "Loading"
+    },
+    "SearchBar": {
+        "placeholder": "Example: Black Lotus or Lotus",
+        "searchButton": "Find Cards"
+    },
+    "SearchResults": {
+        "title": "Card List"
+    },
+    "CardItem": {
+        "imgError": "Image Not Found",
+        "imgAlt": "Image of"
+    },
+    "CardMasterDetail": {
+        "imgError": "No Image Available",
+        "imgAlt": "Full Art of",
+        "set": "Set",
+        "setError": "Set Not Found"
+    },
+    "CardNotFound": {
+        "homeButton": "Search Again",
+        "notNumber": "Page Must Be A Number",
+        "notFound": "No Cards Found With That Name",
+        "unknown": "Something Went Wrong",
+        "unprocessableContent": "No Cards Found On That Page",
+        "notZero": "Page Cant Be Zero",
+        "notNatural": "Page Can Only Positive Whole Number"
     }
 }

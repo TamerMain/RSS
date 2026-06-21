@@ -41,6 +41,6 @@ export const ERROR_CODES = {
 } as const;
 
 export const CACHE_TAG = {
-  CARD_LIST: 'Card List',
-  DETAILS: 'Details',
+  CARD_LIST: 'clearListCache',
+  DETAILS: 'clearDetailsCache',
 } as const;
