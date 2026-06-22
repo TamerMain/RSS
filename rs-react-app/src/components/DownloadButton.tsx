@@ -1,43 +1,39 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
+import { useActionState, useEffect } from 'react';
 import { type CardInfo } from '@/store/cartSlice';
-import { NAVIGATION, SEARCH_PARAMS } from '@/constants/routes';
+import { exportCSVAction } from '@/app/actions/csvActions';
 
-function detailsURL(search: string, page: number, id: string) {
-  const origin = window.location.origin;
-  const URL = `${origin}${NAVIGATION.SEARCH.CARDS}?${SEARCH_PARAMS.QUERY}=${search}&${SEARCH_PARAMS.PAGE}=${page}&${SEARCH_PARAMS.DETAILS}=${id}`;
-  return URL;
-}
-
-function DownloadButton(props: { cart: CardInfo[] }) {
+function DownloadButton({ cart }: { cart: CardInfo[] }) {
   const t = useTranslations('Cart');
-  
-  function handleDownload() {
-    if (props.cart.length === 0) return;
-    const contentHeader =
-      'This file contains your selected card information.\r\nSuch as Name, ID and Description link to original art and details URL which is not impelemented yet for direct access from browser.\r\n\r\n';
-    const contentBody = props.cart
-      .map((item, index) => {
-        return `------- Card ${index + 1} -------\r\nName: ${item.name}\r\nScryfall unique ID: ${item.id}\r\nOriginal Art: ${item.imageSrc ? item.imageSrc : 'No art available'}\r\nDetails URL: ${detailsURL(item.search, item.page, item.id)}.\r\n`;
-      })
-      .join('\r\n');
-    const content = `${contentHeader + contentBody}`;
-    const blob = new Blob([content], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
+  const [state, formAction, isPending] = useActionState(exportCSVAction, null);
 
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${props.cart.length}_cards_selected.csv`;
-    a.click();
+  useEffect(() => {
+    if (state?.success && state.content) {
+      const blob = new Blob([state.content], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = state.filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  }, [state]);
 
-    URL.revokeObjectURL(url);
-  }
   return (
-    <button
-      className="p-2  bg-mist-800 hover:text-gray-50 cursor-pointer transition-colors duration-400"
-      onClick={handleDownload}
-    >
-      {t('download')}
-    </button>
+    <div className="flex flex-col items-center gap-2">
+      <form action={formAction}>
+        <input type="hidden" name="cartItems" value={JSON.stringify(cart)} />
+        <button
+          type="submit"
+          className="p-2 bg-mist-800 hover:text-gray-50 cursor-pointer transition-colors duration-400 disabled:opacity-50"
+          disabled={isPending || !cart.length}
+        >
+          {t('download')}
+        </button>
+      </form>
+    </div>
   );
 }
 
