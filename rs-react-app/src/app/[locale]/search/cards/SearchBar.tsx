@@ -1,9 +1,10 @@
 'use client';
 
 import { useActionState } from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import useStorage from '../../../../hooks/useStorage';
+import useClientSearchParams from '@/hooks/useClientSearchParams';
 import { searchAction } from '@/app/actions/search';
 import { SEARCH_PARAMS } from '@/constants/routes';
 
@@ -11,13 +12,29 @@ function SearchBar() {
   const t = useTranslations('SearchBar');
   const { getItem: getRecentSearch, setItem: setRecentSearch } =
     useStorage('RecentSearch');
-  const [searchTerm, setSearchTerm] = useState<string>('');
-
+  const { searchParams, setSearchParams } = useClientSearchParams();
+  const [searchTerm, setSearchTerm] = useState<string>(
+    () => searchParams[SEARCH_PARAMS.QUERY] || getRecentSearch() || ''
+  );
   const [, formAction, isPending] = useActionState(searchAction, null);
+  const hasInitialized = useRef(false);
 
   useEffect(() => {
-    setSearchTerm(getRecentSearch() || '');
-  }, []);
+    if (hasInitialized.current) return;
+    hasInitialized.current = true;
+
+    const initialSearchParams = {
+      [SEARCH_PARAMS.QUERY]: getRecentSearch() || '',
+      [SEARCH_PARAMS.PAGE]: 1,
+    };
+
+    if (
+      !searchParams[SEARCH_PARAMS.QUERY] ||
+      !searchParams[SEARCH_PARAMS.PAGE]
+    ) {
+      setSearchParams(initialSearchParams);
+    }
+  }, [searchParams, setSearchParams, getRecentSearch]);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(e.currentTarget.value);

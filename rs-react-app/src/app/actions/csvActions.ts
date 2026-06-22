@@ -9,7 +9,17 @@ function generateDetailsURL(search: string, page: number, id: string) {
   return `${baseURL}${NAVIGATION.SEARCH.CARDS}?${SEARCH_PARAMS.QUERY}=${search}&${SEARCH_PARAMS.PAGE}=${page}&${SEARCH_PARAMS.DETAILS}=${id}`;
 }
 
-export async function exportCSVAction(prevState: any, formData: FormData) {
+type ActionState = {
+  success: boolean;
+  content?: string;
+  filename?: string;
+  error?: string;
+} | null;
+
+export async function exportCSVAction(
+  prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
   const t = await getTranslations('Cart');
   try {
     const cartItems: CardInfo[] = JSON.parse(
@@ -35,7 +45,7 @@ export async function exportCSVAction(prevState: any, formData: FormData) {
       content,
       filename: `${cartItems.length}${t('fileName')}.csv`,
     };
-  } catch (error) {
+  } catch {
     return { success: false, error: t('downloadError') };
   }
 }

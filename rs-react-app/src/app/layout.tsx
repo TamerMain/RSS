@@ -1,11 +1,5 @@
-import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import './globals.css';
-
-export const metadata: Metadata = {
-  title: 'Magic: The Gathering',
-  description: 'RSS School Task 8',
-};
 
 type RootLayoutProps = {
   children: React.ReactNode;

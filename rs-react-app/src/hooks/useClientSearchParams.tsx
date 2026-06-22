@@ -9,7 +9,7 @@ import {
   type FetchDetailsParams,
 } from '@/types/types';
 
-export default function useCardListSearchParams() {
+export default function useClientSearchParams() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();

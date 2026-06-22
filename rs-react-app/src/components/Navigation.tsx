@@ -8,12 +8,7 @@ import LanguageSwitcher from './LanguageSwitch.tsx';
 import { CACHE_TAG } from '@/constants/routes.ts';
 import { NAVIGATION } from '@/constants/routes.ts';
 
-const {
-  Link,
-  useRouter,
-  usePathname: useIntlPathname,
-  redirect,
-} = createNavigation();
+const { Link, usePathname: useIntlPathname } = createNavigation();
 
 export default function Navigation() {
   const t = useTranslations('Navigation');

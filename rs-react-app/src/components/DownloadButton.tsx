@@ -1,45 +1,45 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useActionState, useEffect, useState } from 'react';
+import { useTransition, useState } from 'react';
 import { type CardInfo } from '@/store/cartSlice';
 import { exportCSVAction } from '@/app/actions/csvActions';
 
 function DownloadButton({ cart }: { cart: CardInfo[] }) {
   const t = useTranslations('Cart');
-  const [state, formAction, isPending] = useActionState(exportCSVAction, null);
+  const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState<{
     type: 'success' | 'error';
     text: string;
   } | null>(null);
 
-  useEffect(() => {
-    if (state?.success && state.content) {
-      const blob = new Blob([state.content], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = state.filename;
-      a.click();
-      URL.revokeObjectURL(url);
+  const handleDownload = () => {
+    startTransition(async () => {
+      const formData = new FormData();
+      formData.append('cartItems', JSON.stringify(cart));
 
-      setMessage({
-        type: 'success',
-        text: t('downloadSuccess'),
-      });
-    }
+      const result = await exportCSVAction(null, formData);
 
-    if (state?.error) {
-      setMessage({ type: 'error', text: state.error });
-    }
-  }, [state]);
+      if (result?.success && result.content) {
+        const blob = new Blob([result.content], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = result.filename || 'cards.csv';
+        a.click();
+        URL.revokeObjectURL(url);
 
-  useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => setMessage(null), 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [message]);
+        setMessage({
+          type: 'success',
+          text: t('downloadSuccess'),
+        });
+      } else if (result?.error) {
+        setMessage({ type: 'error', text: result.error });
+      }
+
+      setTimeout(() => setMessage(null), 2000);
+    });
+  };
 
   return (
     <div className="flex flex-col w-full items-center gap-2">
@@ -48,16 +48,13 @@ function DownloadButton({ cart }: { cart: CardInfo[] }) {
           {message.text}
         </div>
       )}
-      <form action={formAction}>
-        <input type="hidden" name="cartItems" value={JSON.stringify(cart)} />
-        <button
-          type="submit"
-          className="p-2 bg-mist-800 hover:text-gray-50 cursor-pointer transition-colors duration-400 disabled:opacity-50"
-          disabled={isPending || !cart.length}
-        >
-          {t('download')}
-        </button>
-      </form>
+      <button
+        onClick={handleDownload}
+        className="p-2 bg-mist-800 hover:text-gray-50 cursor-pointer transition-colors duration-400 disabled:opacity-50"
+        disabled={isPending || !cart.length}
+      >
+        {t('download')}
+      </button>
     </div>
   );
 }
