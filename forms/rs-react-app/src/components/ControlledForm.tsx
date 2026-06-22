@@ -7,15 +7,15 @@ import { processFormImage } from '@/utils/processFormImage';
 import { useSelector } from 'react-redux';
 import { type RootState } from '@/store/store';
 
-import TextField from '@/components/fields/TextField';
-import SelectField from '@/components/fields/SelectField';
-import CheckboxField from '@/components/fields/CheckboxField';
-import FileField from '@/components/fields/FileField';
-import CountriesField from '@/components/fields/CountriesField';
+import ControlledTextField from '@/components/fields/ControlledTextField';
+import ControlledSelectField from '@/components/fields/ControlledSelectField';
+import ControlledCheckboxField from '@/components/fields/ControlledCheckboxField';
+import ControlledFileField from '@/components/fields/ControlledFileField';
+import ControlledCountriesField from '@/components/fields/ControlledCountriesField';
 import PasswordStrBar from './PasswordStrBar';
 
 type ControlledFormProps = {
-  onCloseModal: () => void;
+  onModalClose: () => void;
 };
 
 function ControlledForm(props: ControlledFormProps) {
@@ -48,7 +48,7 @@ function ControlledForm(props: ControlledFormProps) {
       };
       dispatch(addEntry(submissionData));
       clearErrors('imageUpload');
-      props.onCloseModal();
+      props.onModalClose();
     } catch {
       setError('imageUpload', {
         type: 'manual',
@@ -63,24 +63,21 @@ function ControlledForm(props: ControlledFormProps) {
         onSubmit={handleSubmit(onSubmit)}
         className="relative flex flex-col gap-2 p-4 bg-purple-50"
       >
-        <TextField
-          mode="controlled"
+        <ControlledTextField
           register={register}
           id="name"
           label="Name"
           placeholder="Enter Name"
           error={errors}
         />
-        <TextField
-          mode="controlled"
+        <ControlledTextField
           register={register}
           id="email"
           label="Email"
           placeholder="Enter Email"
           error={errors}
         />
-        <TextField
-          mode="controlled"
+        <ControlledTextField
           register={register}
           id="age"
           label="Age"
@@ -88,32 +85,28 @@ function ControlledForm(props: ControlledFormProps) {
           error={errors}
         />
         <PasswordStrBar password={password} />
-        <TextField
-          mode="controlled"
+        <ControlledTextField
           register={register}
           id="password"
           label="Password"
           placeholder="Enter Password"
           error={errors}
         />
-        <TextField
-          mode="controlled"
+        <ControlledTextField
           register={register}
           id="passwordConfirm"
           label="Confirm Password"
           placeholder="Confirm Password"
           error={errors}
         />
-        <SelectField
-          mode="controlled"
+        <ControlledSelectField
           register={register}
           id="gender"
           label="Gender"
           options={[{ name: 'Female' }, { name: 'Male' }, { name: 'Other' }]}
           error={errors}
         />
-        <CountriesField
-          mode="controlled"
+        <ControlledCountriesField
           register={register}
           setInputValue={setValue}
           id="country"
@@ -121,15 +114,13 @@ function ControlledForm(props: ControlledFormProps) {
           options={countries}
           error={errors}
         />
-        <FileField
-          mode="controlled"
+        <ControlledFileField
           register={register}
           id="imageUpload"
           label="Upload Image"
           error={errors}
         />
-        <CheckboxField
-          mode="controlled"
+        <ControlledCheckboxField
           register={register}
           id="termsAccepted"
           label="I've read Terms and Conditions"

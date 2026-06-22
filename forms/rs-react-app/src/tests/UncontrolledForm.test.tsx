@@ -54,7 +54,7 @@ describe('UncontrolledForm', () => {
       const user = userEvent.setup();
       render(
         <Provider store={store}>
-          <UncontrolledForm onCloseModal={vi.fn()} />
+          <UncontrolledForm onModalClose={vi.fn()} />
         </Provider>
       );
       await mockUserFormFill(user, input);

@@ -54,7 +54,7 @@ describe('ControlledForm', () => {
       const user = userEvent.setup();
       render(
         <Provider store={store}>
-          <ControlledForm onCloseModal={vi.fn()} />
+          <ControlledForm onModalClose={vi.fn()} />
         </Provider>
       );
       await mockUserFormFill(user, input);
@@ -66,7 +66,7 @@ describe('ControlledForm', () => {
     const user = userEvent.setup();
     render(
       <Provider store={store}>
-        <ControlledForm onCloseModal={vi.fn()} />
+        <ControlledForm onModalClose={vi.fn()} />
       </Provider>
     );
     await mockUserFormFill(user, { TERMS: TEST_FIELDS_INPUTS.TERMS.UNCHECK });

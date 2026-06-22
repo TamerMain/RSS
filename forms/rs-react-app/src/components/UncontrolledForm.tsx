@@ -10,18 +10,18 @@ import {
 import { useSelector } from 'react-redux';
 import { type RootState } from '@/store/store';
 
-import TextField from '@/components/fields/TextField';
-import SelectField from '@/components/fields/SelectField';
-import CheckboxField from '@/components/fields/CheckboxField';
-import FileField from '@/components/fields/FileField';
-import CountriesField from '@/components/fields/CountriesField';
+import UncontrolledTextField from '@/components/fields/UncontrolledTextField';
+import UncontrolledSelectField from '@/components/fields/UncontrolledSelectField';
+import UncontrolledCheckboxField from '@/components/fields/UncontrolledCheckboxField';
+import UncontrolledFileField from '@/components/fields/UncontrolledFileField';
+import UncontrolledCountriesField from '@/components/fields/UncontrolledCountriesField';
 import PasswordStrBar from './PasswordStrBar';
 
-type UnontrolledFormProps = {
-  onCloseModal: () => void;
+type UncontrolledFormProps = {
+  onModalClose: () => void;
 };
 
-function UncontrolledForm(props: UnontrolledFormProps) {
+function UncontrolledForm(props: UncontrolledFormProps) {
   const dispatch = useDispatch();
   const countries = useSelector((state: RootState) => state.countries);
   const formSchema = createFormSchema(countries);
@@ -29,6 +29,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
     null
   );
   const [password, setPassword] = useState('');
+
   const nameInput = useRef<HTMLInputElement>(null);
   const emailInput = useRef<HTMLInputElement>(null);
   const ageInput = useRef<HTMLInputElement>(null);
@@ -63,7 +64,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
         };
         dispatch(addEntry(submissionData));
         setFormErrors(null);
-        props.onCloseModal();
+        props.onModalClose();
       } catch {
         setFormErrors({
           formErrors: [],
@@ -78,29 +79,27 @@ function UncontrolledForm(props: UnontrolledFormProps) {
       setFormErrors(z.flattenError(result.error));
     }
   }
+
   return (
     <form
       onSubmit={handleFormSubmit}
       className="relative flex flex-col gap-2 p-4 bg-emerald-50"
     >
-      <TextField
-        mode="uncontrolled"
+      <UncontrolledTextField
         ref={nameInput}
         id="name"
         label="Name"
         placeholder="Enter Name"
         error={formErrors}
       />
-      <TextField
-        mode="uncontrolled"
+      <UncontrolledTextField
         ref={emailInput}
         id="email"
         label="Email"
         placeholder="Enter Email"
         error={formErrors}
       />
-      <TextField
-        mode="uncontrolled"
+      <UncontrolledTextField
         ref={ageInput}
         id="age"
         label="Age"
@@ -108,48 +107,42 @@ function UncontrolledForm(props: UnontrolledFormProps) {
         error={formErrors}
       />
       <PasswordStrBar password={password} />
-      <TextField
-        mode="uncontrolled"
-        setPassword={setPassword}
+      <UncontrolledTextField
         ref={passwordInput}
+        setPassword={setPassword}
         id="password"
         label="Password"
         placeholder="Enter Password"
         error={formErrors}
       />
-      <TextField
-        mode="uncontrolled"
+      <UncontrolledTextField
         ref={passwordConfirmInput}
         id="passwordConfirm"
         label="Confirm Password"
         placeholder="Confirm Password"
         error={formErrors}
       />
-      <SelectField
-        mode="uncontrolled"
+      <UncontrolledSelectField
         ref={genderSelect}
         id="gender"
         label="Gender"
         options={[{ name: 'Female' }, { name: 'Male' }, { name: 'Other' }]}
         error={formErrors}
       />
-      <CountriesField
-        mode="uncontrolled"
+      <UncontrolledCountriesField
         ref={countrySelect}
         id="country"
         label="Country"
         options={countries}
         error={formErrors}
       />
-      <FileField
-        mode="uncontrolled"
+      <UncontrolledFileField
         ref={imageUpload}
         id="imageUpload"
         label="Upload Image"
         error={formErrors}
       />
-      <CheckboxField
-        mode="uncontrolled"
+      <UncontrolledCheckboxField
         ref={termsCheck}
         id="termsAccepted"
         label="I've read Terms and Conditions"
@@ -157,7 +150,7 @@ function UncontrolledForm(props: UnontrolledFormProps) {
       />
       <button
         type="submit"
-        className={`text-6xl text-bitcount cursor-pointer disabled:cursor-not-allowed`}
+        className="text-6xl text-bitcount cursor-pointer disabled:cursor-not-allowed"
       >
         Send
       </button>

@@ -7,7 +7,7 @@ function EntriesList() {
   const entriesLength = entriesList.length;
   return (
     <div className="grid grid-cols-3 gap-2 m-5">
-      {!entriesList && <div></div>}
+      {!entriesList && <div />}
       {entriesList &&
         entriesList.map((entryData, index) => (
           <EntryCard
