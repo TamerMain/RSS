@@ -18,18 +18,15 @@ export async function exportCSVAction(prevState: any, formData: FormData) {
       return { success: false, error: 'Cart is empty' };
     }
 
-    const content =
-      'This file contains your selected card information.\r\n\r\n' +
-      cartItems
-        .map(
-          (item, i) =>
-            `------- Card ${i + 1} -------\r\n` +
-            `Name: ${item.name}\r\n` +
-            `ID: ${item.id}\r\n` +
-            `Art: ${item.imageSrc || 'No art available'}\r\n` +
-            `URL: ${generateDetailsURL(item.search, item.page, item.id)}\r\n`
-        )
-        .join('\r\n');
+    const headers = 'Name,ID,Art,URL\r\n';
+    const rows = cartItems
+      .map(
+        (item) =>
+          `"${item.name}",${item.id},"${item.imageSrc || 'No art available'}","${generateDetailsURL(item.search, item.page, item.id)}"`
+      )
+      .join('\r\n');
+
+    const content = headers + rows;
 
     return {
       success: true,
@@ -37,6 +34,6 @@ export async function exportCSVAction(prevState: any, formData: FormData) {
       filename: `${cartItems.length}_cards_selected.csv`,
     };
   } catch (error) {
-    return { success: false, error: 'Failed to generate CSV' };
+    return { success: false, error: 'Failed' };
   }
 }

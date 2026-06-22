@@ -21,7 +21,7 @@
     "Cart": {
         "select": "Выбрано",
         "deselect": "Очистить Все",
-        "download": "Скачать CSV"
+        "download": "Скачать"
     },
     "Loader": {
         "loader": "Загрузка"

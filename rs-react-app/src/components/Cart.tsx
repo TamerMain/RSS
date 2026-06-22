@@ -13,6 +13,7 @@ function Cart() {
     <>
       {cart.length !== 0 && (
         <div className="flex flex-col gap-1 sticky text-gray-400 fade-in">
+          <DownloadButton cart={cart} />
           <div className="p-2 text-gray-50 bg-mist-800 ">
             {t('select')} {cart.length}
           </div>
@@ -22,7 +23,6 @@ function Cart() {
           >
             {t('deselect')}
           </button>
-          <DownloadButton cart={cart} />
         </div>
       )}
     </>

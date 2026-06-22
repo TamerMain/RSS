@@ -21,7 +21,7 @@
     "Cart": {
         "select": "Selected",
         "deselect": "Deselect All",
-        "download": "Download CSV"
+        "download": "Download"
     },
     "Loader": {
         "loader": "Loading"
