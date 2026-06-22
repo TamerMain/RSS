@@ -16,9 +16,11 @@ export default function useClientSearchParams() {
   const [isPending, startTransition] = useTransition();
 
   const currentParams: SearchParams = {
-    [SEARCH_PARAMS.QUERY]: searchParams?.get(SEARCH_PARAMS.QUERY) || '',
-    [SEARCH_PARAMS.PAGE]: Number(searchParams?.get(SEARCH_PARAMS.PAGE)) || 1,
-    [SEARCH_PARAMS.DETAILS]: searchParams?.get(SEARCH_PARAMS.DETAILS) || null,
+    [SEARCH_PARAMS.QUERY]: searchParams?.get(SEARCH_PARAMS.QUERY) || undefined,
+    [SEARCH_PARAMS.PAGE]:
+      Number(searchParams?.get(SEARCH_PARAMS.PAGE)) || undefined,
+    [SEARCH_PARAMS.DETAILS]:
+      searchParams?.get(SEARCH_PARAMS.DETAILS) || undefined,
   };
 
   const setSearchParams = (newParams: FetchSearchParams) => {

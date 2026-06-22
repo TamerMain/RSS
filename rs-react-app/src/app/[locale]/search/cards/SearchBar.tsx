@@ -13,9 +13,12 @@ function SearchBar() {
   const { getItem: getRecentSearch, setItem: setRecentSearch } =
     useStorage('RecentSearch');
   const { searchParams, setSearchParams } = useClientSearchParams();
-  const [searchTerm, setSearchTerm] = useState<string>(
-    () => searchParams[SEARCH_PARAMS.QUERY] || getRecentSearch() || ''
-  );
+  const [searchTerm, setSearchTerm] = useState<string>(() => {
+    if (searchParams[SEARCH_PARAMS.QUERY] === '') {
+      return searchParams[SEARCH_PARAMS.QUERY] as string;
+    }
+    return searchParams[SEARCH_PARAMS.QUERY] || getRecentSearch() || '';
+  });
   const [, formAction, isPending] = useActionState(searchAction, null);
   const hasInitialized = useRef(false);
 
@@ -29,20 +32,18 @@ function SearchBar() {
     };
 
     if (
-      !searchParams[SEARCH_PARAMS.QUERY] ||
-      !searchParams[SEARCH_PARAMS.PAGE]
+      searchParams[SEARCH_PARAMS.QUERY] ||
+      searchParams[SEARCH_PARAMS.QUERY] === ''
     ) {
-      setSearchParams(initialSearchParams);
+      setRecentSearch(searchParams[SEARCH_PARAMS.QUERY] as string);
     }
 
-    if (
-      searchParams[SEARCH_PARAMS.QUERY] === '' ||
-      !searchParams[SEARCH_PARAMS.PAGE]
-    ) {
-      setSearchParams({
-        [SEARCH_PARAMS.QUERY]: '',
-        [SEARCH_PARAMS.PAGE]: Number(searchParams[SEARCH_PARAMS.PAGE]),
-      });
+    if (!searchParams[SEARCH_PARAMS.PAGE]) {
+      if (searchParams[SEARCH_PARAMS.QUERY] === '') {
+        return;
+      } else if (!searchParams[SEARCH_PARAMS.QUERY]) {
+        setSearchParams(initialSearchParams);
+      }
     }
   }, [searchParams, setSearchParams, getRecentSearch]);
 
