@@ -39,8 +39,10 @@
     "./dist/types/**/*.ts",
     "./next-env.d.ts",
     "dist/types/**/*.ts",
-    "dist/dev/types/**/*.ts"
-, "postcss.config.ts"  ],
+    "dist/dev/types/**/*.ts",
+    "postcss.config.ts",
+    "./dist/dev/types/**/*.ts"
+  ],
   "exclude": [
     "./node_modules"
   ]

@@ -17,7 +17,7 @@ type ActionState = {
 } | null;
 
 export async function exportCSVAction(
-  prevState: ActionState,
+  _prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
   const t = await getTranslations('Cart');

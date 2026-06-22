@@ -9,7 +9,7 @@ type SearchState = {
 };
 
 export async function searchAction(
-  prevState: SearchState | null,
+  _prevState: SearchState | null,
   formData: FormData
 ): Promise<SearchState> {
   'use server';
