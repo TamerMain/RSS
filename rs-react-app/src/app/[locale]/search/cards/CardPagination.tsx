@@ -18,7 +18,9 @@ function CardPagination(props: CardPaginationPRops) {
   });
 
   function handlePageClick(e: React.MouseEvent<HTMLButtonElement>) {
-    const nextPage = Number(+e.currentTarget.textContent.trim());
+    const textContent = e.currentTarget.textContent;
+    if (!textContent) return;
+    const nextPage = Number(textContent.trim());
     setSearchParams({
       [SEARCH_PARAMS.QUERY]: props.cardList.search_term,
       [SEARCH_PARAMS.PAGE]: nextPage,

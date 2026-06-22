@@ -34,6 +34,16 @@ function SearchBar() {
     ) {
       setSearchParams(initialSearchParams);
     }
+
+    if (
+      searchParams[SEARCH_PARAMS.QUERY] === '' ||
+      !searchParams[SEARCH_PARAMS.PAGE]
+    ) {
+      setSearchParams({
+        [SEARCH_PARAMS.QUERY]: '',
+        [SEARCH_PARAMS.PAGE]: Number(searchParams[SEARCH_PARAMS.PAGE]),
+      });
+    }
   }, [searchParams, setSearchParams, getRecentSearch]);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
