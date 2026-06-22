@@ -22,7 +22,7 @@ async function CardMasterDetail(props: CardMasterDetailProps) {
     return (
       <div className="w-2/5 flex justify-center">
         <div className="fixed flex flex-col items-center w-1/4 p-2 bg-mist-800 text-center fade-in">
-          <h2 className="text-2xl">Details not found for that card.</h2>
+          <h2 className="text-2xl">{t('notFound')}</h2>
           <CardMasterDetailsCloseButton />
         </div>
       </div>

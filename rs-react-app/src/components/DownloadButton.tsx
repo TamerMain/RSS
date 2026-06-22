@@ -25,7 +25,7 @@ function DownloadButton({ cart }: { cart: CardInfo[] }) {
 
       setMessage({
         type: 'success',
-        text: 'Downloaded!',
+        text: t('downloadSuccess'),
       });
     }
 
@@ -36,7 +36,7 @@ function DownloadButton({ cart }: { cart: CardInfo[] }) {
 
   useEffect(() => {
     if (message) {
-      const timer = setTimeout(() => setMessage(null), 3000);
+      const timer = setTimeout(() => setMessage(null), 2000);
       return () => clearTimeout(timer);
     }
   }, [message]);

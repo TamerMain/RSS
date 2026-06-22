@@ -21,7 +21,13 @@
     "Cart": {
         "select": "Выбрано",
         "deselect": "Очистить Все",
-        "download": "Скачать"
+        "fileName": "_карт_выбрано",
+        "headers": "Имя,ID,Изображение,URL",
+        "noArt": "Арт не доступен",
+        "download": "Скачать",
+        "downloadEmpty": "Карты не выбраны",
+        "downloadError": "Не удалось скачать",
+        "downloadSuccess": "Скачано!"
     },
     "Loader": {
         "loader": "Загрузка"
@@ -38,6 +44,7 @@
         "imgAlt": "Изображение"
     },
     "CardMasterDetail": {
+        "notFound": "Детали Не Найдены Для Этой Карты",
         "imgError": "Изображение Не Найдено",
         "imgAlt": "Полное изображение",
         "set": "Сет",

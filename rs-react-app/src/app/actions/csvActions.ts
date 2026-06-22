@@ -1,6 +1,7 @@
 'use server';
 
 import { type CardInfo } from '@/store/cartSlice';
+import { getTranslations } from 'next-intl/server';
 import { NAVIGATION, SEARCH_PARAMS } from '@/constants/routes';
 
 function generateDetailsURL(search: string, page: number, id: string) {
@@ -9,20 +10,21 @@ function generateDetailsURL(search: string, page: number, id: string) {
 }
 
 export async function exportCSVAction(prevState: any, formData: FormData) {
+  const t = await getTranslations('Cart');
   try {
     const cartItems: CardInfo[] = JSON.parse(
       formData.get('cartItems') as string
     );
 
     if (!cartItems?.length) {
-      return { success: false, error: 'Cart is empty' };
+      return { success: false, error: t('downloadEmpty') };
     }
 
-    const headers = 'Name,ID,Art,URL\r\n';
+    const headers = `${t('headers')}\r\n`;
     const rows = cartItems
       .map(
         (item) =>
-          `"${item.name}",${item.id},"${item.imageSrc || 'No art available'}","${generateDetailsURL(item.search, item.page, item.id)}"`
+          `"${item.name}",${item.id},"${item.imageSrc || t('noArt')}","${generateDetailsURL(item.search, item.page, item.id)}"`
       )
       .join('\r\n');
 
@@ -31,9 +33,9 @@ export async function exportCSVAction(prevState: any, formData: FormData) {
     return {
       success: true,
       content,
-      filename: `${cartItems.length}_cards_selected.csv`,
+      filename: `${cartItems.length}${t('fileName')}.csv`,
     };
   } catch (error) {
-    return { success: false, error: 'Failed' };
+    return { success: false, error: t('downloadError') };
   }
 }

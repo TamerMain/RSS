@@ -1,6 +1,5 @@
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useTranslations, useLocale } from 'next-intl';
+import { createNavigation } from 'next-intl/navigation';
+import { useTranslations } from 'next-intl';
 import ErrorButton from '../components/ErrorButton.tsx';
 import ThemeButton from './ThemeButton.tsx';
 import RefreshCacheButton from './RefreshCacheButton.tsx';
@@ -9,13 +8,19 @@ import LanguageSwitcher from './LanguageSwitch.tsx';
 import { CACHE_TAG } from '@/constants/routes.ts';
 import { NAVIGATION } from '@/constants/routes.ts';
 
+const {
+  Link,
+  useRouter,
+  usePathname: useIntlPathname,
+  redirect,
+} = createNavigation();
+
 export default function Navigation() {
   const t = useTranslations('Navigation');
-  const pathname = usePathname();
-  const locale = useLocale();
+  const intlPathname = useIntlPathname();
 
   function isActive(path: string): boolean {
-    return pathname === path;
+    return intlPathname === path;
   }
 
   return (
@@ -23,7 +28,7 @@ export default function Navigation() {
       <div className="flex flex-col gap-1 fade-in">
         <ThemeButton />
         <Link
-          href={`/${locale}${NAVIGATION.SEARCH.BASE}`}
+          href={NAVIGATION.SEARCH.BASE}
           className={`p-2 bg-mist-800 ${
             isActive(NAVIGATION.SEARCH.BASE)
               ? 'text-gray-50 pointer-events-none'
@@ -33,7 +38,7 @@ export default function Navigation() {
           {t('search')}
         </Link>
         <Link
-          href={`/${locale}${NAVIGATION.ABOUT}`}
+          href={NAVIGATION.ABOUT}
           className={`p-2 bg-mist-800 ${
             isActive(NAVIGATION.ABOUT)
               ? 'text-gray-50 pointer-events-none'

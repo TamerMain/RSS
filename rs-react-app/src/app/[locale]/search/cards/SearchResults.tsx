@@ -17,7 +17,6 @@ async function SearchResults(props: SearchResultsProps) {
   };
 
   const { cardList, errorCode } = await fetchCardList(validSearchParams);
-  console.log(props.searchParams[SEARCH_PARAMS.DETAILS]);
 
   if (errorCode) return <CardNotFound errorCode={errorCode} />;
 
@@ -32,7 +31,7 @@ async function SearchResults(props: SearchResultsProps) {
           <div
             className={`flex-1 grid grid-cols-6 justify-items-center gap-4 p-2`}
           >
-            <CardList cardList={cardList} key={Math.random()} />
+            <CardList cardList={cardList}/>
           </div>
           <CardMasterDetail searchParams={props.searchParams} />
         </div>

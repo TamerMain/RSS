@@ -1,6 +1,8 @@
 import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 
+export const dynamic = 'force-static';
+
 async function About() {
   const t = await getTranslations('About');
   return (

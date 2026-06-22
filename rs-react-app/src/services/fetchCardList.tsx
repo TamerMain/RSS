@@ -13,10 +13,11 @@ import {
 } from '@/types/types.ts';
 import { ERROR_CODES, HTTP_STATUS, SEARCH_PARAMS } from '@/constants/routes';
 
+const REVALIDATE_TIME = Number(process.env.NEXT_PUBLIC_REVALIDATE_CACHE) || 60;
+
 export default async function fetchCardList(
   params: FetchSearchParams
 ): Promise<FetchCardListReturn> {
-  console.log('fetch list');
   try {
     if (isNaN(Number(params[SEARCH_PARAMS.PAGE]))) {
       throw new Error(ERROR_CODES.NOT_NUMBER);
@@ -40,7 +41,7 @@ export default async function fetchCardList(
       },
       next: {
         tags: ['Card List'],
-        revalidate: 60,
+        revalidate: REVALIDATE_TIME,
       }
     });
     if (!response.ok) {

@@ -10,6 +10,8 @@ import {
   FETCH_CONTENT_TYPE,
 } from '@/constants/fetch';
 
+const REVALIDATE_TIME = Number(process.env.NEXT_PUBLIC_REVALIDATE_CACHE) || 60;
+
 export default async function fetchDetails(
   params: FetchDetailsParams
 ): Promise<FetchDetailsReturn> {
@@ -27,10 +29,9 @@ export default async function fetchDetails(
       },
       next: {
         tags: ['Details'],
-        revalidate: 60,
+        revalidate: REVALIDATE_TIME,
       },
     });
-    console.log('fetch details');
     if (!response.ok) {
       if (response.status === HTTP_STATUS.NOT_FOUND) {
         throw new Error(ERROR_CODES.NOT_FOUND);

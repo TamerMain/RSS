@@ -21,7 +21,13 @@
     "Cart": {
         "select": "Selected",
         "deselect": "Deselect All",
-        "download": "Download"
+        "fileName": "_cards_selected",
+        "headers": "Name,ID,Art,URL",
+        "noArt": "No art available",
+        "download": "Download",
+        "downloadEmpty": "Cart is Empty",
+        "downloadError": "Failed To Download",
+        "downloadSuccess": "Downloaded"
     },
     "Loader": {
         "loader": "Loading"
@@ -38,6 +44,7 @@
         "imgAlt": "Image of"
     },
     "CardMasterDetail": {
+        "notFound": "Details Not Found For That Card",
         "imgError": "No Image Available",
         "imgAlt": "Full Art of",
         "set": "Set",
