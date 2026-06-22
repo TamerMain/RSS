@@ -4,8 +4,9 @@ import { useTranslations, useLocale } from 'next-intl';
 import ErrorButton from '../components/ErrorButton.tsx';
 import ThemeButton from './ThemeButton.tsx';
 import RefreshCacheButton from './RefreshCacheButton.tsx';
-import { CACHE_TAG } from '@/constants/routes.ts';
 import Cart from './Cart.tsx';
+import LanguageSwitcher from './LanguageSwitch.tsx';
+import { CACHE_TAG } from '@/constants/routes.ts';
 import { NAVIGATION } from '@/constants/routes.ts';
 
 export default function Navigation() {
@@ -44,6 +45,7 @@ export default function Navigation() {
         <ErrorButton />
         <RefreshCacheButton tag={CACHE_TAG.CARD_LIST} />
         <RefreshCacheButton tag={CACHE_TAG.DETAILS} />
+        <LanguageSwitcher />
       </div>
       <Cart />
     </nav>
