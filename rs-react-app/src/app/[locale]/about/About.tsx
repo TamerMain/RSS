@@ -19,6 +19,7 @@ async function About() {
             alt={t('githubImgAlt')}
             width={24}
             height={24}
+            style={{ width: 'auto', height: 'auto' }}
           />
           {t('title')}
         </a>
@@ -35,6 +36,7 @@ async function About() {
           alt={t('courseImgAlt')}
           width={24}
           height={24}
+          style={{ width: 'auto', height: 'auto' }}
         />{' '}
         {t('courseProfile')}
       </a>
@@ -49,6 +51,7 @@ async function About() {
           alt={t('githubImgAlt')}
           width={24}
           height={24}
+          style={{ width: 'auto', height: 'auto' }}
         />{' '}
         {t('githubProfile')}
       </a>
