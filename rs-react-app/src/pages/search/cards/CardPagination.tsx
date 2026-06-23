@@ -27,7 +27,7 @@ function CardPagination(props: CardPaginationPRops) {
       {pageList &&
         pageList.map((page, index) =>
           page === '...' ? (
-            <div key={`...+${index}`} className="p-1">
+            <div key={`more_pages+${index}`} className="p-1">
               ...
             </div>
           ) : (

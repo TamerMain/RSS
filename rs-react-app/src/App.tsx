@@ -7,6 +7,11 @@ import Navigation from './components/Navigation.tsx';
 import NotFound from './pages/404/NotFound.tsx';
 import { ROUTES } from '@/constants/routes.ts';
 
+import { ThemeProvider } from '@/contexts/ThemeProvider.tsx';
+import { store } from '@/store/store.ts';
+import { Provider } from 'react-redux';
+import { ROUTES } from '@/constants/routes.ts';
+
 function App() {
   return (
     <div className="h-full min-h-[100vh] light:bg-mist-100">

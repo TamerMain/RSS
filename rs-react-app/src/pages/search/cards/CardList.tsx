@@ -24,10 +24,6 @@ function CardList(props: CardListProps) {
     setSearchParams({ [SEARCH_PARAMS.DETAILS]: id });
   }
 
-  function handleCloseDetailsClick() {
-    setSearchParams({ [SEARCH_PARAMS.DETAILS]: null });
-  }
-
   function handleToCartClick(payload: CardInfo) {
     dispatch(toggleItem(payload));
   }

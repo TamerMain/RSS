@@ -1,9 +1,9 @@
-import { type CardInfo } from '@/store/cartSlice';
-import { NAVIGATION, SEARCH_PARAMS } from '@/constants/routes';
+import { type CardInfo } from '@/store/store';
+import { SEARCH_PARAMS, NAVIGATION } from '@/constants/routes';
 
 function detailsURL(search: string, page: number, id: string) {
   const origin = window.location.origin;
-  const URL = `${origin}${NAVIGATION.SEARCH.CARDS}?${SEARCH_PARAMS.QUERY}=${search}&${SEARCH_PARAMS.PAGE}=${page}&${SEARCH_PARAMS.DETAILS}=${id}`;
+  const URL = `${origin}${NAVIGATION.SEARCH.CARDS}?q=${encodeURIComponent(search ? search : '')}&${SEARCH_PARAMS.PAGE}=${page}&${SEARCH_PARAMS.DETAILS}=${id}`;
   return URL;
 }
 
