@@ -1,33 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import useStorage from '../../hooks/useStorage';
-import { type SearchQuery } from '@/hooks/useFetchCardList';
-import { getInitialParams } from '@/utils/getParams';
+import useFetchCardList from '@/hooks/useFetchCardList';
+import useCardListSearchParams from '@/hooks/useCardListSearchParams';
+import { SEARCH_PARAMS } from '@/constants/routes';
 
-type SearchBarProps = {
-  isLoading: boolean;
-  updateCardList: ({ q, page }: SearchQuery) => void;
-};
-
-function SearchBar(props: SearchBarProps) {
+function SearchBar() {
   const { getItem: getRecentSearch, setItem: setRecentSearch } =
     useStorage('RecentSearch');
-  const [searchTerm, setSearchTerm] = useState<string>(() => getRecentSearch());
-
-  useEffect(() => {
-    const params = getInitialParams();
-    const updateResultList = props.updateCardList;
-
-    if (params) {
-      updateResultList({
-        q: params.q,
-        page: params.page,
-      });
-      setRecentSearch(params.q);
-    } else {
-      const newTerm = getRecentSearch();
-      updateResultList({ q: newTerm, page: 1 });
-    }
-  }, [getRecentSearch, setRecentSearch, props.updateCardList]);
+  const { searchParams, setSearchParams } = useCardListSearchParams();
+  const { isLoading } = useFetchCardList(searchParams);
+  const [searchTerm, setSearchTerm] = useState<string>(() => {
+    return searchParams[SEARCH_PARAMS.QUERY];
+  });
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(e.currentTarget.value);
@@ -36,11 +20,14 @@ function SearchBar(props: SearchBarProps) {
   function handleSearchSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const newTerm = searchTerm.trim();
-    if (getRecentSearch() === newTerm) {
+    if (newTerm === getRecentSearch()) {
       return;
     }
     setRecentSearch(newTerm);
-    props.updateCardList({ q: newTerm });
+    setSearchParams({
+      [SEARCH_PARAMS.QUERY]: newTerm,
+      [SEARCH_PARAMS.PAGE]: 1,
+    });
   }
 
   return (
@@ -56,12 +43,12 @@ function SearchBar(props: SearchBarProps) {
           placeholder="Example: Black Lotus or Lotus"
           value={searchTerm}
           onChange={handleInputChange}
-          disabled={props.isLoading}
+          disabled={isLoading}
         ></input>
         <button
           className="p-2 bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-400 transition-colors duration-400"
           type="submit"
-          disabled={props.isLoading}
+          disabled={isLoading}
         >
           Find Cards
         </button>

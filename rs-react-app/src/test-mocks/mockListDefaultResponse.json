@@ -1,12 +1,11 @@
 {
   "page": 1,
-  "total_cards": 5,
-  "total_pages": 1,
+  "total_cards": 31696,
   "current_page": 1,
   "data": [
     {
       "id": "5aa90ab6-2686-4462-8725-5d4370c05437",
-      "image.uris": {
+      "image_uris": {
         "normal": "https://cards.scryfall.io/normal/front/5/a/5aa90ab6-2686-4462-8725-5d4370c05437.jpg?1663738897"
       },
       "card_faces": [
@@ -20,7 +19,7 @@
     },
     {
       "id": "e882c9f9-bf30-46b6-bedc-379d2c80e5cb",
-      "image.uris": {
+      "image_uris": {
         "normal": "https://cards.scryfall.io/normal/front/e/8/e882c9f9-bf30-46b6-bedc-379d2c80e5cb.jpg?1627701221"
       },
       "card_faces": [
@@ -34,7 +33,7 @@
     },
     {
       "id": "de7a150b-1b0d-4928-a2cc-80a4b7412350",
-      "image.uris": {
+      "image_uris": {
         "normal": "https://cards.scryfall.io/normal/front/d/e/de7a150b-1b0d-4928-a2cc-80a4b7412350.jpg?1764118239"
       },
       "card_faces": [
@@ -48,7 +47,7 @@
     },
     {
       "id": "cdd47fc3-6ea7-4516-ad66-b73f545f8221",
-      "image.uris": {
+      "image_uris": {
         "normal": "https://cards.scryfall.io/normal/front/c/d/cdd47fc3-6ea7-4516-ad66-b73f545f8221.jpg?1764119515"
       },
       "card_faces": [
@@ -62,7 +61,7 @@
     },
     {
       "id": "fea89ca0-8070-4f28-9851-994314f9d248",
-      "image.uris": {
+      "image_uris": {
         "normal": "https://cards.scryfall.io/normal/front/f/e/fea89ca0-8070-4f28-9851-994314f9d248.jpg?1764522003"
       },
       "card_faces": [

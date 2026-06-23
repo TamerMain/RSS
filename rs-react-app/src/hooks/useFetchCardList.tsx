@@ -1,54 +1,53 @@
-import { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router';
+import { useCardListQuery } from '@/services/fetchAPI.ts';
 import {
-  searchRequest,
-  type SearchResponse,
-} from '../services/fetchCardList.tsx';
-import { createCardSearchParams } from '@/utils/getParams.ts';
-import { NAVIGATION, ERROR_CODES } from '@/constants/routes';
+  type FetchSearchParams,
+  type UseFetchCardListReturn,
+  type FetchError,
+} from '@/types/types.ts';
+import { ERROR_CODES, HTTP_STATUS, SEARCH_PARAMS } from '@/constants/routes';
 
-export type ErrorCode = '404' | 'UnknownError' | false;
-export type SearchQuery = {
-  q?: string | '';
-  page?: number | 1;
-};
-
-export default function useFetchCardList() {
-  const [cardList, setCardList] = useState<SearchResponse | null>(null);
-  const [errorCode, setErrorCode] = useState<ErrorCode>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
-
-  const updateCardList = useCallback(
-    async ({ q = '', page = 1 }: SearchQuery) => {
-      setErrorCode(false);
-      setIsLoading(true);
-      try {
-        const cardList = await searchRequest(q, page);
-        navigate({
-          pathname: NAVIGATION.SEARCH.CARDS,
-          search: createCardSearchParams({
-            q: q,
-            page: page,
-          }),
-        });
-        window.setTimeout(() => {
-          setCardList(cardList);
-          setIsLoading(false);
-        }, 500);
-      } catch (err) {
-        setCardList(null);
-        if (err instanceof Error && err.message === ERROR_CODES.NOT_FOUND) {
-          setErrorCode(ERROR_CODES.NOT_FOUND);
-        } else {
-          setErrorCode(ERROR_CODES.UNKNOWN_ERROR);
-        }
-        setIsLoading(false); 
-        navigate(NAVIGATION.SEARCH.CARDS_NOT_FOUND);
-      }
+export default function useFetchCardList({
+  [SEARCH_PARAMS.QUERY]: q,
+  [SEARCH_PARAMS.PAGE]: page,
+}: FetchSearchParams): UseFetchCardListReturn {
+  const { data, isLoading, error, isFetching } = useCardListQuery(
+    {
+      [SEARCH_PARAMS.QUERY]: q,
+      [SEARCH_PARAMS.PAGE]: page,
     },
-    [navigate]
+    {
+      skip:
+        !page || isNaN(Number(page)) || !Number.isInteger(page) || page <= 0,
+    }
   );
 
-  return { cardList, updateCardList, isLoading, errorCode };
+  const getErrorCode = (error: FetchError) => {
+    if (isNaN(Number(page))) {
+      return ERROR_CODES.NOT_NUMBER;
+    }
+    if (page === 0) {
+      return ERROR_CODES.NOT_ZERO;
+    }
+    if (!Number.isInteger(page) || page <= 0) {
+      return ERROR_CODES.NOT_NATURAL;
+    }
+    if (!error) return false;
+    const status = 'status' in error ? error.status : null;
+    switch (status) {
+      case HTTP_STATUS.NOT_FOUND:
+        return ERROR_CODES.NOT_FOUND;
+      case HTTP_STATUS.UNPROCESSABLE_CONTENT:
+        return ERROR_CODES.UNPROCESSABLE_CONTENT;
+      default:
+        return ERROR_CODES.UNKNOWN_ERROR;
+    }
+  };
+
+  const errorCode = getErrorCode(error);
+
+  return {
+    cardList: data,
+    isLoading: isLoading || isFetching,
+    errorCode,
+  };
 }

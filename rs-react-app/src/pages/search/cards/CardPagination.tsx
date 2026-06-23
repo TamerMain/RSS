@@ -1,45 +1,31 @@
 import getPagination from '../../../utils/getPagination.ts';
-import useStorage from '../../../hooks/useStorage.tsx';
-import { useState } from 'react';
-import type { SearchResponse } from '../../../services/fetchCardList.tsx';
-import { type SearchQuery } from '@/hooks/useFetchCardList.tsx';
+import { type FetchSearchParams } from '@/types/types.ts';
+import { type SearchResponse } from '@/types/types.ts';
+import { SEARCH_PARAMS } from '@/constants/routes.ts';
 
-type CardPaginationProps = {
-  updateCardList: ({ q, page }: SearchQuery) => void;
+type CardPaginationPRops = {
   cardList: SearchResponse;
+  setSearchParams: (newParams: FetchSearchParams) => void;
 };
 
-function CardPagination(props: CardPaginationProps) {
-  const [pageList, setPageList] = useState({
-    list: getPagination({
-      total: props.cardList.total_pages,
-      current: props.cardList.current_page,
-    }),
+function CardPagination(props: CardPaginationPRops) {
+  const pageList = getPagination({
+    total: props.cardList.total_pages,
+    current: props.cardList.current_page,
   });
-  const { getItem: getRecentSearch } = useStorage('RecentSearch');
 
   function handlePageClick(e: React.MouseEvent<HTMLButtonElement>) {
-    const newPage = +e.currentTarget.textContent.trim();
-    if (newPage === props.cardList.current_page) {
-      return;
-    }
-
-    const newPageList = getPagination({
-      total: props.cardList.total_pages,
-      current: newPage,
+    const nextPage = Number(+e.currentTarget.textContent.trim());
+    props.setSearchParams({
+      [SEARCH_PARAMS.QUERY]: props.cardList.search_term,
+      [SEARCH_PARAMS.PAGE]: nextPage,
     });
-    setPageList({
-      list: newPageList,
-    });
-
-    const newTerm = getRecentSearch();
-    props.updateCardList({ q: newTerm, page: newPage });
   }
 
   return (
     <div className="flex justify-center gap-2 p-2 align-middle h-9">
-      {pageList.list &&
-        pageList.list.map((page, index) =>
+      {pageList &&
+        pageList.map((page, index) =>
           page === '...' ? (
             <div key={`more_pages+${index}`} className="p-1">
               ...
@@ -47,7 +33,7 @@ function CardPagination(props: CardPaginationProps) {
           ) : (
             <button
               key={page}
-              className={`h-full p-2 cursor-pointer ${props.cardList.current_page === page ? 'text-gray-50' : 'text-gray-400'}  hover:text-gray-50 disabled:cursor-not-allowed disabled:text-gray-400 transition-colors duration-200`}
+              className={`h-full p-2 cursor-pointer ${props.cardList.current_page === page ? 'text-gray-50 light:text-black light:font-semibold' : 'text-gray-400 light:text-gray-600'}  hover:text-gray-50 light:hover:text-black light:hover:font-semibold disabled:cursor-not-allowed disabled:text-gray-400 transition-colors duration-200`}
               onClick={handlePageClick}
             >
               {page}

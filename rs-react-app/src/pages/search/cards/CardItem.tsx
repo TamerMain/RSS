@@ -3,7 +3,7 @@ type CardItemProps = {
   cardImageSrc: string | undefined;
   isInCart: boolean;
   onToCartClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onActiveCardClick: () => void;
+  onOpenDetailsClick: () => void;
 };
 
 function CardItem(props: CardItemProps) {
@@ -12,7 +12,7 @@ function CardItem(props: CardItemProps) {
       {props.cardImageSrc && (
         <div
           onClick={() => {
-            props.onActiveCardClick();
+            props.onOpenDetailsClick();
           }}
           className="flex flex-col items-center w-full text-gray-400 hover:text-gray-50 hover:font-bold light:text-gray-800 light:hover:text-black  transition-colors transition-font-weight duration-400"
         >
@@ -24,7 +24,8 @@ function CardItem(props: CardItemProps) {
               width="480"
               height="680"
               loading="lazy"
-            ></img>
+              decoding="async"
+            />
             <button
               onClick={props.onToCartClick}
               className={`absolute left-[3%] bottom-[3%] w-5 h-5 rounded-full border-2 border-mist-400 light:border-mist-800 ${
@@ -32,7 +33,7 @@ function CardItem(props: CardItemProps) {
                   ? 'bg-mist-400 light:bg-mist-800 shadow-[inset_0_0_0_2px] shadow-black light:shadow-mist-200'
                   : 'bg-black light:bg-mist-200'
               }`}
-            ></button>
+            />
           </div>
           <p className="text-center">{props.cardName}</p>
         </div>
@@ -50,7 +51,7 @@ function CardItem(props: CardItemProps) {
                   ? 'bg-mist-400 light:bg-mist-800 shadow-[inset_0_0_0_2px] shadow-black light:shadow-mist-200'
                   : 'bg-black light:bg-mist-200'
               }`}
-            ></button>
+            />
           </div>
           <p className="text-center">{props.cardName}</p>
         </div>

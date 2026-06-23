@@ -1,20 +1,27 @@
-import { useState } from 'react';
 import { Routes, Route, Outlet } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
+import useFetchDetails from '@/hooks/useFetchDetails.tsx';
+import useDetailsSearchParams from '@/hooks/useDetailsSearchParams.tsx';
 import CardItem from './CardItem.tsx';
 import CardMasterDetail from './CardMasterDetail.tsx';
-import { type SearchResponse } from '../../../services/fetchCardList.tsx';
-import { toggleItem, type RootState, type CardInfo } from '@/store/store.ts';
+import { toggleItem, type CardInfo } from '@/store/cartSlice.ts';
+import { type RootState } from '@/store/store.ts';
+import { type SearchResponse } from '@/types/types.ts';
+import { SEARCH_PARAMS } from '@/constants/routes.ts';
 
-type CardListProps = { cardList: SearchResponse };
+type CardListProps = {
+  cardList: SearchResponse;
+};
 
 function CardList(props: CardListProps) {
-  const [activeCard, setActiveCard] = useState<string | undefined>(undefined);
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
+  const { searchParams, setSearchParams } = useDetailsSearchParams();
+  const detailsID = searchParams[SEARCH_PARAMS.DETAILS];
+  const { detailsCard, isLoading, errorCode } = useFetchDetails(searchParams);
 
-  function handleActiveCardClick(id: string) {
-    setActiveCard(id);
+  function handleOpenDetailsClick(id: string) {
+    setSearchParams({ [SEARCH_PARAMS.DETAILS]: id });
   }
 
   function handleToCartClick(payload: CardInfo) {
@@ -42,10 +49,10 @@ function CardList(props: CardListProps) {
                   card?.image_uris?.normal ||
                   card?.card_faces?.[0]?.image_uris?.normal,
                 page: props.cardList.current_page,
-                search: props.cardList.search_term
+                search: props.cardList.search_term,
               });
             }}
-            onActiveCardClick={() => handleActiveCardClick(card.id)}
+            onOpenDetailsClick={() => handleOpenDetailsClick(card.id)}
           />
         ))}
       </div>
@@ -55,11 +62,13 @@ function CardList(props: CardListProps) {
 
   const cardMasterDetail = (
     <>
-      {activeCard && (
+      {detailsID && (
         <div className="w-2/5 flex justify-center">
           <CardMasterDetail
-            setActiveCard={setActiveCard}
-            activeCard={activeCard}
+            detailsCard={detailsCard}
+            isLoading={isLoading}
+            errorCode={errorCode}
+            onCloseDetailsClick={handleCloseDetailsClick}
           />
         </div>
       )}

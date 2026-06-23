@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import DownloadButton from '@/components/DownloadButton';
-import { type CardInfo } from '@/store/store';
+import { type CardInfo } from '@/store/cartSlice';
 
 describe('when click download CSV', () => {
   const mockCart: CardInfo = {

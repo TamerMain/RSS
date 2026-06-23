@@ -12,7 +12,8 @@ import {
 } from '@/constants/fetch';
 
 export const restHandlers = [
-  http.get(FETCH_SEARCH_BASE_URL, ({ request }) => {
+  http.get(TEST_FETCH_URL, async ({ request }) => {
+    await delay(TEST_FETCH_DELAY);
     const url = request.url;
 
     if (url === `${FETCH_SEARCH_BASE_URL}?page=1&q=Lotus+game%3Apaper`) {
@@ -22,8 +23,17 @@ export const restHandlers = [
     if (url === `${FETCH_SEARCH_BASE_URL}?page=1&q=+game%3Apaper`) {
       return HttpResponse.json(mockListDefaultResponse);
     }
+    if (url === `${TEST_FETCH_URL}${TEST_FETCH_PARAMS.DEFAULT_PAGE_2}`) {
+      return HttpResponse.json(mockListDefaultResponsePage2);
+    }
 
-    return new HttpResponse(null, { status: 404 });
+    if (url === `${TEST_FETCH_URL}${TEST_FETCH_PARAMS.PAGE_NOT_FOUND}`) {
+      return new HttpResponse(null, {
+        status: HTTP_STATUS.UNPROCESSABLE_CONTENT,
+      });
+    }
+
+    return new HttpResponse(null, { status: HTTP_STATUS.NOT_FOUND });
   }),
 
   http.get(
@@ -31,7 +41,19 @@ export const restHandlers = [
     () => {
       return HttpResponse.json(mockDetailResponse);
     }
-  ),
+    if (
+      url ===
+      `${TEST_FETCH_DETAILS_URL}${TEST_FETCH_DETAILS_PARAMS.VALID_SECOND}`
+    ) {
+      return HttpResponse.json(mockDetailsResponse[1]);
+    }
+    if (
+      url === `${TEST_FETCH_DETAILS_URL}${TEST_FETCH_DETAILS_PARAMS.INVALID}`
+    ) {
+      return new HttpResponse(null);
+    }
+    return new HttpResponse(null, { status: HTTP_STATUS.NOT_FOUND });
+  }),
 ];
 
 export const server = setupServer(...restHandlers);
@@ -40,11 +62,17 @@ beforeAll(() => {
   server.listen({ onUnhandledRequest: 'error' });
 });
 
+beforeEach(() => {
+  server.resetHandlers();
+  server.use(...restHandlers);
+});
+
 afterAll(() => server.close());
 
 afterEach(() => {
+  store.dispatch(clearCart());
+  store.dispatch(fetchAPI.util.resetApiState());
   localStorage.clear();
-  server.resetHandlers();
   vi.restoreAllMocks();
   cleanup();
 });
