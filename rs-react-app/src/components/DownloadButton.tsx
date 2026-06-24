@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 'use client';
 
 import { useTranslations } from 'next-intl';
@@ -12,6 +13,30 @@ function DownloadButton({ cart }: { cart: CardInfo[] }) {
     type: 'success' | 'error';
     text: string;
   } | null>(null);
+=======
+import { type CardInfo } from '@/store/store';
+import { SEARCH_PARAMS, NAVIGATION } from '@/constants/routes';
+
+function detailsURL(search: string, page: number, id: string) {
+  const origin = window.location.origin;
+  const URL = `${origin}${NAVIGATION.SEARCH.CARDS}?q=${encodeURIComponent(search ? search : '')}&${SEARCH_PARAMS.PAGE}=${page}&${SEARCH_PARAMS.DETAILS}=${id}`;
+  return URL;
+}
+
+function DownloadButton(props: { cart: CardInfo[] }) {
+  function handleDownload() {
+    if (props.cart.length === 0) return;
+    const contentHeader =
+      'This file contains your selected card information.\r\nSuch as Name, ID and Description link to original art and details URL which is not impelemented yet for direct access from browser.\r\n\r\n';
+    const contentBody = props.cart
+      .map((item, index) => {
+        return `------- Card ${index + 1} -------\r\nName: ${item.name}\r\nScryfall unique ID: ${item.id}\r\nOriginal Art: ${item.imageSrc ? item.imageSrc : 'No art available'}\r\nDetails URL: ${detailsURL(item.search, item.page, item.id)}.\r\n`;
+      })
+      .join('\r\n');
+    const content = `${contentHeader + contentBody}`;
+    const blob = new Blob([content], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+>>>>>>> main
 
   const handleDownload = () => {
     startTransition(async () => {
