@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&display=swap');
+@import 'tailwindcss';
+
+@custom-variant light (&:where(.light, .light *));
+
+
+html,
+body {  
+  font-family: 'Sorts Mill Goudy', serif;
+}
+
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out forwards;
+}

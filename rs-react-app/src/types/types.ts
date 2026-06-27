@@ -1,5 +1,4 @@
-import { type FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { type SerializedError } from '@reduxjs/toolkit';
+import { CACHE_TAG } from '@/constants/routes';
 
 export type SearchAPIResponse = {
   page: number;
@@ -36,19 +35,22 @@ export type FetchDetailsParams = {
   id: string | null;
 };
 
-export type UseFetchCardListReturn = {
+export type SearchParams = {
+  q?: string;
+  page?: number;
+  id?: string | null;
+};
+
+export type FetchCardListReturn = {
   cardList: SearchResponse | undefined;
-  isLoading: boolean;
   errorCode: ErrorCode;
 };
 
-export type UseFetchDetailsReturn = {
+export type FetchDetailsReturn = {
   detailsCard: DetailsResponse | null | undefined;
-  isLoading: boolean;
   errorCode: ErrorCode;
 };
 
-export type FetchError = FetchBaseQueryError | SerializedError | undefined;
 export type ErrorCode =
   | '404'
   | 'UnknownError'
@@ -56,4 +58,6 @@ export type ErrorCode =
   | 'NotANumber'
   | 'NotAZero'
   | 'NotNatural'
-  | boolean;
+  | false;
+
+export type CacheTag = (typeof CACHE_TAG)[keyof typeof CACHE_TAG];

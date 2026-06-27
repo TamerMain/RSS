@@ -1,16 +1,18 @@
-import { CACHE_TAG } from '@/constants/routes';
-import { useDispatch } from 'react-redux';
-import { fetchAPI } from '@/services/fetchAPI';
+'use client';
+
+import { useTranslations } from 'next-intl';
+import { revalidateCacheTag } from '@/app/actions/cache';
+import { type CacheTag } from '@/types/types';
 
 type RefreshCacheButtonProps = {
-  tag: (typeof CACHE_TAG)[keyof typeof CACHE_TAG];
+  tag: CacheTag;
 };
 
 function RefreshCacheButton(props: RefreshCacheButtonProps) {
-  const dispatch = useDispatch();
+  const t = useTranslations('Navigation');
 
-  function handleRefreshCache() {
-    dispatch(fetchAPI.util.invalidateTags([props.tag]));
+  async function handleRefreshCache() {
+    await revalidateCacheTag(props.tag);
   }
 
   return (
@@ -18,7 +20,7 @@ function RefreshCacheButton(props: RefreshCacheButtonProps) {
       className="p-2 bg-mist-800 text-gray-400 hover:text-gray-50 cursor-pointer transition-colors duration-400"
       onClick={handleRefreshCache}
     >
-      Clear {props.tag} Cache
+      {t(props.tag)}
     </button>
   );
 }

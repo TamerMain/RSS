@@ -1,0 +1,62 @@
+{
+    "NotFound": {
+        "title": "Page Not Found",
+        "button": "Home Page"
+    },
+    "About": {
+        "title": "RS School. React Course",
+        "discordProfile": "Churuya (@TamerMain)",
+        "courseProfile": "RS School",
+        "githubProfile": "Github",
+        "githubImgAlt": "Github Logo",
+        "courseImgAlt": "RS School Logo"
+    },
+    "Navigation": {
+        "search": "Search",
+        "about": "About",
+        "emulateError": "Emulate Unexpected Error",
+        "CardList": "Clear Card List Cache",
+        "Details": "Clear Details Cache"
+    },
+    "Cart": {
+        "select": "Selected",
+        "deselect": "Deselect All",
+        "fileName": "_cards_selected",
+        "headers": "Name,ID,Art,URL",
+        "noArt": "No art available",
+        "download": "Download",
+        "downloadEmpty": "Cart is Empty",
+        "downloadError": "Failed To Download",
+        "downloadSuccess": "Downloaded"
+    },
+    "Loader": {
+        "loader": "Loading"
+    },
+    "SearchBar": {
+        "placeholder": "Example: Black Lotus or Lotus",
+        "searchButton": "Find Cards"
+    },
+    "SearchResults": {
+        "title": "Card List"
+    },
+    "CardItem": {
+        "imgError": "Image Not Found",
+        "imgAlt": "Image of"
+    },
+    "CardMasterDetail": {
+        "notFound": "Details Not Found For That Card",
+        "imgError": "No Image Available",
+        "imgAlt": "Full Art of",
+        "set": "Set",
+        "setError": "Set Not Found"
+    },
+    "CardNotFound": {
+        "homeButton": "Search Again",
+        "notNumber": "Page Must Be A Number",
+        "notFound": "No Cards Found With That Name",
+        "unknown": "Something Went Wrong",
+        "unprocessableContent": "No Cards Found On That Page",
+        "notZero": "Page Cant Be Zero",
+        "notNatural": "Page Can Only Positive Whole Number"
+    }
+}

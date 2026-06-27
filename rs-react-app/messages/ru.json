@@ -1,0 +1,62 @@
+{
+    "NotFound": {
+        "title": "Страница Не Найдена",
+        "button": "Домой"
+    },
+    "About": {
+        "title": "RS School. React Курс",
+        "discordProfile": "Churuya (@TamerMain)",
+        "courseProfile": "RS School",
+        "githubProfile": "Github",
+        "githubImgAlt": "Логотип Github ",
+        "courseImgAlt": "Логотип RS School"
+    },
+    "Navigation": {
+        "search": "Поиск",
+        "about": "О Проекте",
+        "emulateError": "Эмулировать Ошибку",
+        "CardList": "Очистить Кэш Списка",
+        "Details": "Очистить Кэш Деталей"
+    },
+    "Cart": {
+        "select": "Выбрано",
+        "deselect": "Очистить Все",
+        "fileName": "_карт_выбрано",
+        "headers": "Имя,ID,Изображение,URL",
+        "noArt": "Арт не доступен",
+        "download": "Скачать",
+        "downloadEmpty": "Карты не выбраны",
+        "downloadError": "Не удалось скачать",
+        "downloadSuccess": "Скачано!"
+    },
+    "Loader": {
+        "loader": "Загрузка"
+    },
+    "SearchBar": {
+        "placeholder": "Пример: Black Lotus или Lotus",
+        "searchButton": "Найти Карты"
+    },
+    "SearchResults": {
+        "title": "Список Карт"
+    },
+    "CardItem": {
+        "imgError": "Изображение Не Найдено",
+        "imgAlt": "Изображение"
+    },
+    "CardMasterDetail": {
+        "notFound": "Детали Не Найдены Для Этой Карты",
+        "imgError": "Изображение Не Найдено",
+        "imgAlt": "Полное изображение",
+        "set": "Сет",
+        "setError": "Сет Не Найден"
+    },
+    "CardNotFound": {
+        "homeButton": "Искать Ещё",
+        "notNumber": "Страница Должна Быть Числом",
+        "notFound": "Карты Не Найдены С Этом Именем",
+        "unknown": "Что-то Пошло Не Так",
+        "unprocessableContent": "Карты Не Найдены На Этой Странице",
+        "notZero": "Страница Не Может Быть Нулевой",
+        "notNatural": "Страница Может Быть Только Положительным Целым Числом"
+    }
+}
