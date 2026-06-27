@@ -2,10 +2,10 @@
 
 import { useTranslations } from 'next-intl';
 import { revalidateCacheTag } from '@/app/actions/cache';
-import { CACHE_TAG } from '@/constants/routes';
+import { type CacheTag } from '@/types/types';
 
 type RefreshCacheButtonProps = {
-  tag: (typeof CACHE_TAG)[keyof typeof CACHE_TAG];
+  tag: CacheTag;
 };
 
 function RefreshCacheButton(props: RefreshCacheButtonProps) {

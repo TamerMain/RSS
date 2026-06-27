@@ -12,7 +12,6 @@ export async function searchAction(
   _prevState: SearchState | null,
   formData: FormData
 ): Promise<SearchState> {
-  'use server';
   const locale = await getLocale();
   const query = formData.get(SEARCH_PARAMS.QUERY) as string;
 

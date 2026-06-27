@@ -11,7 +11,7 @@ import {
   type FetchSearchParams,
   type FetchCardListReturn,
 } from '@/types/types.ts';
-import { ERROR_CODES, HTTP_STATUS, SEARCH_PARAMS } from '@/constants/routes';
+import { ERROR_CODES, HTTP_STATUS, SEARCH_PARAMS, CACHE_TAG } from '@/constants/routes';
 
 const REVALIDATE_TIME = Number(process.env.NEXT_PUBLIC_REVALIDATE_CACHE) || 60;
 
@@ -40,7 +40,7 @@ export default async function fetchCardList(
         'Content-Type': FETCH_CONTENT_TYPE,
       },
       next: {
-        tags: ['Card List'],
+        tags: [CACHE_TAG.CARD_LIST],
         revalidate: REVALIDATE_TIME,
       }
     });

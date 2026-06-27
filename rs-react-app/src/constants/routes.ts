@@ -41,6 +41,9 @@ export const ERROR_CODES = {
 } as const;
 
 export const CACHE_TAG = {
-  CARD_LIST: 'clearListCache',
-  DETAILS: 'clearDetailsCache',
+  CARD_LIST: 'CardList',
+  DETAILS: 'Details',
 } as const;
+
+export const SUPPORTED_LOCALES = ['en', 'ru'] as const;
+export const DEFAULT_LOCALE = 'en';

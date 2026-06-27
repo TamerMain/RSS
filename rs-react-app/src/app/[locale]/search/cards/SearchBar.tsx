@@ -10,31 +10,33 @@ import { SEARCH_PARAMS } from '@/constants/routes';
 
 function SearchBar() {
   const t = useTranslations('SearchBar');
-  const { getItem: getRecentSearch, setItem: setRecentSearch } =
-    useStorage('RecentSearch');
+  const {
+    getItem: getRecentSearch,
+    setItem: setRecentSearch,
+    isFirstLoad,
+  } = useStorage('RecentSearch');
   const { searchParams, setSearchParams } = useClientSearchParams();
-  const [searchTerm, setSearchTerm] = useState<string>(() => {
-    if (searchParams[SEARCH_PARAMS.QUERY] === '') {
-      return searchParams[SEARCH_PARAMS.QUERY] as string;
-    }
-    return searchParams[SEARCH_PARAMS.QUERY] || getRecentSearch() || '';
-  });
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [, formAction, isPending] = useActionState(searchAction, null);
   const hasInitialized = useRef(false);
 
   useEffect(() => {
-    if (hasInitialized.current) return;
+    if (isFirstLoad || hasInitialized.current) return;
     hasInitialized.current = true;
 
     const initialSearchParams = {
-      [SEARCH_PARAMS.QUERY]: getRecentSearch() || '',
+      [SEARCH_PARAMS.QUERY]: getRecentSearch || '',
       [SEARCH_PARAMS.PAGE]: 1,
     };
+
+    console.log(initialSearchParams);
 
     if (
       searchParams[SEARCH_PARAMS.QUERY] ||
       searchParams[SEARCH_PARAMS.QUERY] === ''
     ) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSearchTerm(searchParams[SEARCH_PARAMS.QUERY] as string);
       setRecentSearch(searchParams[SEARCH_PARAMS.QUERY] as string);
     }
 
@@ -42,10 +44,17 @@ function SearchBar() {
       if (searchParams[SEARCH_PARAMS.QUERY] === '') {
         return;
       } else if (!searchParams[SEARCH_PARAMS.QUERY]) {
+        setSearchTerm(initialSearchParams[SEARCH_PARAMS.QUERY]);
         setSearchParams(initialSearchParams);
       }
     }
-  }, [searchParams, setSearchParams, getRecentSearch]);
+  }, [
+    searchParams,
+    setSearchParams,
+    getRecentSearch,
+    isFirstLoad,
+    setRecentSearch,
+  ]);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(e.currentTarget.value);
@@ -53,7 +62,7 @@ function SearchBar() {
 
   function handleSearchSubmit() {
     const newTerm = searchTerm.trim();
-    if (newTerm !== getRecentSearch()) {
+    if (newTerm !== getRecentSearch) {
       setRecentSearch(newTerm);
     }
   }

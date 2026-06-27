@@ -5,8 +5,6 @@ import { redirect } from 'next/navigation';
 import { SEARCH_PARAMS } from '@/constants/routes';
 
 export async function detailsAction(formData: FormData) {
-  'use server';
-
   const locale = await getLocale();
 
   const currentParams = {

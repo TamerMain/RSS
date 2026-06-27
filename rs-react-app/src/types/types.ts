@@ -1,3 +1,5 @@
+import { CACHE_TAG } from '@/constants/routes';
+
 export type SearchAPIResponse = {
   page: number;
   total_cards: number;
@@ -57,3 +59,5 @@ export type ErrorCode =
   | 'NotAZero'
   | 'NotNatural'
   | false;
+
+export type CacheTag = (typeof CACHE_TAG)[keyof typeof CACHE_TAG];

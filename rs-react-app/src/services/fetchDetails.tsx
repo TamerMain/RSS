@@ -1,4 +1,9 @@
-import { ERROR_CODES, HTTP_STATUS, SEARCH_PARAMS } from '@/constants/routes';
+import {
+  ERROR_CODES,
+  HTTP_STATUS,
+  SEARCH_PARAMS,
+  CACHE_TAG,
+} from '@/constants/routes';
 import {
   type FetchDetailsReturn,
   type FetchDetailsParams,
@@ -28,7 +33,7 @@ export default async function fetchDetails(
         'Content-Type': FETCH_CONTENT_TYPE,
       },
       next: {
-        tags: ['Details'],
+        tags: [CACHE_TAG.DETAILS],
         revalidate: REVALIDATE_TIME,
       },
     });

@@ -15,8 +15,8 @@
         "search": "Поиск",
         "about": "О Проекте",
         "emulateError": "Эмулировать Ошибку",
-        "clearListCache": "Очистить Кэш Списка",
-        "clearDetailsCache": "Очистить Кэш Деталей"
+        "CardList": "Очистить Кэш Списка",
+        "Details": "Очистить Кэш Деталей"
     },
     "Cart": {
         "select": "Выбрано",

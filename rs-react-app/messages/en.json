@@ -15,8 +15,8 @@
         "search": "Search",
         "about": "About",
         "emulateError": "Emulate Unexpected Error",
-        "clearListCache": "Clear Card List Cache",
-        "clearDetailsCache": "Clear Details Cache"
+        "CardList": "Clear Card List Cache",
+        "Details": "Clear Details Cache"
     },
     "Cart": {
         "select": "Selected",

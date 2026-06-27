@@ -30,7 +30,7 @@ async function CardItem(props: CardItemProps) {
           src={props.cardImageSrc}
           width={480}
           height={680}
-          loading="eager"
+          loading="lazy"
           decoding="async"
         />
       </div>
